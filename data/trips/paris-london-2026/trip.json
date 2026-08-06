@@ -1,0 +1,80 @@
+{
+  "slug": "paris-london-2026",
+  "title": "Paris & London",
+  "year": 2026,
+  "subtitle": "A family trip",
+  "dates": "Aug 7 – Aug 23, 2026",
+  "coverCity": "paris",
+  "travelers": [
+    "Michael Lee",
+    "Uwen Kok",
+    "Carl Kurbat",
+    "Amanda Lee",
+    "Norman Lee",
+    "Megan Lee",
+    "Brodie Demain"
+  ],
+  "route": [
+    {
+      "code": "SFO",
+      "city": "San Francisco",
+      "date": "Aug 7"
+    },
+    {
+      "code": "YYZ",
+      "city": "Toronto",
+      "date": "Aug 7"
+    },
+    {
+      "code": "CDG",
+      "city": "Paris",
+      "date": "Aug 10"
+    },
+    {
+      "code": "LON",
+      "city": "London",
+      "date": "Aug 17"
+    },
+    {
+      "code": "SFO",
+      "city": "San Francisco",
+      "date": "Aug 23"
+    }
+  ],
+  "cities": [
+    {
+      "slug": "toronto",
+      "name": "Toronto",
+      "color": "#1B7A5C",
+      "colorSoft": "#DCEDE3",
+      "hotel": "The Residences at 110 Bloor Street West",
+      "hotelAddress": "110 Bloor Street West, Toronto, ON M5S 2W7",
+      "dates": "Aug 8–10",
+      "lat": 43.67,
+      "lon": -79.388
+    },
+    {
+      "slug": "paris",
+      "name": "Paris",
+      "color": "#E1512B",
+      "colorSoft": "#FBE3DA",
+      "hotel": "Park Hyatt Vendôme",
+      "hotelAddress": "5 Rue de la Paix, 75002 Paris",
+      "dates": "Aug 10–17",
+      "lat": 48.8698,
+      "lon": 2.331
+    },
+    {
+      "slug": "london",
+      "name": "London",
+      "color": "#1D4E89",
+      "colorSoft": "#DCE6F2",
+      "hotel": "Nobu Hotel Portman Square",
+      "hotelAddress": "22 Portman Square, London W1H 7BG",
+      "dates": "Aug 17–23",
+      "lat": 51.515,
+      "lon": -0.159
+    }
+  ],
+  "startDate": "2026-08-07"
+}

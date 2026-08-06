@@ -1,0 +1,867 @@
+[
+  {
+    "date": "2026-08-07",
+    "label": "August 7",
+    "weekday": "Friday",
+    "dayNum": 1,
+    "city": "toronto",
+    "title": "Departure day",
+    "hotel": null,
+    "events": [
+      {
+        "time": "4:40 PM",
+        "title": "Depart San Francisco — Flight AC 744 to Toronto (YYZ)",
+        "note": "Seats 3C / 3D / 3F · overnight flight, lands Aug 8 · Duration: ~4h55m",
+        "address": "San Francisco, CA 94128, United States"
+      }
+    ],
+    "prevDate": null,
+    "nextDate": "2026-08-08"
+  },
+  {
+    "date": "2026-08-08",
+    "label": "August 8",
+    "weekday": "Saturday",
+    "dayNum": 2,
+    "city": "toronto",
+    "title": "Arrival in Toronto",
+    "hotel": "Staying atThe Residences at 110 Bloor Street West",
+    "events": [
+      {
+        "time": "12:35 AM",
+        "title": "Land in Toronto — Pearson (YYZ)",
+        "note": "Flight AC 744 from San Francisco",
+        "address": "From 6301 Silver Dart Drive, Mississauga, ON L5P 1B2, Canada To 110 Bloor Street West, Toronto, ON M5S 2W7, Canada"
+      },
+      {
+        "time": "—",
+        "title": "Check in — The Residences at 110 Bloor Street West",
+        "address": "110 Bloor Street West, Toronto, ON M5S 2W7, Canada"
+      }
+    ],
+    "prevDate": "2026-08-07",
+    "nextDate": "2026-08-09"
+  },
+  {
+    "date": "2026-08-09",
+    "label": "August 9",
+    "weekday": "Sunday",
+    "dayNum": 3,
+    "city": "toronto",
+    "title": "Day 2 in Toronto",
+    "hotel": "Staying atThe Residences at 110 Bloor Street West",
+    "events": [],
+    "prevDate": "2026-08-08",
+    "nextDate": "2026-08-10"
+  },
+  {
+    "date": "2026-08-10",
+    "label": "August 10",
+    "weekday": "Monday",
+    "dayNum": 4,
+    "city": "paris",
+    "title": "Departure day",
+    "hotel": null,
+    "events": [
+      {
+        "time": "TBD",
+        "title": "The Residences at 110 Bloor Street West to Toronto Pearson (YYZ)",
+        "note": "Taxi to the airport — exact time depends on check-in timing",
+        "address": "From 110 Bloor Street West, Toronto, ON M5S 2W7, Canada To 6301 Silver Dart Drive, Mississauga, ON L5P 1B2, Canada"
+      },
+      {
+        "time": "8:30 PM",
+        "title": "Depart Toronto — Flight AC 872 to Paris (CDG)",
+        "note": "Seats 13K / 13G / 13H · overnight flight, lands Aug 11 · Duration: ~7h30m",
+        "address": "6301 Silver Dart Drive, Mississauga, ON L5P 1B2, Canada"
+      }
+    ],
+    "prevDate": "2026-08-09",
+    "nextDate": "2026-08-11"
+  },
+  {
+    "date": "2026-08-11",
+    "label": "August 11",
+    "weekday": "Tuesday",
+    "dayNum": 5,
+    "city": "paris",
+    "title": "Arrival in Paris",
+    "hotel": "Staying atPark Hyatt Vendôme",
+    "events": [
+      {
+        "time": "10:00 AM",
+        "title": "Land in Paris — Charles de Gaulle (CDG)",
+        "note": "Flight AC 872 from Toronto · Flat-rate taxi CDG → Park Hyatt Vendôme is €56",
+        "address": "From 95700 Roissy-en-France, France To 5 Rue de la Paix, 75002 Paris, France"
+      },
+      {
+        "time": "—",
+        "title": "Check in — Park Hyatt Vendôme",
+        "address": "5 Rue de la Paix, 75002 Paris, France"
+      },
+      {
+        "time": "1:45 PM",
+        "title": "Lunch — Le Petit Vendôme",
+        "note": "€15/person cancellation penalty — must cancel 1 hour before reservation",
+        "address": "8 Rue des Capucines, 75002 Paris, France",
+        "links": {
+          "website": "https://lepetitvendome.fr/en",
+          "menu": "https://lepetitvendome.fr/en",
+          "notes": [
+            "Not Michelin-listed",
+            "Not reviewed by Infatuation"
+          ]
+        }
+      },
+      {
+        "time": "3:30 PM",
+        "title": "Palais Garnier",
+        "note": "2-hour visit",
+        "address": "Place de l'Opéra, 75009 Paris, France"
+      },
+      {
+        "time": "6:30 PM",
+        "title": "Dinner — Au Pied de Cochon",
+        "note": "Party of 3 · No cancellation policy",
+        "address": "6 Rue Coquillière, 75001 Paris, France"
+      },
+      {
+        "time": "8:30 PM – 9:30 PM",
+        "title": "Organ Recital: Yves Castagnet — Cathédrale Notre-Dame de Paris",
+        "note": "Program: Louis Vierne (1870–1937), Symphonie n° 1 op. 14 en ré mineur · Marcel Dupré (1886–1971), Evocation: poème symphonique pour orgue op. 37 · Phone: 01 44 41 49 99",
+        "address": "6 Parvis Notre-Dame – Place Jean-Paul II, 75004 Paris, France"
+      }
+    ],
+    "prevDate": "2026-08-10",
+    "nextDate": "2026-08-12"
+  },
+  {
+    "date": "2026-08-12",
+    "label": "August 12",
+    "weekday": "Wednesday",
+    "dayNum": 6,
+    "city": "paris",
+    "title": "Day 2 in Paris",
+    "hotel": "Staying atPark Hyatt Vendôme",
+    "events": [
+      {
+        "time": "9:00 AM",
+        "title": "Petit Palais — City of Paris Museum of Fine Arts",
+        "note": "90 minutes · Free permanent collection · No tickets or reservation needed",
+        "address": "Avenue Winston Churchill, 75008 Paris, France",
+        "links": {
+          "website": "https://www.petitpalais.paris.fr/en/"
+        }
+      },
+      {
+        "time": "10:45 AM",
+        "title": "Hôtel National des Invalides — Army Museum & Napoleon’s Tomb",
+        "note": "90 minutes · Tickets not yet purchased · €17 per person · Book at billetterie.musee-armee.fr",
+        "address": "129 rue de Grenelle, 75007 Paris, France",
+        "links": {
+          "website": "https://www.musee-armee.fr/en/",
+          "notes": [
+            "Buy Tickets: https://billetterie.musee-armee.fr/en-GB/home"
+          ]
+        }
+      },
+      {
+        "time": "1:00 PM",
+        "title": "Lunch — Odette",
+        "note": "90 minutes · Booked via OpenTable · No cancellation penalty",
+        "address": "25 rue du Pont-Neuf, 75001 Paris, France",
+        "links": {
+          "website": "https://www.restaurant-odette.com/en/",
+          "reserve": "https://www.opentable.fr/r/odette-lauberge-urbaine-paris",
+          "michelin": {
+            "url": "https://guide.michelin.com/us/en/ile-de-france/paris/restaurant/odette535607",
+            "rating": ""
+          }
+        }
+      },
+      {
+        "time": "2:30 PM",
+        "title": "Relaxing Walk or Rest",
+        "note": "4 hours"
+      },
+      {
+        "time": "7:00 PM",
+        "title": "Dinner — Tekés",
+        "note": "90-minute reservation · No cancellation policy",
+        "address": "4 bis Rue Saint-Sauveur, 75002 Paris, France",
+        "links": {
+          "website": "https://www.tekesrestaurant.com/",
+          "menu": "https://www.tekesrestaurant.com/",
+          "reserve": "https://www.tekesrestaurant.com/reservations",
+          "michelin": {
+            "url": "https://guide.michelin.com/us/en/ile-de-france/paris/restaurant/tekes",
+            "rating": ""
+          },
+          "notes": [
+            "Not reviewed by Infatuation"
+          ]
+        }
+      },
+      {
+        "time": "9:00 PM",
+        "title": "Jam Session de Maxence Leroy — Le Baiser Salé",
+        "note": "Maxence Leroy Ben · Entrance guaranteed with tickets before 8:45 PM",
+        "address": "58 Rue des Lombards, 75001 Paris, France"
+      }
+    ],
+    "prevDate": "2026-08-11",
+    "nextDate": "2026-08-13"
+  },
+  {
+    "date": "2026-08-13",
+    "label": "August 13",
+    "weekday": "Thursday",
+    "dayNum": 7,
+    "city": "paris",
+    "title": "Day 3 in Paris",
+    "hotel": "Staying atPark Hyatt Vendôme",
+    "events": [
+      {
+        "time": "9:00 AM",
+        "title": "Musée d'Orsay",
+        "note": "1.5-hour visit · Entrance 2 — Forecourt (Members Entrance)",
+        "address": "1 Rue de la Légion d'Honneur, 75007 Paris, France"
+      },
+      {
+        "time": "11:30 AM",
+        "title": "Musée de l'Orangerie — Water Lilies by Monet",
+        "note": "45-minute visit · No reserved time needed for members",
+        "address": "Jardin des Tuileries, Place de la Concorde side, 75001 Paris, France"
+      },
+      {
+        "time": "1:30 PM",
+        "title": "Lunch — Café Courtial, la Crêpe",
+        "note": "1-hour reservation · Reservation code a9FUab",
+        "address": "2 Rue Sauval, 75001 Paris, France",
+        "links": {
+          "reserve": "https://app.resmio.com/cafe-courtial-la-crepe/widget",
+          "notes": [
+            "Instagram: https://www.instagram.com/cafecourtial/",
+            "No dedicated website found",
+            "Phone: +33 9 55 57 83 96",
+            "Not Michelin-listed",
+            "Not reviewed by Infatuation"
+          ]
+        }
+      },
+      {
+        "time": "2:30 PM",
+        "title": "Afternoon walk — Rue Saint-Honoré to Stohrer via Les Halles",
+        "note": "Party of 3 · 90 min · Rue Saint-Honoré east → left at Rue du Pont Neuf → Allée André Breton through Les Halles gardens → Rue Montorgueil north to Stohrer10 things to look out for, in order:1.La Samaritaine— Approaching Rue du Pont Neuf, look right: the LVMH-restored Art Nouveau landmark, closed 15 years and reopened 20212.Bourse de Commerce — Pinault Collection— The round 16th-century grain exchange dome visible off Rue de Viarmes, now a contemporary art museum3.Fontaine des Innocents(Place Joachim-du-Bellay) — As you enter Les Halles: Paris's oldest surviving monumental fountain, carved in 15494.Forum des Halles Canopy— The sweeping glass-and-steel roof over the subterranean complex; peer down into it as you cross above5.Jardin Nelson-Mandela— The garden above the Forum where Allée André Breton runs; lively square with locals at lunch6.Église Saint-Eustache— The north face rises dramatically off the garden: Flamboyant Gothic exterior with Renaissance interior, one of the largest churches in Paris7.Rue Montorgueil market stalls— The pedestrian street opens with fruit vendors, cheese shops, and flower sellers; watch for La Fermette (cheese) and Palais du Fruit8.L'Escargot Montorgueil(#38) — Look up for the giant gilded snail above the door; restaurant founded 1832, still serves escargot, foie gras and oysters9.Fou de Pâtisserie(#45) — Paris's first pastry concept shop: rotating creations from the city's top pastry chefs all in one window10.Stohrer(#51) — The oldest patisserie in Paris, founded 1730 by Louis XV's personal pastry chef; famous for its baba au rhum and the original Art Nouveau painted ceiling insideAlso very nearby:G. Detou(58 Rue Tiquetonne — specialty grocery, baking ingredients & hard-to-find pantry goods) ·A. Simon Paris(48 Rue Montmartre — professional kitchenware since 1884) ·MORA(13 Rue Montmartre — pastry & baking equipment) ·E. Dehillerin(18 Rue Coquillière — legendary copper cookware, open since 1820)",
+        "address": "2 Rue Sauval, 75001 Paris → 51 Rue Montorgueil, 75002 Paris"
+      },
+      {
+        "time": "6:30 PM",
+        "title": "Dinner — Clamato",
+        "note": "Party of 3 · 2 hours · Walk-in only — no reservation possible · Arrive early to queue · Nearest métro: Charonne (line 9)",
+        "address": "80 Rue de Charonne, 75011 Paris, France",
+        "links": {
+          "website": "https://www.septime-charonne.fr/clamato",
+          "michelin": {
+            "url": "https://guide.michelin.com/us/en/ile-de-france/paris/restaurant/clamato",
+            "rating": "Bib Gourmand"
+          }
+        }
+      },
+      {
+        "time": "8:30 PM",
+        "title": "Amanda, Norman, Megan & Brodie Demain depart Toronto — Flight AC 872 to Paris (CDG)",
+        "note": "Seats 06K / 07K / 09K / 10K · Joining the group in Paris · overnight flight, lands Aug 14 · Duration: ~7h30m",
+        "address": "6301 Silver Dart Drive, Mississauga, ON L5P 1B2, Canada"
+      }
+    ],
+    "prevDate": "2026-08-12",
+    "nextDate": "2026-08-14"
+  },
+  {
+    "date": "2026-08-14",
+    "label": "August 14",
+    "weekday": "Friday",
+    "dayNum": 8,
+    "city": "paris",
+    "title": "Day 4 in Paris",
+    "hotel": "Staying atPark Hyatt Vendôme",
+    "events": [
+      {
+        "time": "9:30 AM",
+        "title": "The Louvre",
+        "note": "Party of 3 · 3 hours · Tickets already purchased — no changes or cancellations · Nearest métro: Palais Royal – Musée du Louvre (lines 1, 7)Arrival:Arrive by 9:15 AM and look for a staff member holding a “9:30 AM” sign. Enter through thePorte des Lionsentrance. If no one is at that entrance, head straight down into the undergroundCarrousel du Louvreentrance instead — accessible via the street at 99 Rue de Rivoli or directly from the Palais Royal–Musée du Louvre métro station.Step-by-Step Route to the Mona Lisa:1.Clear Security & Enter— Walk through the Porte des Lions gate and pass through the security checkpoint.2.Take the Stairs— Immediately after scanning your ticket, take the stairs or elevator up to the 1st Floor (Level 1 in Europe) of the Denon Wing.3.Walk Through the Spanish Galleries— You will emerge into the Spanish and Italian painting galleries. Walk straight down the long corridor (Grand Galerie), moving eastward toward the centre of the museum.4.Turn Right at Room 711— Look for the massive wide entrance on your right-hand side leading into Room 711 (Salle des États).5.Behold the Mona Lisa— She is located on the large freestanding wall directly across from Véronèse’s massive painting,The Wedding Feast at Cana.",
+        "address": "Rue de Rivoli, 75001 Paris, France",
+        "links": {
+          "website": "https://www.louvre.fr/en/visit",
+          "notes": [
+            "Collection: https://collections.louvre.fr/en/",
+            "🏛 Highlights Guide: ../louvre-guide.html"
+          ]
+        }
+      },
+      {
+        "time": "10:00 AM",
+        "title": "Amanda, Norman, Megan & Brodie Demain land in Paris — Charles de Gaulle (CDG)",
+        "note": "Flight AC 872 from Toronto",
+        "address": "From 95700 Roissy-en-France, France To 5 Rue de la Paix, 75002 Paris, France"
+      },
+      {
+        "time": "—",
+        "title": "Check in — Park Hyatt Vendôme",
+        "note": "Amanda, Norman, Megan & Brodie Demain",
+        "address": "5 Rue de la Paix, 75002 Paris, France"
+      },
+      {
+        "time": "1:00 PM",
+        "title": "Lunch — Argile",
+        "note": "Party of 3 · Reservation confirmed · No cancellation penalty · Nearest métro: Liège (line 13) or Saint-Lazare (lines 3, 12, 13, 14)",
+        "address": "4 Rue de Milan, 75009 Paris, France",
+        "links": {
+          "michelin": {
+            "url": "https://guide.michelin.com/us/en/ile-de-france/paris/restaurant/argile-1218988",
+            "rating": ""
+          }
+        }
+      },
+      {
+        "time": "1:30 PM",
+        "title": "Lunch — Printemps Haussmann Terrace Café",
+        "note": "Party of 3 · 60 min · No reservation â walk-in only · Rooftop terrace with views over Paris · Nearest métro: Havre-Caumartin (lines 3, 9)",
+        "address": "64 Boulevard Haussmann, 75009 Paris, France",
+        "links": {
+          "website": "https://www.printemps.com/fr/fr/haussmann"
+        }
+      },
+      {
+        "time": "2:30 PM",
+        "title": "Printemps Haussmann — Rooftop Lookout",
+        "note": "Party of 3 · 90 min · Free entry · Rooftop looks straight across at the Opéra Garnier dome · The 1923 Art Nouveau stained-glass dome inside is worth a look too · Nearest metro: Havre-Caumartin (lines 3, 9)",
+        "address": "64 Boulevard Haussmann, 75009 Paris, France",
+        "metroStation": "Havre-Caumartin (lines 3"
+      },
+      {
+        "time": "4:30 PM",
+        "title": "Bibliothèque nationale de France — Richelieu",
+        "note": "Party of 3 · 30 min · Free entry to Salle Ovale — no reservation needed · Nearest metro: Bourse (line 3)",
+        "address": "5 Rue Vivienne, 75002 Paris, France",
+        "metroStation": "Bourse (line 3"
+      },
+      {
+        "time": "6:30 PM",
+        "title": "Dinner — Bittikesu (Counter Experience)",
+        "note": "Party of 7 · Cancel by Aug 11, 6:30 PM (3 days ahead) to avoid a cancellation fee",
+        "address": "5 Rue Crillon, 75004 Paris, France"
+      }
+    ],
+    "prevDate": "2026-08-13",
+    "nextDate": "2026-08-15"
+  },
+  {
+    "date": "2026-08-15",
+    "label": "August 15",
+    "weekday": "Saturday",
+    "dayNum": 9,
+    "city": "paris",
+    "title": "Day 5 in Paris",
+    "hotel": "Staying atPark Hyatt Vendôme",
+    "events": [
+      {
+        "time": "12:01 AM",
+        "title": "Book Notre Dame Cathedral tickets",
+        "note": "Tickets release at midnight, 2 days before the visit — grab them fast",
+        "address": "6 Parvis Notre-Dame - Place Jean-Paul II, 75004 Paris, France"
+      },
+      {
+        "time": "8:00 AM",
+        "title": "Pick up rental car — Budget, Full Size Van",
+        "note": "Hall 3, Pl Henry Frenay, Niv Min. 1, Parking Méditerranée · Confirmation #49325815US0",
+        "address": "From 5 Rue de la Paix, 75002 Paris, France To Hall 3, Place Henry Frénay, Niv. Min. 1, Parking Méditerranée, 75012 Paris, France"
+      },
+      {
+        "time": "10:30 AM",
+        "title": "Giverny Medieval Quarter — Walk",
+        "note": "Ancien Hôtel Baudy (where Cézanne, Renoir and Rodin worked), plus small boutiques, art galleries, and bakeries like Coin du Pain'tre",
+        "address": "From Hall 3, Place Henry Frénay, Niv. Min. 1, Parking Méditerranée, 75012 Paris, France To 81 Rue Claude Monet, 27620 Giverny, France"
+      },
+      {
+        "time": "11:30 AM",
+        "title": "Claude Monet's House and Gardens",
+        "note": "90-minute visit · Free parking available across from the entrance, or an 8-minute walk from Parking Verger (see map) · Tickets already purchased — no changes or cancellations",
+        "address": "From 81 Rue Claude Monet, 27620 Giverny, France To 84 Rue Claude Monet, 27620 Giverny, France"
+      },
+      {
+        "time": "1:00 PM",
+        "title": "Takeout Lunch — Au Coin du Pain'tre",
+        "note": "Takeout, Giverny",
+        "address": "From 84 Rue Claude Monet, 27620 Giverny, France To Rue Claude Monet, 27620 Giverny, France"
+      },
+      {
+        "time": "2:30 PM – 6:00 PM",
+        "title": "Palace of Versailles — \"Light of Liberty\" VR Experience + Palace (skip-the-line)",
+        "note": "3.5-hour visit · Hours: Palace 9:00am–6:30pm · Estate of Trianon 12:00pm–6:30pm · Gardens 7:00am–8:30pm · Park 7:00am–8:30pm · Palace & Trianon closed Mondays and Dec 25, Jan 1, May 1 · 2 audio guides rented · 2 electric vehicles requested for 5:00 PM, 1 hour each",
+        "address": "From Rue Claude Monet, 27620 Giverny, France To Place d'Armes, 78000 Versailles, France"
+      },
+      {
+        "time": "7:45 PM",
+        "title": "Dinner — Nem & Vin",
+        "note": "90-minute reservation · No cancellation policy",
+        "address": "From Place d'Armes, 78000 Versailles, France To 99 Rue Blomet, 75015 Paris, France",
+        "links": {
+          "website": "https://www.restaurant-nemetvin.fr/en/",
+          "menu": "https://www.restaurant-nemetvin.fr/en/",
+          "notes": [
+            "Phone: +33 1 55 76 93 12",
+            "Not Michelin-listed",
+            "Not reviewed by Infatuation"
+          ]
+        }
+      },
+      {
+        "time": "10:15 PM",
+        "title": "Drop off rental car — Budget",
+        "note": "Hall 3, Pl Henry Frenay, Niv Min. 1, Parking Méditerranée · Confirmation #49325815US0",
+        "address": "From 99 Rue Blomet, 75015 Paris, France To Hall 3, Place Henry Frénay, Niv. Min. 1, Parking Méditerranée, 75012 Paris, France"
+      },
+      {
+        "time": "—",
+        "title": "Return to hotel — Park Hyatt Vendôme",
+        "address": "From Hall 3, Place Henry Frénay, Niv. Min. 1, Parking Méditerranée, 75012 Paris, France To 5 Rue de la Paix, 75002 Paris, France"
+      }
+    ],
+    "prevDate": "2026-08-14",
+    "nextDate": "2026-08-16",
+    "holiday": "Public holiday in France — Assumption Day (Assomption). Some shops, museums, and services may have reduced hours."
+  },
+  {
+    "date": "2026-08-16",
+    "label": "August 16",
+    "weekday": "Sunday",
+    "dayNum": 10,
+    "city": "paris",
+    "title": "Day 6 in Paris",
+    "hotel": "Staying atPark Hyatt Vendôme",
+    "events": [
+      {
+        "time": "9:30 AM",
+        "title": "Marché Bastille",
+        "note": "Open-air market — runs Thursday & Sunday mornings",
+        "address": "Boulevard Richard-Lenoir, 75011 Paris, France"
+      },
+      {
+        "time": "12:00 PM",
+        "title": "Lunch — Le Bon Georges",
+        "note": "€525 cancellation penalty — must cancel by 4:00 AM on Aug 16",
+        "address": "45 Rue Saint-Georges, 75009 Paris, France"
+      },
+      {
+        "time": "Afternoon",
+        "title": "Afternoon — pick one",
+        "note": "Options after lunch, before tonight's Seine cruise"
+      },
+      {
+        "time": "4:30 PM",
+        "title": "Sainte-Chapelle & La Conciergerie",
+        "note": "Tickets still to be purchased",
+        "address": "8 Boulevard du Palais, 75001 Paris, France"
+      },
+      {
+        "time": "7:00 PM",
+        "title": "Dinner — De Vie",
+        "note": "90-minute reservation · €60/person cancellation penalty — must cancel 48 hrs in advance",
+        "address": "22–24 Rue Saint-Sauveur, 75002 Paris, France",
+        "links": {
+          "website": "https://devie.bar/",
+          "menu": "https://devie.bar/",
+          "notes": [
+            "Not Michelin-listed",
+            "Not reviewed by Infatuation"
+          ]
+        }
+      },
+      {
+        "time": "7:00 PM",
+        "title": "Dinner Option 2 — Loulou",
+        "note": "Alternate dinner option to De Vie above — party of 7 — only one will be used; final pick TBD closer to the date. Reserved under Michael Lee · €50/person no-show/cancellation fee within 24 hrs (Amex on file) · Dress code: Smart chic · Terrace dining, weather permitting",
+        "address": "107 Rue de Rivoli, 75001 Paris, France",
+        "links": {
+          "website": "https://www.loulou-paris.com/",
+          "reserve": "https://www.sevenrooms.com/reservations/loulouparis",
+          "michelin": {
+            "url": "https://guide.michelin.com/us/en/ile-de-france/paris/restaurant/loulou",
+            "rating": ""
+          },
+          "notes": [
+            "Not reviewed by Infatuation",
+            "Nearest metro: Palais Royal – Musée du Louvre (lines 1, 7)"
+          ]
+        }
+      },
+      {
+        "time": "10:15 PM",
+        "title": "Seine Cruise — Les Vedettes du Pont Neuf",
+        "note": "7 tickets · Party of 7 · 1-hour cruise",
+        "address": "1 Square du Vert Galant, 75001 Paris, France"
+      }
+    ],
+    "prevDate": "2026-08-15",
+    "nextDate": "2026-08-17"
+  },
+  {
+    "date": "2026-08-17",
+    "label": "August 17",
+    "weekday": "Monday",
+    "dayNum": 11,
+    "city": "london",
+    "title": "Travel day",
+    "hotel": "Staying atNobu Hotel - Portman Square",
+    "events": [
+      {
+        "time": "9:30 AM",
+        "title": "Visit Notre Dame Cathedral",
+        "note": "Free entry to the nave",
+        "address": "6 Parvis Notre-Dame - Place Jean-Paul II, 75004 Paris, France"
+      },
+      {
+        "time": "TBD",
+        "title": "Park Hyatt Vendôme to Gare du Nord",
+        "note": "Taxi to the station — exact time depends on the train we book",
+        "address": "From 5 Rue de la Paix, 75002 Paris, France To 18 Rue de Dunkerque, 75010 Paris, France"
+      },
+      {
+        "time": "Depart: 3:02 PM · Arrive: 4:30 PM",
+        "title": "Eurostar ES 9039 — Paris to London",
+        "note": "Whole group of 7 traveling together · Depart Gare du Nord · Arrive St Pancras International · Journey time ~2h28m (Paris is 1 hour ahead of London in August)",
+        "address": "From 18 Rue de Dunkerque, 75010 Paris, France To Euston Road, London N1C 4QP, United Kingdom"
+      },
+      {
+        "time": "TBD",
+        "title": "St Pancras to Nobu Hotel - Portman Square",
+        "note": "Taxi to the hotel on arrival into London",
+        "address": "From Euston Road, London N1C 4QP, United Kingdom To 22 Portman Square, London W1H 7BG, United Kingdom"
+      },
+      {
+        "time": "—",
+        "title": "Check in — Nobu Hotel - Portman Square",
+        "address": "22 Portman Square, London W1H 7BG, United Kingdom"
+      },
+      {
+        "time": "7:30 PM",
+        "title": "Dinner — The Seashell of Lisson Grove",
+        "note": "Party of 7 · 24 hours notice to cancel, no penalty",
+        "address": "49–51 Lisson Grove, Marylebone, London NW1 6UH, United Kingdom"
+      }
+    ],
+    "prevDate": "2026-08-16",
+    "nextDate": "2026-08-18"
+  },
+  {
+    "date": "2026-08-18",
+    "label": "August 18",
+    "weekday": "Tuesday",
+    "dayNum": 12,
+    "city": "london",
+    "title": "Day 1 in London",
+    "hotel": "Staying atNobu Hotel - Portman Square",
+    "events": [
+      {
+        "time": "11:00 AM",
+        "title": "Borough Market",
+        "note": "90-minute visit",
+        "address": "8 Southwark Street, London SE1 1TL, United Kingdom"
+      },
+      {
+        "time": "12:15 PM",
+        "title": "Lunch — Barrowboy & Banker",
+        "note": "Party of 7 · No cancellation policy, but table only held for 15 minutes",
+        "address": "6-8 Borough High Street, London SE1 9QQ, United Kingdom",
+        "links": {
+          "website": "https://www.barrowboy-and-banker.co.uk/",
+          "menu": "https://www.barrowboy-and-banker.co.uk/",
+          "notes": [
+            "Not Michelin-listed",
+            "Not reviewed by Infatuation"
+          ]
+        }
+      },
+      {
+        "time": "2:15 PM – 4:15 PM",
+        "title": "Buckingham Palace — Self-Guided Tour",
+        "note": "State Rooms summer opening — book timed-entry tickets in advance",
+        "address": "Buckingham Palace, Buckingham Gate, London SW1A 1AA, United Kingdom"
+      },
+      {
+        "time": "5:30 PM",
+        "title": "Pre-theatre dinner — Ambassador Clubhouse",
+        "note": "Party of 7 · Cancel by Aug 17, 5:30 PM (24 hrs ahead) to avoid a cancellation fee",
+        "address": "25 Heddon Street, Mayfair, London W1B 4BH, United Kingdom",
+        "links": {
+          "website": "https://ambassadorsclubhouse.com/london/",
+          "menu": "https://ambassadorsclubhouse.com/london/michelin-starred-indian-restaurant-london/",
+          "michelin": {
+            "url": "https://guide.michelin.com/gb/en/greater-london/london/restaurant/ambassadors-clubhouse",
+            "rating": "1 Star"
+          },
+          "infatuation": "https://www.theinfatuation.com/london/reviews/ambassadors-clubhouse"
+        }
+      },
+      {
+        "time": "Evening",
+        "title": "Les Misérables — Sondheim Theatre",
+        "note": "Row L, seats 18–24",
+        "address": "From 25 Heddon Street, Mayfair, London W1B 4BH, United Kingdom To 51 Shaftesbury Avenue, London W1D 6BA, United Kingdom"
+      }
+    ],
+    "prevDate": "2026-08-17",
+    "nextDate": "2026-08-19"
+  },
+  {
+    "date": "2026-08-19",
+    "label": "August 19",
+    "weekday": "Wednesday",
+    "dayNum": 13,
+    "city": "london",
+    "title": "Day 2 in London",
+    "hotel": "Staying atNobu Hotel - Portman Square",
+    "events": [
+      {
+        "time": "9:30 AM",
+        "title": "Kensington Gardens — Peter Pan Statue",
+        "note": "Royal park adjoining Hyde Park — home to the Peter Pan statue, the Italian Gardens, and Kensington Palace. Transit alternative: Marble Arch → Lancaster Gate (Central line, 1 stop), then a short walk through the park to the statue — see the second map below.",
+        "address": "From 22 Portman Square, London W1H 7BG, United Kingdom To Kensington Gardens, London W2 2UH, United Kingdom"
+      },
+      {
+        "time": "10:45 AM",
+        "title": "Harrods Shopping",
+        "note": "Knightsbridge department store",
+        "address": "87-135 Brompton Road, Knightsbridge, London SW1X 7XL, United Kingdom"
+      },
+      {
+        "time": "12:45 PM",
+        "title": "Lunch — Vivat Bacchus London Bridge",
+        "note": "Party of 7 · £20/person cancellation penalty — must cancel 48 hrs in advance",
+        "address": "4 Hay's Lane, London SE1 2QE, United Kingdom"
+      },
+      {
+        "time": "2:00 PM – 5:00 PM",
+        "title": "Shopping",
+        "note": "No destination yet"
+      },
+      {
+        "time": "5:00 PM",
+        "title": "The View from The Shard",
+        "note": "Party of 3 · 1 hour · Tickets purchased â no changes or cancellations · Ticket includes complimentary digital photos ·Entrance:Enter via the main lobby of The Shard at 32 London Bridge Street â the ticket desk and high-speed lifts to floors 68â72 are on the ground level · Nearest station: London Bridge (Jubilee & Northern lines)",
+        "address": "32 London Bridge Street, London SE1 9SG",
+        "links": {
+          "website": "https://www.theviewfromtheshard.com"
+        }
+      },
+      {
+        "time": "6:45 PM",
+        "title": "Dinner — St. John Smithfield",
+        "note": "Party of 7 · Cancel by Aug 18, 6:45 PM (24 hrs ahead) to avoid a cancellation fee",
+        "address": "26 St John Street, London EC1M 4AY, United Kingdom",
+        "links": {
+          "website": "https://stjohnrestaurant.com/a/restaurants/smithfield",
+          "menu": "https://stjohnrestaurant.com/a/menus/1",
+          "michelin": {
+            "url": "https://guide.michelin.com/us/en/greater-london/london/restaurant/st-john",
+            "rating": "1 Star"
+          },
+          "infatuation": "https://www.theinfatuation.com/london/reviews/st-john-bar-and-restaurant"
+        }
+      }
+    ],
+    "prevDate": "2026-08-18",
+    "nextDate": "2026-08-20"
+  },
+  {
+    "date": "2026-08-20",
+    "label": "August 20",
+    "weekday": "Thursday",
+    "dayNum": 14,
+    "city": "london",
+    "title": "Day 3 in London",
+    "hotel": "Staying atNobu Hotel - Portman Square",
+    "events": [
+      {
+        "time": "12:05 PM · Arrives 3:15 PM",
+        "title": "Amanda, Norman, Megan & Brodie Demain depart London — Flight AC 855 to Toronto (YYZ)",
+        "note": "Seats 09G / 09D / 09A / 09K · Heathrow Terminal 2 to Pearson Terminal 1 · Duration: ~8h10m",
+        "address": "From 22 Portman Square, London W1H 7BG, United Kingdom To Heathrow Airport, Hounslow TW6 1QG, United Kingdom"
+      },
+      {
+        "time": "2:30 PM",
+        "title": "Afternoon High Tea — Mirror Room at Rosewood London",
+        "note": "2-hour seating · Party of 3 (Michael, Uwen, Carl — Amanda, Norman, Megan & Brodie Demain depart earlier today) · £25/person cancellation penalty — must cancel 24 hrs in advance",
+        "address": "252 High Holborn, London WC1V 7EN, United Kingdom",
+        "links": {
+          "website": "https://www.rosewoodhotels.com/en/london/dining/mirror-room",
+          "menu": "https://holborndiningroom.com/wp-content/uploads/2026/06/Claude-Monet-Afternoon-Tea-website-2026.pdf",
+          "notes": [
+            "Not Michelin-listed",
+            "Not reviewed by Infatuation"
+          ]
+        }
+      },
+      {
+        "time": "4:45 PM",
+        "title": "National Gallery",
+        "note": "Ticketed entry — closes at 7:00 PM ⚠️ Leave in time to reach Royal Albert Hall for 7:00 PM",
+        "address": "Trafalgar Square, London WC2N 5DN, United Kingdom",
+        "links": {
+          "website": "https://www.nationalgallery.org.uk",
+          "notes": [
+            "🖼 Highlights Guide: ../national-gallery-guide.html"
+          ]
+        }
+      },
+      {
+        "time": "7:00 PM – c9:15 PM",
+        "title": "BBC Proms: Miles Davis Centenary — Royal Albert Hall",
+        "note": "Grand Tier seats 1, 2, 3 · Entrance at Door 9. Programme: new arrangements of excerpts from 'Miles Ahead', 'Porgy and Bess', 'Sketches of Spain' and 'Quiet Nights' · Ambrose Akinmusire (trumpet), Sam Harris (piano), Harish Raghavan (bass), Justin Brown (drums) · BBC Concert Orchestra / Miho Hazama",
+        "address": "Kensington Gore, South Kensington, London SW7 2AP, United Kingdom"
+      },
+      {
+        "time": "9:30 PM",
+        "title": "Dinner — Fairuz",
+        "note": "Party of 3 · £30/person cancellation penalty — must cancel 24 hrs in advance",
+        "address": "3 Blandford Street, Marylebone, London W1U 3DA, United Kingdom",
+        "links": {
+          "website": "https://fairuz.gotoeat.net/",
+          "menu": "https://fairuz.gotoeat.net/",
+          "infatuation": "https://www.theinfatuation.com/london/guides/best-lebanese-restaurants-london",
+          "notes": [
+            "Not Michelin-listed"
+          ]
+        }
+      }
+    ],
+    "prevDate": "2026-08-19",
+    "nextDate": "2026-08-21"
+  },
+  {
+    "date": "2026-08-21",
+    "label": "August 21",
+    "weekday": "Friday",
+    "dayNum": 15,
+    "city": "london",
+    "title": "Day 4 in London",
+    "hotel": "Staying atNobu Hotel - Portman Square",
+    "events": [
+      {
+        "time": "8:00 AM",
+        "title": "Walk — St. James's Park (Guards Memorial to Buckingham Palace)",
+        "note": "Route: start at the Guards Memorial · head into the park and pick up the lake's north bank path (better morning light, closer to the water than the Mall-side path) · pause at the Blue Bridge — the single best vantage point on the lake, with views both ways · continue west along the north bank toward Duck Island at the lake's west end, the park's main bird sanctuary and the best spot for pelicans, herons, and the resident waterfowl · exit the park at the west end and walk up to Buckingham Palace. Early morning (park opens 5am) means fewer crowds and more active birds — look for the famous pelicans, plus herons, cormorants, coots, moorhens, and tufted ducks along the way.",
+        "address": "From Horse Guards Road, London SW1A 2AX, United Kingdom To Buckingham Palace, Buckingham Gate, London SW1A 1AA, United Kingdom"
+      },
+      {
+        "time": "10:15 AM",
+        "title": "Westminster Abbey",
+        "note": "Party of 3 · 1 hour · Tickets to be purchased · Nearest tube: Westminster (Circle, District & Jubilee lines)",
+        "address": "20 Deans Yard, Westminster, London SW1P 3PA",
+        "metroStation": "Westminster (Circle",
+        "links": {
+          "website": "https://www.westminster-abbey.org/visit-us",
+          "notes": [
+            "Tickets: https://www.westminster-abbey.org/visit-us/prices"
+          ]
+        }
+      },
+      {
+        "time": "11:20 AM",
+        "title": "Big Ben (Elizabeth Tower)",
+        "note": "Party of 3 · 20 min · Exterior viewing only · Best viewed from Westminster Bridge or Parliament Square · Nearest tube: Westminster (Circle, District & Jubilee lines)",
+        "address": "Palace of Westminster, Westminster, London SW1A 0AA",
+        "metroStation": "Westminster (Circle"
+      },
+      {
+        "time": "12:15 PM",
+        "title": "Lunch — Berenjak (Soho)",
+        "note": "Party of 3 · Confirmation #AJDKLT4LTWSZ · Cancel by Aug 20, 12:15 PM (24 hrs ahead) to avoid a cancellation fee",
+        "address": "27 Romilly Street, London W1D 5AL, United Kingdom"
+      },
+      {
+        "time": "7:30 PM",
+        "title": "Dinner — Options TBD",
+        "note": "Party of 3 · 2 hours · Reservation to be confirmed"
+      }
+    ],
+    "prevDate": "2026-08-20",
+    "nextDate": "2026-08-22"
+  },
+  {
+    "date": "2026-08-22",
+    "label": "August 22",
+    "weekday": "Saturday",
+    "dayNum": 16,
+    "city": "london",
+    "title": "Day 5 in London",
+    "hotel": "Staying atNobu Hotel - Portman Square",
+    "events": [
+      {
+        "time": "10:00 AM",
+        "title": "Tate Modern",
+        "note": "Party of 3 · 2 hours · Free general admission · Nearest tube: Southwark (Jubilee) or Blackfriars (Circle / District)",
+        "address": "Bankside, London SE1 9TG",
+        "metroStation": "Southwark (Jubilee) or Blackfriars (Circle / District",
+        "links": {
+          "website": "https://www.tate.org.uk/visit/tate-modern",
+          "notes": [
+            "🎨 Highlights Guide: ../tate-guide.html"
+          ]
+        }
+      },
+      {
+        "time": "12:30 PM",
+        "title": "Lunch — Donabe (formerly Hannah)",
+        "note": "Party of 3 · Reservation made via Tock · £20/person cancellation penalty — must cancel 1 day in advance",
+        "address": "3 Belvedere Road, County Hall, London SE1 7PB, United Kingdom",
+        "links": {
+          "website": "https://www.hannahrestaurant.london/menus",
+          "menu": "https://www.hannahrestaurant.london/menus",
+          "notes": [
+            "Not Michelin-listed",
+            "Not reviewed by Infatuation"
+          ]
+        }
+      },
+      {
+        "time": "8:30 PM",
+        "title": "Dinner — Brat",
+        "note": "Party of 3 · 90 min · Reserved via bratrestaurant.co.uk · Must cancel by Aug 21, 8:30 PM to avoid late cancellation fee",
+        "address": "First Floor, 4 Redchurch Street, London E1 6JL",
+        "links": {
+          "website": "https://bratrestaurant.co.uk/",
+          "reserve": "https://bratrestaurant.co.uk/redchurch-st/",
+          "michelin": {
+            "url": "https://guide.michelin.com/us/en/greater-london/london/restaurant/brat",
+            "rating": "1 Star"
+          },
+          "infatuation": "https://www.theinfatuation.com/london/reviews/brat"
+        }
+      }
+    ],
+    "prevDate": "2026-08-21",
+    "nextDate": "2026-08-23"
+  },
+  {
+    "date": "2026-08-23",
+    "label": "August 23",
+    "weekday": "Sunday",
+    "dayNum": 17,
+    "city": "london",
+    "title": "Return day",
+    "hotel": null,
+    "events": [
+      {
+        "time": "Depart: 10:15 AM · Arrive: 1:50 PM · Duration: ~11h35m",
+        "title": "Flight DL 5965 — London (LHR) to San Francisco (SFO)",
+        "note": "Seats 5K / 5G / 5D",
+        "address": "Heathrow Airport, Hounslow TW6 1QG, United Kingdom"
+      }
+    ],
+    "prevDate": "2026-08-22",
+    "nextDate": null
+  }
+]

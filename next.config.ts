@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'export',   // static export → Capacitor reads the out/ folder
+  images: {
+    unoptimized: true, // required for static export (no server to optimize images)
+  },
 };
 
 export default nextConfig;

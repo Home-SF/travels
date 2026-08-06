@@ -1,0 +1,1148 @@
+[
+  {
+    "id": "paris-act-1",
+    "city": "paris",
+    "name": "Arc de Triomphe",
+    "address": "Place Charles de Gaulle, 75008 Paris, France",
+    "hours": "Apr–Sep: daily 10:00am–11:00pm · Oct–Mar: daily 10:00am–10:30pm",
+    "fee": "~€16 online · Free under 18",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "France's Tomb of the Unknown Soldier lies beneath the arch, its eternal flame relit by hand every evening at 6:30pm — a tradition unbroken since 1923."
+      }
+    ],
+    "website": "https://www.paris-arc-de-triomphe.fr/en",
+    "planned": false
+  },
+  {
+    "id": "paris-act-2",
+    "city": "paris",
+    "name": "Bibliothèque nationale de France — Richelieu",
+    "address": "5 Rue Vivienne, 75002 Paris, France",
+    "hours": "Mon–Fri 10:00am–6:00pm · Sat 10:00am–5:00pm · Closed Sunday · Museum closed Monday",
+    "fee": "Oval Room (Salle Ovale): free, no reservation needed · Museum: ~€8–10, free under 26",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Built on the site of Cardinal Mazarin's 17th-century palace, the site's stunning Oval Reading Room — free to enter — seats 150 and reopened to the public in 2022 after a 12-year renovation."
+      },
+      {
+        "label": "Well known",
+        "text": "Founded by Charles V in 1368, the Bibliothèque nationale de France is one of the oldest and largest libraries in the world, holding over 40 million items including manuscripts, maps, and coins.",
+        "known": true
+      }
+    ],
+    "website": "https://www.bnf.fr/en",
+    "planned": true
+  },
+  {
+    "id": "paris-act-3",
+    "city": "paris",
+    "name": "Château de Fontainebleau",
+    "address": "77300 Fontainebleau, France",
+    "hours": "Palace: Wed–Mon 9:30am–6:00pm (5:00pm Oct–Mar) · Closed Tuesday, Jan 1, May 1, Dec 25 · Gardens free, open daily",
+    "fee": "€14 adult · Free under 26 (EU residents) · Paris Muséum Pass accepted",
+    "facts": [
+      {
+        "label": "Day trip from Paris",
+        "text": "Every French monarch from the 12th century to Napoleon III stayed here — the only royal palace used continuously for 800 years. Napoleon called it “the true home of kings.” Transilien R train from Gare de Lyon to Fontainebleau-Avon takes about 40 minutes."
+      },
+      {
+        "label": "Well known",
+        "text": "One of the largest French royal châteaux, Fontainebleau has been continuously used by French heads of state for nearly 700 years — from Louis VII to Napoleon III and beyond.",
+        "known": true
+      }
+    ],
+    "website": "https://www.chateaudefontainebleau.fr/en/",
+    "planned": false
+  },
+  {
+    "id": "paris-act-4",
+    "city": "paris",
+    "name": "Claude Monet's House and Gardens — Giverny",
+    "address": "84 Rue Claude Monet, 27620 Giverny, France",
+    "hours": "Mar 22–Nov 1: Tue–Sun 9:30am–6:00pm · Closed Monday · Closed Nov–Mar · Timed-entry tickets required",
+    "fee": "€12.50 adult · €7.50 reduced · Free under 7",
+    "facts": [
+      {
+        "label": "Day trip from Paris",
+        "text": "Monet designed this water-lily garden — the Japanese bridge, weeping willows, wisteria — specifically as subjects to paint, spending 43 years altering it. Train from Paris Saint-Lazare to Vernon (~1h 15m), then shuttle or taxi 5 km to Giverny."
+      },
+      {
+        "label": "Well known",
+        "text": "Claude Monet lived and painted at Giverny from 1883 until his death in 1926, creating the famous water garden that directly inspired his celebrated Water Lilies series.",
+        "known": true
+      }
+    ],
+    "website": "https://fondation-monet.com/en/",
+    "planned": true
+  },
+  {
+    "id": "paris-act-5",
+    "city": "paris",
+    "name": "Eiffel Tower",
+    "address": "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France",
+    "hours": "Mid-June–early Sept: daily 9:00am–12:45am (last ascent ~midnight) · Rest of year: daily 9:30am–11:45pm",
+    "fee": "€14.80–€36.70 (adult, varies by floor/stairs vs lift)",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Built for the 1889 World's Fair as a temporary structure meant to come down after 20 years — and it grows about 6 inches taller in summer as the iron expands in the heat."
+      },
+      {
+        "label": "Well known",
+        "text": "One of the world's most visited paid monuments, attracting around 7 million visitors a year. Designed by Gustave Eiffel, it was completed in 1889 for the World's Fair.",
+        "known": true
+      }
+    ],
+    "website": "https://www.toureiffel.paris/en",
+    "planned": true
+  },
+  {
+    "id": "paris-act-6",
+    "city": "paris",
+    "name": "Galerie Lafayette — Lookout",
+    "address": "40 Boulevard Haussmann, 75009 Paris, France",
+    "hours": "Mon–Sat 10:00am–8:30pm · Sun 11:00am–8:00pm (follows store hours)",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Beneath the rooftop terrace sits a spectacular Byzantine-style stained-glass cupola, built in 1912 and still the store's centerpiece."
+      },
+      {
+        "label": "Well known",
+        "text": "The flagship Galeries Lafayette building is crowned by a spectacular Art Nouveau stained-glass dome built in 1912 — one of the finest examples of the style in Paris.",
+        "known": true
+      }
+    ],
+    "website": "https://haussmann.galerieslafayette.com/en/rooftop/",
+    "planned": false
+  },
+  {
+    "id": "paris-act-7",
+    "city": "paris",
+    "name": "Hôtel National des Invalides — Army Museum & Napoleon’s Tomb",
+    "address": "129 rue de Grenelle, 75007 Paris (Esplanade des Invalides)",
+    "hours": "Daily 10 AM–6 PM (last entry 5:30 PM) · Late opening 1st Fri of month 6–10 PM · Closed 1 Jan, 1 May, 25 Dec",
+    "fee": "€17 adults · Tickets at billetterie.musee-armee.fr",
+    "facts": [
+      {
+        "label": "Included",
+        "text": "Permanent collections, temporary exhibitions, Napoleon’s Tomb, the Dôme church, Ordre de la Libération museum, and museum of relief drawings."
+      },
+      {
+        "label": "Well known",
+        "text": "Built by Louis XIV between 1671 and 1676 to house wounded soldiers, the Invalides complex still functions as a military hospital. Napoleon's tomb rests in its central crypt under a 6.5-tonne sarcophagus.",
+        "known": true
+      }
+    ],
+    "website": "https://www.musee-armee.fr/en/",
+    "planned": true
+  },
+  {
+    "id": "paris-act-8",
+    "city": "paris",
+    "name": "Jardin des Plantes",
+    "address": "57 Rue Cuvier, 75005 Paris, France",
+    "hours": "Late Sep–late Mar 7:30am–7:30pm · Late Mar–late Sep 7:00am–9:00pm",
+    "fee": "Free (garden) · Menagerie and galleries inside are paid separately",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "France's main botanical garden, founded in 1626 as a royal medicinal herb garden for the king's physicians."
+      },
+      {
+        "label": "Well known",
+        "text": "Founded in 1626 as a royal medicinal herb garden, the Jardin des Plantes is one of the oldest botanical gardens in the world and forms part of the National Museum of Natural History.",
+        "known": true
+      }
+    ],
+    "website": "https://www.jardindesplantesdeparis.fr/en",
+    "planned": false
+  },
+  {
+    "id": "paris-act-9",
+    "city": "paris",
+    "name": "Jardin des Tuileries",
+    "address": "Place de la Concorde / Rue de Rivoli, 75001 Paris, France",
+    "hours": "Daily 7:00am–7:30pm (winter) / 7:00am–9:00pm (summer)",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Laid out in 1564, it's the oldest and most visited garden in France — and its design later inspired the gardens at Versailles."
+      }
+    ],
+    "website": "https://www.paris.fr/lieux/jardin-des-tuileries-1799",
+    "planned": true
+  },
+  {
+    "id": "paris-act-10",
+    "city": "paris",
+    "name": "Jardin du Luxembourg",
+    "address": "Rue de Médicis / Rue de Vaugirard, 75006 Paris, France",
+    "hours": "Daily, opens 7:30–8:15am, closes 4:30pm–9:30pm depending on season",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "The garden technically belongs to the French Senate, which sits in the palace overlooking it."
+      },
+      {
+        "label": "Well known",
+        "text": "Created by Marie de' Medici in 1612, the Luxembourg Gardens are Paris's most popular park — 23 hectares of tree-lined paths, fountains, and the famous model sailboat pond.",
+        "known": true
+      }
+    ],
+    "website": "https://www.senat.fr/visite/jardin/",
+    "planned": false
+  },
+  {
+    "id": "paris-act-11",
+    "city": "paris",
+    "name": "Liberation of Paris Museum",
+    "address": "4 Avenue du Colonel Henri Rol-Tanguy, 75014 Paris, France",
+    "hours": "Tue–Sun 10:00am–6:00pm · Closed Monday",
+    "fee": "Free (permanent collection)",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Sits above the underground bunker used by Resistance leader Colonel Rol-Tanguy during the Liberation of Paris in August 1944."
+      },
+      {
+        "label": "Well known",
+        "text": "Dedicated to the liberation of Paris in August 1944, the museum documents the French Resistance, the Allied landings, and the dramatic five-day battle that ended four years of German occupation.",
+        "known": true
+      }
+    ],
+    "website": "https://www.museeliberation-leclerc-moulin.paris.fr/en",
+    "planned": false
+  },
+  {
+    "id": "paris-act-12",
+    "city": "paris",
+    "name": "Louis Vuitton Foundation — Modern Art",
+    "address": "8 Avenue du Mahatma Gandhi, Bois de Boulogne, 75116 Paris, France",
+    "hours": "Wed–Mon 11:00am–8:00pm (Fri until 9:00pm) · Closed Tuesday",
+    "fee": "€16 on-site · €22 online (includes shuttle from Arc de Triomphe)",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Frank Gehry's building uses 3,600 curved glass panels — no two are exactly alike."
+      },
+      {
+        "label": "Well known",
+        "text": "Designed by Frank Gehry and opened in 2014, the building's 12 'sails' of glass were engineered using aerospace software — its architecture is considered as significant as its collection.",
+        "known": true
+      },
+      {
+        "label": "Well known",
+        "text": "Commissioned by Napoleon in 1806 to honour his armies, the Arc de Triomphe stands at the centre of the world's largest roundabout and shelters the Tomb of the Unknown Soldier beneath its vault.",
+        "known": true
+      }
+    ],
+    "website": "https://www.fondationlouisvuitton.fr/en",
+    "planned": false
+  },
+  {
+    "id": "paris-act-13",
+    "city": "paris",
+    "name": "Louvre",
+    "address": "Rue de Rivoli, 75001 Paris, France",
+    "hours": "Daily 9:00am–6:00pm except Tuesday · Wed & Fri until 9:45pm",
+    "fee": "€22 (EEA residents) / €32 (non-EEA) · Free under 18 & EU residents 18–25 · Free first Friday evening (except Jul/Aug)",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Originally built as a 12th-century fortress; the glass pyramid entrance, added in 1989, was fiercely controversial at the time and is now one of the most recognized entrances in the world."
+      },
+      {
+        "label": "Well known",
+        "text": "The world's largest art museum and most visited, housing over 380,000 objects across 72,735 m² of exhibition space — including the Mona Lisa, Venus de Milo, and Winged Victory of Samothrace.",
+        "known": true
+      }
+    ],
+    "website": "https://www.louvre.fr/en",
+    "planned": false
+  },
+  {
+    "id": "paris-act-14",
+    "city": "paris",
+    "name": "Musée d'Orsay",
+    "address": "1 Rue de la Légion d'Honneur, 75007 Paris, France",
+    "hours": "Tue–Sun 9:30am–6:00pm (Thu until 9:45pm) · Closed Monday",
+    "fee": "€16 online / €14 on-site · Free under 18 & EU residents 18–25 · Free first Sunday of the month",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "The museum is housed inside a former Beaux-Arts railway station, Gare d'Orsay, built for the 1900 World's Fair — the giant clock is one of the most photographed spots in Paris."
+      },
+      {
+        "label": "Well known",
+        "text": "Housed in the former Gare d'Orsay railway station, it holds the world's largest collection of Impressionist and Post-Impressionist masterpieces, including works by Monet, Renoir, and Van Gogh.",
+        "known": true
+      }
+    ],
+    "website": "https://www.musee-orsay.fr/en",
+    "planned": true
+  },
+  {
+    "id": "paris-act-15",
+    "city": "paris",
+    "name": "Musée Marmottan — Monet Works",
+    "address": "2 Rue Louis Boilly, 75016 Paris, France",
+    "hours": "Tue–Sun 10:00am–6:00pm (Thu until 9:00pm) · Closed Monday",
+    "fee": "€14 adult · €9 reduced · Free under 7",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Holds the largest Monet collection in the world, including \"Impression, Sunrise\" — the very painting that gave the Impressionist movement its name."
+      },
+      {
+        "label": "Well known",
+        "text": "Houses the world's largest single collection of Claude Monet's works, includingImpression, Sunrise— the 1872 painting whose title inadvertently named the entire Impressionist movement.",
+        "known": true
+      }
+    ],
+    "website": "https://www.marmottan.fr/en",
+    "planned": false
+  },
+  {
+    "id": "paris-act-16",
+    "city": "paris",
+    "name": "Musée National Picasso",
+    "address": "5 Rue de Thorigny, 75003 Paris, France",
+    "hours": "Tue–Sun 9:30am–6:00pm · Closed Monday",
+    "fee": "€16 · Free under 18 & EU residents 18–25 · Free first Sunday of the month",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Housed in a 17th-century mansion called the Hôtel Salé — \"salé\" means \"salty,\" a nod to the original owner who made his fortune collecting France's salt tax."
+      },
+      {
+        "label": "Well known",
+        "text": "Houses the largest public collection of Picasso's works — over 5,000 pieces donated by the artist's heirs in lieu of inheritance tax, spanning every phase of his 80-year career.",
+        "known": true
+      }
+    ],
+    "website": "https://www.museepicassoparis.fr/en",
+    "planned": false
+  },
+  {
+    "id": "paris-act-17",
+    "city": "paris",
+    "name": "Notre Dame Cathedrale",
+    "address": "6 Parvis Notre-Dame – Place Jean-Paul II, 75004 Paris, France",
+    "hours": "Mon–Fri 7:50am–7:00pm (Thu until 10:00pm) · Sat–Sun 8:15am–7:30pm",
+    "fee": "Free (nave) · Bell towers €16 separately, online only",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "After the devastating 2019 fire, the cathedral reopened in December 2024 following a five-year restoration built to match the original medieval techniques."
+      },
+      {
+        "label": "Well known",
+        "text": "Construction began in 1163 and took nearly 200 years to complete. Severely damaged by fire in April 2019, Notre-Dame reopened in December 2024 after a remarkable five-year restoration.",
+        "known": true
+      }
+    ],
+    "website": "https://www.notredamedeparis.fr/en/",
+    "planned": true
+  },
+  {
+    "id": "paris-act-18",
+    "city": "paris",
+    "name": "The Old Mill of Vernon",
+    "address": "Pont de Vernon, 27200 Vernon, France",
+    "hours": "Exterior viewable anytime from the bridge · Free",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Giverny day-trip stop",
+        "text": "Three medieval timber mill buildings perched on bridge piers over the Seine — one of Normandy’s most photographed views, and a favourite Monet subject. Vernon is the train station (from Paris Saint-Lazare) on the way to Giverny."
+      },
+      {
+        "label": "Well known",
+        "text": "The photogenic mill house balances on the original stone piers of a 13th-century bridge over the Seine — the bridge itself was destroyed centuries ago, leaving the structure stranded mid-river.",
+        "known": true
+      }
+    ],
+    "website": "https://www.normandie-tourisme.fr/en/discover-normandy/heritage/",
+    "planned": false
+  },
+  {
+    "id": "paris-act-19",
+    "city": "paris",
+    "name": "Orangerie — Water Lilies by Monet (whole collection)",
+    "address": "Jardin des Tuileries, Place de la Concorde side, 75001 Paris, France",
+    "hours": "Mon, Wed–Sun 9:00am–6:00pm · Closed Tuesday",
+    "fee": "€12.50 online / €11 on-site · Free under 18 & EU residents 18–25 · Free first Sunday of the month",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Monet designed the oval Water Lilies rooms to his own specifications and donated the paintings to France the day after WWI ended, as a monument to peace."
+      },
+      {
+        "label": "Well known",
+        "text": "The Musée de l'Orangerie is famous above all for Monet's eight monumental Water Lilies murals, installed in two purpose-built oval rooms the artist helped design before his death in 1926.",
+        "known": true
+      },
+      {
+        "label": "Well known",
+        "text": "Originally laid out for Catherine de' Medici in 1564 as the garden of the Tuileries Palace, the gardens became one of the first public green spaces in Paris after the Revolution.",
+        "known": true
+      }
+    ],
+    "website": "https://www.musee-orangerie.fr/en",
+    "planned": true
+  },
+  {
+    "id": "paris-act-20",
+    "city": "paris",
+    "name": "Palais Garnier",
+    "address": "Place de l'Opéra, 75009 Paris, France",
+    "hours": "Daily 10:00am–3:30pm (last entry) · Extended to 4:30pm entry in July–August · Auditorium access varies with rehearsals/performances",
+    "fee": "€15 adult · €10 reduced (12–25) · Free under 12",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "The inspiration behind \"The Phantom of the Opera\" — and there really is an underground lake beneath the building, still used by Paris firefighters for training dives."
+      },
+      {
+        "label": "Well known",
+        "text": "Opened in 1875 and designed by Charles Garnier, the opera house is one of the most opulent buildings in Europe — its grand staircase and auditorium ceiling (painted by Chagall in 1964) are iconic.",
+        "known": true
+      }
+    ],
+    "website": "https://www.operadeparis.fr/en/venues/palais-garnier",
+    "planned": true
+  },
+  {
+    "id": "paris-act-21",
+    "city": "paris",
+    "name": "Palais Royal",
+    "address": "8 Rue de Montpensier, 75001 Paris, France",
+    "hours": "Daily, roughly 7:00–8:00am–8:30–10:30pm depending on season",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "The courtyard's striped black-and-white columns, by artist Daniel Buren, caused a huge public controversy when installed in 1986 — now they're one of the most Instagrammed spots in Paris."
+      },
+      {
+        "label": "Well known",
+        "text": "The Palais Royal arcades and gardens were once the most fashionable address in Paris — it was here in 1789 that Camille Desmoulins made the speech that ignited the French Revolution.",
+        "known": true
+      }
+    ],
+    "website": "https://www.domaine-palais-royal.fr/",
+    "planned": false
+  },
+  {
+    "id": "paris-act-22",
+    "city": "paris",
+    "name": "Panthéon",
+    "address": "Place du Panthéon, 75005 Paris, France",
+    "hours": "Daily 10:00am–6:00pm (last entry 5:15pm) · Closed Jan 1, May 1, Dec 25",
+    "fee": "€13 adult · Free under 26 (EU residents) · Free first Sunday of the month (Oct–Mar)",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Designed as a church, then converted to a secular mausoleum in 1791 — it holds Voltaire, Rousseau, Victor Hugo, Alexandre Dumas, and Marie Curie. Curie is the only woman interred there on the basis of her own merit."
+      },
+      {
+        "label": "Well known",
+        "text": "Originally built as a church, the Panthéon serves as a secular mausoleum for distinguished French citizens, including Voltaire, Rousseau, Victor Hugo, Émile Zola, and Marie Curie.",
+        "known": true
+      }
+    ],
+    "website": "https://www.paris-pantheon.fr/en",
+    "planned": false
+  },
+  {
+    "id": "paris-act-23",
+    "city": "paris",
+    "name": "Parc Monceau",
+    "address": "35 Boulevard de Courcelles, 75008 Paris, France",
+    "hours": "Daily 7:00am–10:00pm (summer) / 7:00am–8:00pm (winter)",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Dotted with 18th-century \"follies\" built purely for decoration — including a miniature pyramid and a fake Roman colonnade."
+      },
+      {
+        "label": "Well known",
+        "text": "Laid out in 1769 for the Duke of Chartres as an English-style garden, Parc Monceau is dotted with romantic follies — including a pyramid, a Dutch windmill, and a Roman colonnade.",
+        "known": true
+      }
+    ],
+    "website": "https://www.paris.fr/lieux/parc-monceau-1804",
+    "planned": false
+  },
+  {
+    "id": "paris-act-24",
+    "city": "paris",
+    "name": "Petit Palais — Museum of Fine Arts",
+    "address": "Avenue Winston Churchill, 75008 Paris, France",
+    "hours": "Tue–Sun 10:00am–6:00pm (later on Fri/Sat during exhibitions) · Closed Monday",
+    "fee": "Free (permanent collection) · Temporary exhibitions paid separately",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Built as a companion to the Grand Palais across the street for the 1900 World's Fair — entry to the permanent collection is free, every day it's open."
+      },
+      {
+        "label": "Well known",
+        "text": "Built for the 1900 Universal Exhibition alongside the Grand Palais, the Petit Palais houses Paris's municipal fine arts collection — with free permanent admission.",
+        "known": true
+      }
+    ],
+    "website": "https://www.petitpalais.paris.fr/en",
+    "planned": true
+  },
+  {
+    "id": "paris-act-25",
+    "city": "paris",
+    "name": "Printemps Haussman — Lookout",
+    "address": "64 Boulevard Haussmann, 75009 Paris, France",
+    "hours": "Mon–Sat ~10:00am–8:00pm · Sun ~11:00am–7:00pm (follows store hours)",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "The free rooftop looks straight across at the Opéra Garnier's dome, and downstairs the store's own 1923 stained-glass Art Nouveau dome is worth a look too."
+      },
+      {
+        "label": "Well known",
+        "text": "The Printemps rooftop terrace offers one of the few free panoramic views of Paris, looking out across Haussmann's grand boulevards and the Eiffel Tower from the 9th floor.",
+        "known": true
+      }
+    ],
+    "website": "https://www.printemps.com/fr/en/rooftop",
+    "planned": true
+  },
+  {
+    "id": "paris-act-26",
+    "city": "paris",
+    "name": "Rodin House",
+    "address": "77 Rue de Varenne, 75007 Paris, France",
+    "hours": "Tue–Sun 10:00am–6:30pm · Closed Monday",
+    "fee": "€14 adult · Free under 18 & EU residents 18–25 · Free first Sunday, Oct–Mar",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "\"The Thinker\" and \"The Kiss\" sit in the garden of the mansion where Rodin actually lived and worked."
+      },
+      {
+        "label": "Well known",
+        "text": "Housed in the 18th-century Hôtel Biron, where Rodin himself lived and worked from 1908 until his death in 1917. The garden contains major sculptures includingThe ThinkerandThe Gates of Hell.",
+        "known": true
+      }
+    ],
+    "website": "https://www.musee-rodin.fr/en",
+    "planned": false
+  },
+  {
+    "id": "paris-act-27",
+    "city": "paris",
+    "name": "Seine River Cruise",
+    "address": "Port de la Bourdonnais, 75007 Paris, France (Bateaux Parisiens, near the Eiffel Tower)",
+    "hours": "Daily, departures roughly every 30–45 minutes, ~10:00am–10:00pm · Cruise ~1 hour",
+    "fee": "~€19 adult (varies by operator and time)",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Despite its name, Pont Neuf (\"New Bridge\") is actually the oldest standing bridge in Paris, completed in 1607."
+      },
+      {
+        "label": "Well known",
+        "text": "The banks of the Seine have been a UNESCO World Heritage Site since 1991, recognised for their extraordinary concentration of historic monuments stretching across 12 km of the city.",
+        "known": true
+      }
+    ],
+    "website": "https://www.bateauxparisiens.com/english/",
+    "planned": true
+  },
+  {
+    "id": "paris-act-28",
+    "city": "paris",
+    "name": "Versailles",
+    "address": "Place d'Armes, 78000 Versailles, France",
+    "hours": "Palace: 9:00am–6:30pm · Estate of Trianon: 12:00pm–6:30pm · Gardens: 7:00am–8:30pm · Park: 7:00am–8:30pm · Palace & Trianon closed Mondays and Dec 25, Jan 1, May 1",
+    "fee": "Palace ~€21 · Passport ticket (Palace + gardens + Trianon) ~€24–32 · Gardens free most days",
+    "facts": [
+      {
+        "label": "Light of Liberty:",
+        "text": "A 15-min VR experience marking the 250th anniversary of American Independence — meet Lafayette, Franklin & Washington and explore naval battles and diplomacy tied to the Revolution's connection with Versailles. Includes skip-the-line Palace access right after, plus the Estate of Trianon, Gardens, and temporary exhibitions."
+      },
+      {
+        "label": "Audio guides:",
+        "text": "2 rented for the visit."
+      },
+      {
+        "label": "Did you know?",
+        "text": "The Hall of Mirrors contains 357 mirrors. Mirrors were once so expensive that filling a room with them was itself a display of royal wealth and power."
+      },
+      {
+        "label": "Well known",
+        "text": "The Palace of Versailles was the principal royal residence of France from 1682 until the Revolution. At its peak it housed up to 20,000 people — courtiers, servants, and government officials — all under one roof.",
+        "known": true
+      }
+    ],
+    "website": "https://www.chateauversailles.fr/en",
+    "planned": true
+  },
+  {
+    "id": "paris-act-29",
+    "city": "paris",
+    "name": "Église Sainte-Radegonde de Giverny",
+    "address": "Rue de l’Église, 27620 Giverny, France",
+    "hours": "Generally open daily during daylight hours · Free",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Monet and members of his family are buried in the small churchyard here. The 11th-century church is a five-minute walk from his house and garden — worth the detour."
+      },
+      {
+        "label": "Well known",
+        "text": "The small Norman church of Sainte-Radegonde is where Claude Monet and his entire family are buried, in a simple plot in the churchyard just a short walk from his famous gardens.",
+        "known": true
+      }
+    ],
+    "website": "https://www.giverny.fr/",
+    "planned": false
+  },
+  {
+    "id": "london-act-1",
+    "city": "london",
+    "name": "Anish Kapoor — Hayward Gallery",
+    "address": "Hayward Gallery, Southbank Centre, Belvedere Road, London SE1 8XX, United Kingdom",
+    "hours": "Tue–Sun, exhibition runs 16 Jun–18 Oct 2026 · Closed Monday · Check website for exact daily hours and late-night openings",
+    "fee": "£22 adult",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "This major solo show — Kapoor's first full return to the Hayward since his landmark 1998 UK survey — fills the entire gallery building, including Vantablack works, monumental mirror sculptures, and immersive voids, curated by outgoing Hayward director Ralph Rugoff as part of the Southbank Centre's 75th anniversary."
+      },
+      {
+        "label": "Well known",
+        "text": "The Hayward Gallery is a leading contemporary arts venue on London's South Bank, opened in 1968 as part of the Brutalist Southbank Centre — one of the finest examples of Brutalist architecture in Europe.",
+        "known": true
+      }
+    ],
+    "website": "https://www.southbankcentre.co.uk/whats-on/anish-kapoor/",
+    "planned": false
+  },
+  {
+    "id": "london-act-2",
+    "city": "london",
+    "name": "Barbican Conservatory",
+    "address": "Barbican Centre, Silk Street, London EC2Y 8DS, United Kingdom",
+    "hours": "Open on select dates only, released ~1 month ahead · Timed-entry tickets required online",
+    "fee": "Free (ticketed, timed entry)",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "London's second-largest conservatory (after Kew Gardens), hidden above a Brutalist arts complex and home to over 1,500 species of plants and exotic fish."
+      },
+      {
+        "label": "Well known",
+        "text": "The Barbican Conservatory is one of London's largest indoor gardens — over 2,000 species of tropical plants and trees housed inside the Barbican estate, open to the public on selected weekends.",
+        "known": true
+      }
+    ],
+    "website": "https://www.barbican.org.uk/whats-on/series/conservatory",
+    "planned": false
+  },
+  {
+    "id": "london-act-3",
+    "city": "london",
+    "name": "Big Ben",
+    "address": "Palace of Westminster, Westminster, London SW1A 0AA, United Kingdom",
+    "hours": "Guided tower tours ~90 min, various times, booked in advance · Exterior viewable anytime",
+    "fee": "£55 adult tour (from Aug 2026) · Free to view exterior",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "\"Big Ben\" is technically just the nickname of the Great Bell inside the tower — the tower itself is officially the Elizabeth Tower."
+      },
+      {
+        "label": "Well known",
+        "text": "Big Ben is technically the name of the great bell inside the Elizabeth Tower, not the tower itself. The tower was renamed from the Clock Tower in 2012 to mark Queen Elizabeth II's Diamond Jubilee.",
+        "known": true
+      }
+    ],
+    "website": "https://www.parliament.uk/visiting/visiting-and-tours/big-ben-tour/",
+    "planned": true
+  },
+  {
+    "id": "london-act-4",
+    "city": "london",
+    "name": "Borough Market",
+    "address": "8 Southwark St, London SE1 1TL, UK",
+    "hours": "Mon–Thu 10 AM–5 PM · Fri 10 AM–6 PM · Sat 8 AM–5 PM · Closed Sun",
+    "fee": "Free entry · Individual stalls vary",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "One of London’s oldest and most celebrated food markets, Borough Market has traded on this site for over a thousand years. Today it hosts hundreds of stalls from artisan producers — cheese, charcuterie, bread, street food, fresh produce — with Borough Yard just next door for sitting down to eat."
+      },
+      {
+        "label": "Well known",
+        "text": "One of London's oldest food markets, Borough Market has existed in some form since at least the 11th century, making it over 1,000 years old. It supplies many of London's top restaurants.",
+        "known": true
+      }
+    ],
+    "website": "https://boroughmarket.org.uk/",
+    "planned": true
+  },
+  {
+    "id": "london-act-5",
+    "city": "london",
+    "name": "Buckingham Palace",
+    "address": "Buckingham Palace, Buckingham Gate, London SW1A 1AA, United Kingdom",
+    "hours": "State Rooms open 9 Jul–27 Sep 2026 only: daily 9:30am–7:30pm (Jul–Aug), Thu–Mon 9:30am–6:30pm (Sep) · Exterior & Changing of the Guard viewable anytime, free",
+    "fee": "£33 adult (State Rooms, advance) · Free to view exterior / Changing of the Guard",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Has 775 rooms, including 78 bathrooms, plus its own post office, cinema, and swimming pool."
+      },
+      {
+        "label": "Well known",
+        "text": "The official London residence of the sovereign since Queen Victoria in 1837, Buckingham Palace has 775 rooms including 19 state rooms, 52 royal and guest bedrooms, and its own cinema.",
+        "known": true
+      }
+    ],
+    "website": "https://www.rct.uk/visit/buckingham-palace",
+    "planned": true
+  },
+  {
+    "id": "london-act-6",
+    "city": "london",
+    "name": "Churchill War Rooms",
+    "address": "Clive Steps, King Charles Street, London SW1A 2AQ, United Kingdom",
+    "hours": "Daily 9:30am–6:00pm (last entry 5:00pm) · Extended to 9:00am opening Jun–Aug",
+    "fee": "~£27–£30 adult",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "The underground bunker is preserved almost exactly as it was left the day the lights were switched off at the end of WWII in 1945."
+      },
+      {
+        "label": "Well known",
+        "text": "The original underground bunker where Winston Churchill and his war cabinet directed Britain's entire World War II effort — preserved exactly as it was on the day the lights were finally switched off in 1945.",
+        "known": true
+      }
+    ],
+    "website": "https://www.iwm.org.uk/visits/churchill-war-rooms",
+    "planned": false
+  },
+  {
+    "id": "london-act-7",
+    "city": "london",
+    "name": "Covent Garden",
+    "address": "Covent Garden, London WC2E 8RF, United Kingdom",
+    "hours": "Piazza open 24/7 · Shops and market stalls generally 10:00am–8:00pm",
+    "fee": "Free to visit",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Was London's main fruit and vegetable market for over 300 years before becoming the shopping piazza it is today."
+      },
+      {
+        "label": "Well known",
+        "text": "London's principal fruit and vegetable market from the 17th century until 1974, when it moved to Nine Elms. The Victorian market building was saved from demolition and transformed into shops and restaurants.",
+        "known": true
+      }
+    ],
+    "website": "https://www.coventgarden.london/",
+    "planned": false
+  },
+  {
+    "id": "london-act-8",
+    "city": "london",
+    "name": "Fortnum & Mason",
+    "address": "181 Piccadilly, London W1A 1ER, United Kingdom",
+    "hours": "Mon–Sat 10:00am–8:00pm · Sun 11:30am–6:00pm",
+    "fee": "Free to browse",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Founded in 1707. Its famous clock has two 4-foot animated figures of the founders that emerge and bow to each other every hour."
+      },
+      {
+        "label": "Well known",
+        "text": "Established in 1707 on Piccadilly, Fortnum & Mason has held Royal Warrants supplying the Royal Family for over 300 years. Its famous 4-tonne clock above the entrance chimes each hour.",
+        "known": true
+      }
+    ],
+    "website": "https://www.fortnumandmason.com/",
+    "planned": false
+  },
+  {
+    "id": "london-act-9",
+    "city": "london",
+    "name": "Green Park",
+    "address": "Green Park, London SW1A 1BW, UK",
+    "hours": "Open 24 hours · Free",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "One of the Royal Parks of London, Green Park sits between Hyde Park and St. James’s Park. Unlike most royal parks it has no formal flower beds — just sweeping meadows of grass and mature trees, with a peacefulness that makes it a favourite shortcut between Buckingham Palace and Piccadilly."
+      },
+      {
+        "label": "Well known",
+        "text": "The smallest of the central Royal Parks, Green Park is notable for having no formal flower beds or fountains — just mature trees and open grassland, giving it a distinctly peaceful character.",
+        "known": true
+      },
+      {
+        "label": "Well known",
+        "text": "The oldest of London's Royal Parks, St. James's Park was originally a marshy field drained and turned into a deer park by Henry VIII in 1532. Its pelicans have been a feature since 1664.",
+        "known": true
+      }
+    ],
+    "website": "https://www.royalparks.org.uk/visit/parks/green-park",
+    "planned": true
+  },
+  {
+    "id": "london-act-10",
+    "city": "london",
+    "name": "Harrods",
+    "address": "87–135 Brompton Road, Knightsbridge, London SW1X 7XL, United Kingdom",
+    "hours": "Mon–Sat 10:00am–9:00pm · Sun 11:30am–6:00pm",
+    "fee": "Free to browse",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Its former owner's fascination with ancient Egypt led to an elaborate Egyptian Hall and escalator being built inside the store."
+      },
+      {
+        "label": "Well known",
+        "text": "Founded in 1849 by Charles Henry Harrod as a one-room grocery shop, Harrods now covers seven floors and 90,000 m² in Knightsbridge, with the mottoOmnia Omnibus Ubique— All Things for All People, Everywhere.",
+        "known": true
+      }
+    ],
+    "website": "https://www.harrods.com/",
+    "planned": true
+  },
+  {
+    "id": "london-act-11",
+    "city": "london",
+    "name": "Henry Moore: Monumental Nature — Kew Gardens",
+    "address": "Royal Botanic Gardens, Kew, Richmond, London TW9 3AE, United Kingdom",
+    "hours": "Exhibition runs 9 May 2026–31 Jan 2027 · Gardens open daily 10:00am–7:00pm, last entry 6:00pm · Shirley Sherwood Gallery closes 5:00pm daily",
+    "fee": "Included with Kew Gardens admission — adult ~£20 (weekday) / ~£22 (weekend)",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "This is the largest outdoor exhibition of Henry Moore's work ever staged — 30 monumental sculptures set across Kew's 320-acre UNESCO World Heritage Site, with dozens more works on paper and smaller pieces in the Shirley Sherwood Gallery of Botanical Art."
+      },
+      {
+        "label": "Well known",
+        "text": "The Royal Botanic Gardens at Kew are a UNESCO World Heritage Site housing the world's largest and most diverse living plant collection, with over 50,000 plant species across 326 acres.",
+        "known": true
+      }
+    ],
+    "website": "https://www.kew.org/kew-gardens/whats-on/henry-moore",
+    "planned": false
+  },
+  {
+    "id": "london-act-12",
+    "city": "london",
+    "name": "Hyde Park",
+    "address": "Hyde Park, London W2 2UH, United Kingdom",
+    "hours": "Daily 5:00am–midnight",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Home to Speakers' Corner, where anyone can legally climb up and publicly debate or protest on any topic."
+      },
+      {
+        "label": "Well known",
+        "text": "At 350 acres, Hyde Park is one of London's largest Royal Parks. It has been open to the public since the reign of Charles I, and famously hosted the Great Exhibition of 1851 in the Crystal Palace.",
+        "known": true
+      }
+    ],
+    "website": "https://www.royalparks.org.uk/parks/hyde-park",
+    "planned": false
+  },
+  {
+    "id": "london-act-13",
+    "city": "london",
+    "name": "Kensington Gardens",
+    "address": "Kensington Gardens, London W2 2UH, United Kingdom",
+    "hours": "Daily 6:00am–dusk",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "The Peter Pan statue was installed secretly overnight in 1912 so that children discovering it the next morning would think it had appeared \"by magic.\""
+      },
+      {
+        "label": "Well known",
+        "text": "Originally the private gardens of Kensington Palace, they are famous for the Peter Pan statue, the Serpentine Galleries, and the Diana, Princess of Wales Memorial Fountain.",
+        "known": true
+      }
+    ],
+    "website": "https://www.royalparks.org.uk/parks/kensington-gardens",
+    "planned": true
+  },
+  {
+    "id": "london-act-14",
+    "city": "london",
+    "name": "King's Road, Chelsea",
+    "address": "King’s Road, Chelsea, London SW3, United Kingdom",
+    "hours": "Street open 24/7 · Shops generally Mon–Sat 10:00am–7:00pm, Sun 11:00am–6:00pm",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Once a private royal road used only by Charles II to reach Chelsea, King’s Road became London’s epicentre of 1960s “Swinging London” — Vivienne Westwood’s first boutique opened here at no. 430. It remains one of London’s most celebrated shopping and browsing streets."
+      },
+      {
+        "label": "Well known",
+        "text": "King's Road was at the heart of the 1960s British fashion revolution — Mary Quant's Bazaar boutique opened here in 1955, helping launch the miniskirt and the Swinging Sixties look.",
+        "known": true
+      }
+    ],
+    "website": "https://www.visitlondon.com/things-to-do/shopping/kings-road",
+    "planned": false
+  },
+  {
+    "id": "london-act-15",
+    "city": "london",
+    "name": "National Gallery",
+    "address": "Trafalgar Square, London WC2N 5DN, United Kingdom",
+    "hours": "Daily 10:00am–6:00pm · Fri until 9:00pm (special exhibitions may have separate ticketed hours)",
+    "fee": "Free (permanent collection) · Special exhibitions ticketed separately",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Home to Van Gogh's Sunflowers and one of the world's greatest collections of Western European painting — all free to see, every day it's open."
+      },
+      {
+        "label": "Well known",
+        "text": "The National Gallery on Trafalgar Square houses over 2,300 paintings spanning 700 years of Western art — from a 1260 altarpiece to Seurat's 1884 Bathers at Asnières — with free permanent admission.",
+        "known": true
+      }
+    ],
+    "website": "https://www.nationalgallery.org.uk/",
+    "planned": true
+  },
+  {
+    "id": "london-act-16",
+    "city": "london",
+    "name": "Natural History Museum",
+    "address": "Cromwell Road, South Kensington, London SW7 5BD, United Kingdom",
+    "hours": "Daily 10:00am–5:50pm, last entry 5:30pm",
+    "fee": "Free (permanent galleries) · Paid temporary exhibitions extra",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "The building itself is a work of art — its terracotta facade is covered in carved animals, including extinct species on the side that once housed paleontology."
+      },
+      {
+        "label": "Well known",
+        "text": "The Natural History Museum in South Kensington houses over 80 million specimens covering 4.5 billion years of life on Earth — only a fraction are on public display at any one time.",
+        "known": true
+      }
+    ],
+    "website": "https://www.nhm.ac.uk/",
+    "planned": false
+  },
+  {
+    "id": "london-act-17",
+    "city": "london",
+    "name": "Notting Hill",
+    "address": "Notting Hill, London W11, United Kingdom",
+    "hours": "Neighbourhood open 24/7 · Portobello Road Market busiest Saturdays, ~9:00am–7:00pm",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Hosts Europe's largest street festival, the Notting Hill Carnival, every August Bank Holiday weekend."
+      },
+      {
+        "label": "Well known",
+        "text": "Notting Hill is home to the annual Notting Hill Carnival, Europe's largest street festival, drawing over a million visitors each August bank holiday weekend to celebrate Caribbean culture.",
+        "known": true
+      }
+    ],
+    "website": "https://www.rbkc.gov.uk/",
+    "planned": false
+  },
+  {
+    "id": "london-act-18",
+    "city": "london",
+    "name": "Royal Albert Hall",
+    "address": "Kensington Gore, South Kensington, London SW7 2AP, United Kingdom",
+    "hours": "Guided tours daily, ~1 hour · Apr–Oct 9:00am–4:30pm · Nov–Mar 9:00am–4:00pm",
+    "fee": "~£18–£25 adult tour",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Built with profits from the Great Exhibition of 1851. Its echo was so notoriously bad that giant fiberglass \"flying saucers\" were hung from the ceiling in the 1960s to fix the acoustics."
+      },
+      {
+        "label": "Well known",
+        "text": "Opened by Queen Victoria in 1871 and named for Prince Albert, the hall seats up to 5,272 people and hosts over 400 events a year — from the BBC Proms to boxing world championship bouts.",
+        "known": true
+      }
+    ],
+    "website": "https://www.royalalberthall.com/",
+    "planned": true
+  },
+  {
+    "id": "london-act-19",
+    "city": "london",
+    "name": "Shakespeare's Globe",
+    "address": "21 New Globe Walk, Bankside, London SE1 9DT, United Kingdom",
+    "hours": "Guided tours run through the day, roughly every 30–60 minutes · Hours vary seasonally",
+    "fee": "~£25–£27 adult tour",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "A faithful reconstruction of the original 1599 theatre, rebuilt just a few hundred yards from where it actually stood."
+      },
+      {
+        "label": "Well known",
+        "text": "A faithful reconstruction of the original Globe Theatre where Shakespeare's plays were first performed, built close to the original's foundations, which burned down in 1613 during a performance of Henry VIII.",
+        "known": true
+      }
+    ],
+    "website": "https://www.shakespearesglobe.com/",
+    "planned": false
+  },
+  {
+    "id": "london-act-20",
+    "city": "london",
+    "name": "St. James’s Park",
+    "address": "St. James’s Park, London SW1A 2BJ, UK",
+    "hours": "Daily 5 AM–midnight · Free",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "The oldest of London’s Royal Parks, St. James’s Park offers iconic views of Buckingham Palace from the bridge over the lake, where pelicans have been resident since 1664. The park borders Buckingham Palace, St. James’s Palace, and Clarence House."
+      }
+    ],
+    "website": "https://www.royalparks.org.uk/visit/parks/st-jamess-park",
+    "planned": true
+  },
+  {
+    "id": "london-act-21",
+    "city": "london",
+    "name": "Tate Modern",
+    "address": "Bankside, London SE1 9TG, United Kingdom",
+    "hours": "Daily 10:00am–6:00pm",
+    "fee": "Free (permanent collection) · Paid temporary exhibitions extra",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Housed in a former power station — the cavernous Turbine Hall once held the plant's electricity generators."
+      },
+      {
+        "label": "Well known",
+        "text": "One of the world's largest modern art galleries, Tate Modern opened in 2000 in the former Bankside Power Station — its vast Turbine Hall hosts some of the most ambitious art installations ever staged.",
+        "known": true
+      }
+    ],
+    "website": "https://www.tate.org.uk/visit/tate-modern",
+    "planned": true
+  },
+  {
+    "id": "london-act-22",
+    "city": "london",
+    "name": "Tower of London",
+    "address": "Tower of London, London EC3N 4AB, United Kingdom",
+    "hours": "Tue–Sat 9:00am–5:30pm · Sun–Mon 10:00am–5:30pm · Winter (Nov–Feb) closes 4:30pm · Last entry 1hr before close",
+    "fee": "~£34–£37 adult",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Home to the Crown Jewels for over 600 years, and guarded partly by ravens — legend says the kingdom will fall if they ever leave."
+      },
+      {
+        "label": "Well known",
+        "text": "A UNESCO World Heritage Site, the Tower has served as a royal palace, prison, armory, mint, and zoo. It is home to the Crown Jewels — including the 105-carat Koh-i-Noor diamond.",
+        "known": true
+      }
+    ],
+    "website": "https://www.hrp.org.uk/tower-of-london/",
+    "planned": true
+  },
+  {
+    "id": "london-act-23",
+    "city": "london",
+    "name": "Trafalgar Square",
+    "address": "Trafalgar Square, London WC2N 5DN, United Kingdom",
+    "hours": "Open 24/7",
+    "fee": "Free",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Nelson's Column stands 169 feet tall, and the bronze lions at its base were cast from melted-down French cannons captured in battle."
+      },
+      {
+        "label": "Well known",
+        "text": "Trafalgar Square commemorates the 1805 Battle of Trafalgar where Admiral Nelson defeated the combined French and Spanish fleets. Nelson's Column stands 52 metres tall — Nelson himself is only 5.5 metres.",
+        "known": true
+      }
+    ],
+    "website": "https://www.london.gov.uk/programmes-strategies/arts-and-culture/trafalgar-square",
+    "planned": false
+  },
+  {
+    "id": "london-act-24",
+    "city": "london",
+    "name": "The View from The Shard",
+    "address": "32 London Bridge Street, London SE1 9SG, United Kingdom",
+    "hours": "Daily 10:00 AM–9:30 PM (last entry 8:30 PM) · High-speed lift to floors 68–72",
+    "fee": "Tickets purchased â no changes or cancellations · Ticket includes complimentary digital photos",
+    "facts": [
+      {
+        "label": "Entrance",
+        "text": "Enter via the main lobby at 32 London Bridge Street â the ticket desk and high-speed lifts are on the ground floor. Nearest station: London Bridge (Jubilee & Northern lines)."
+      },
+      {
+        "label": "Did you know?",
+        "text": "At 309.6 metres, The Shard is the tallest building in the United Kingdom. Designed by Renzo Piano, its viewing galleries on floors 68–72 offer 360° views stretching up to 40 miles on a clear day â you can see five counties, the Thames snaking through London, and landmarks from St Paul’s to Canary Wharf."
+      },
+      {
+        "label": "Well known",
+        "text": "At 309.6 metres, The Shard is the tallest building in the United Kingdom, designed by Renzo Piano and completed in 2012. Its 95 habitable floors include offices, restaurants, a hotel, and the viewing gallery.",
+        "known": true
+      }
+    ],
+    "website": "https://www.theviewfromtheshard.com",
+    "planned": true
+  },
+  {
+    "id": "london-act-25",
+    "city": "london",
+    "name": "Westminster Abbey",
+    "address": "20 Dean's Yard, Westminster, London SW1P 3PA, United Kingdom",
+    "hours": "Mon–Fri 9:30am–3:30pm · Sat 9:00am–3:00pm (to 3:30pm May–Aug) · Closed Sunday for sightseeing (worship only)",
+    "fee": "~£27–£31 adult",
+    "facts": [
+      {
+        "label": "Did you know?",
+        "text": "Every English and British coronation has been held here since 1066, including William the Conqueror's."
+      },
+      {
+        "label": "Well known",
+        "text": "Westminster Abbey has been the coronation church since 1066 — every English and British monarch except two has been crowned here. It is also the final resting place of 17 monarchs.",
+        "known": true
+      }
+    ],
+    "website": "https://www.westminster-abbey.org/",
+    "planned": true
+  }
+]

@@ -1,0 +1,61 @@
+{
+  "slug": "asia-2026",
+  "startDate": "2026-12-19",
+  "title": "Tokyo & KL & Singapore",
+  "year": 2026,
+  "subtitle": "Two weeks, three cities, one small crew.",
+  "dates": "Dec 19, 2026 – Jan 1, 2027",
+  "coverCity": "tokyo",
+  "travelers": [
+    "Michael Lee",
+    "Uwen Kok",
+    "Carl Kurbat"
+  ],
+  "route": [
+    {
+      "code": "SFO",
+      "city": "San Francisco",
+      "date": "Dec 19"
+    },
+    {
+      "code": "NRT",
+      "city": "Tokyo",
+      "date": "Dec 20"
+    },
+    {
+      "code": "KUL",
+      "city": "Kuala Lumpur",
+      "date": "Dec 22"
+    },
+    {
+      "code": "SIN",
+      "city": "Singapore",
+      "date": "Dec 28"
+    },
+    {
+      "code": "SFO",
+      "city": "San Francisco",
+      "date": "Jan 1"
+    }
+  ],
+  "cities": [
+    {
+      "slug": "tokyo",
+      "name": "Tokyo",
+      "arrival": "Dec 20",
+      "hotel": "Hotel TBD"
+    },
+    {
+      "slug": "kualalumpur",
+      "name": "Kuala Lumpur",
+      "arrival": "Dec 22",
+      "hotel": "Hotel TBD"
+    },
+    {
+      "slug": "singapore",
+      "name": "Singapore",
+      "arrival": "Dec 28",
+      "hotel": "Hotel TBD"
+    }
+  ]
+}
