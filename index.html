@@ -30,35 +30,16 @@
     import { fetchAllTrips, renderNav, renderFooter, renderEmpty,
              escHtml, fmtDateRange, renderCityPills } from './assets/app.js';
 
+    // Nav + footer
     document.getElementById('nav-root').innerHTML = renderNav(null, null, 'home');
     document.getElementById('footer-root').innerHTML = renderFooter();
-
-    try {
-      const trips = await fetchAllTrips();
-      const root = document.getElementById('trips-root');
-
-      if (!trips.length) {
-        root.innerHTML = renderEmpty('No trips yet.');
-        return;
-      }
-
-      trips.sort((a, b) => {
-        if (a.status === 'active') return -1;
-        if (b.status === 'active') return 1;
-        return 0;
-      });
-
-      root.innerHTML = `<div class="trip-grid">${trips.map(renderTripCard).join('')}</div>`;
-    } catch (err) {
-      console.error(err);
-      document.getElementById('trips-root').innerHTML =
-        `<div class="empty-state"><p>Failed to load trips. Check Firebase config.</p></div>`;
-    }
 
     function renderTripCard(trip) {
       const status = trip.status || 'planning';
       const statusLabel = { planning: 'Planning', active: 'Active', complete: 'Complete' }[status] || status;
+      const cities = (trip.cities || []);
       const travelers = (trip.travelers || []).length;
+
       const dateRange = fmtDateRange(trip.dates?.start, trip.dates?.end);
 
       return `
@@ -67,11 +48,37 @@
           <div class="trip-card__title">${escHtml(trip.title)}</div>
           ${trip.subtitle ? `<div class="trip-card__dates">${escHtml(trip.subtitle)}</div>` : ''}
           ${dateRange ? `<div class="trip-card__dates">${dateRange}</div>` : ''}
-          <div class="trip-card__cities">${renderCityPills(trip.cities || [])}</div>
+          <div class="trip-card__cities">${renderCityPills(cities)}</div>
           ${travelers ? `<div class="trip-card__travelers">${travelers} traveler${travelers !== 1 ? 's' : ''}</div>` : ''}
         </a>
       `;
     }
+
+    // Load trips
+    (async () => {
+      try {
+        const trips = await fetchAllTrips();
+        const root = document.getElementById('trips-root');
+
+        if (!trips.length) {
+          root.innerHTML = renderEmpty('No trips yet.');
+          return;
+        }
+
+        // Pin any active trip to the top
+        trips.sort((a, b) => {
+          if (a.status === 'active') return -1;
+          if (b.status === 'active') return 1;
+          return 0;
+        });
+
+        root.innerHTML = `<div class="trip-grid">${trips.map(renderTripCard).join('')}</div>`;
+      } catch (err) {
+        console.error(err);
+        document.getElementById('trips-root').innerHTML =
+          `<div class="empty-state"><p>Failed to load trips. Check Firebase config.</p></div>`;
+      }
+    })();
   </script>
 </body>
 </html>

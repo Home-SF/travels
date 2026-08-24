@@ -6,53 +6,230 @@
   <title>Trip — Travels</title>
   <link rel="stylesheet" href="assets/styles.css" />
   <style>
-    .trip-hero { padding:2rem 0 1.5rem; border-bottom:1.5px solid var(--rule); margin-bottom:2rem; }
-    .trip-hero__route { display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-top:1rem; }
-    .route-stop { font-family:var(--mono); font-size:0.72rem; padding:0.2rem 0.5rem; border:1px solid var(--rule); border-radius:3px; color:var(--ink-soft); }
-    .route-arrow { color:var(--ink-faint); font-size:0.8rem; }
-    .trip-meta { display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:1rem; font-size:0.82rem; color:var(--ink-soft); }
-    .trip-meta strong { color:var(--ink); }
-    .city-section { margin-bottom:2.5rem; }
-    .city-section__head { font-family:var(--display); font-size:1.3rem; font-weight:800; margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1.5px solid var(--rule); }
-    .city-section__head.paris  { color:var(--paris); }
-    .city-section__head.london { color:var(--london); }
-    .city-section__head.toronto{ color:var(--toronto); }
-    .city-section__head.tokyo  { color:var(--tokyo); }
-    .city-section__head.kuala-lumpur { color:var(--kuala-lumpur); }
-    .city-section__head.singapore { color:var(--singapore); }
-    .city-section__hotel { font-size:0.8rem; color:var(--ink-soft); margin-bottom:1rem; }
-    .quick-links { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.75rem; }
-    .quick-link { font-size:0.78rem; padding:0.25rem 0.75rem; border:1.5px solid var(--rule); border-radius:99px; color:var(--navy); text-decoration:none; transition:all 0.15s; }
-    .quick-link:hover { background:var(--bg-raised); border-color:var(--rule-strong); text-decoration:none; }
+    .trip-hero {
+      padding: 2rem 0 1.5rem;
+      border-bottom: 1.5px solid var(--rule);
+      margin-bottom: 2rem;
+    }
+    .trip-hero__route {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .route-stop {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      color: var(--ink-soft);
+    }
+    .route-arrow {
+      color: var(--ink-faint);
+      font-size: 0.8rem;
+    }
+    .trip-meta {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+    .trip-meta strong { color: var(--ink); }
+    .city-section {
+      margin-bottom: 2.5rem;
+    }
+    .city-section__head {
+      font-family: var(--display);
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1.5px solid var(--rule);
+    }
+    .city-section__head.paris  { color: var(--paris); }
+    .city-section__head.london { color: var(--london); }
+    .city-section__head.toronto { color: var(--toronto); }
+    .city-section__head.tokyo   { color: var(--tokyo); }
+    .city-section__head.kuala-lumpur { color: var(--kuala-lumpur); }
+    .city-section__head.singapore { color: var(--singapore); }
+    .city-section__hotel {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+    }
+    .quick-links {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+    .quick-link {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.75rem;
+      border: 1.5px solid var(--rule);
+      border-radius: 99px;
+      color: var(--navy);
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .quick-link:hover {
+      background: var(--bg-raised);
+      border-color: var(--rule-strong);
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
+
   <div id="nav-root"></div>
-  <main class="page-wrap"><div id="trip-root"><div class="loading-state"><div class="loading-spinner"></div><p>Loading trip…</p></div></div></main>
+
+  <main class="page-wrap">
+    <div id="trip-root">
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading trip…</p>
+      </div>
+    </div>
+  </main>
+
   <div id="footer-root"></div>
+
   <script type="module">
-    import { getParam, fetchTrip, fetchDays, renderNav, renderFooter, escHtml, fmtDate } from './assets/app.js';
+    import { getParam, fetchTrip, fetchDays, renderNav, renderFooter,
+             escHtml, fmtDate, renderCityPills } from './assets/app.js';
+
     const tripId = getParam('id');
     document.getElementById('footer-root').innerHTML = renderFooter();
-    if (!tripId) { document.getElementById('nav-root').innerHTML = renderNav(); document.getElementById('trip-root').innerHTML = `<div class="empty-state"><p>No trip specified. <a href="index.html">All trips →</a></p></div>`; }
-    else {
+
+    function renderTrip(trip, days) {
+      const route = (trip.route || []);
+      const routeHtml = route.map((s, i) =>
+        `${i > 0 ? '<span class="route-arrow">→</span>' : ''}
+         <span class="route-stop" title="${escHtml(fmtDate(s.date))}">${escHtml(s.code)}</span>`
+      ).join('');
+
+      const cities = trip.cities || [];
+
+      // Group days by city
+      const cityDays = {};
+      for (const day of days) {
+        const c = day.city || 'other';
+        if (!cityDays[c]) cityDays[c] = [];
+        cityDays[c].push(day);
+      }
+
+      // Render city sections with day cards
+      const citySectionsHtml = cities.map(city => {
+        const cDays = cityDays[city.id] || [];
+        const hotelHtml = city.hotel
+          ? `<div class="city-section__hotel">🏨 ${escHtml(city.hotel)}</div>` : '';
+
+        const dayCardsHtml = cDays.length
+          ? `<div class="days-grid">${cDays.map(d => renderDayCard(d, tripId)).join('')}</div>`
+          : `<div class="empty-state" style="padding:1rem">No days scheduled.</div>`;
+
+        const quickLinks = `
+          <div class="quick-links">
+            <a class="quick-link" href="restaurants.html?trip=${encodeURIComponent(tripId)}&city=${city.id}">
+              Dining in ${escHtml(city.name)} →
+            </a>
+            <a class="quick-link" href="activities.html?trip=${encodeURIComponent(tripId)}&city=${city.id}">
+              Activities →
+            </a>
+          </div>
+        `;
+
+        return `
+          <div class="city-section">
+            <div class="city-section__head ${city.cssClass || city.id}">${escHtml(city.name)}</div>
+            ${hotelHtml}
+            ${dayCardsHtml}
+            ${quickLinks}
+          </div>
+        `;
+      }).join('');
+
+      // Also render any travel/other days not in a specific city section
+      const travelDays = (cityDays['travel'] || []).concat(cityDays['other'] || []);
+      const travelHtml = travelDays.length ? `
+        <div class="city-section">
+          <div class="city-section__head" style="color:var(--travel)">Travel Days</div>
+          <div class="days-grid">${travelDays.map(d => renderDayCard(d, tripId)).join('')}</div>
+        </div>
+      ` : '';
+
+      return `
+        <div class="trip-hero">
+          <span class="section-kicker">Trip</span>
+          <h1 style="font-family:var(--display);font-size:2rem;font-weight:800;line-height:1.05">
+            ${escHtml(trip.title)}
+          </h1>
+          ${trip.subtitle ? `<p style="color:var(--ink-soft);margin-top:0.25rem">${escHtml(trip.subtitle)}</p>` : ''}
+          <div class="trip-hero__route">${routeHtml}</div>
+          <div class="trip-meta">
+            <span><strong>${(trip.travelers||[]).length}</strong> travelers</span>
+            <span><strong>${days.length}</strong> days</span>
+            <span>Status: <strong>${escHtml(trip.status || '')}</strong></span>
+          </div>
+          <div class="quick-links" style="margin-top:1rem">
+            <a class="quick-link" href="restaurants.html?trip=${encodeURIComponent(tripId)}">All Dining →</a>
+            <a class="quick-link" href="activities.html?trip=${encodeURIComponent(tripId)}">All Activities →</a>
+            <a class="quick-link" href="photos.html?trip=${encodeURIComponent(tripId)}">Photos →</a>
+            <a class="quick-link" href="location-map.html?trip=${encodeURIComponent(tripId)}">Map →</a>
+          </div>
+        </div>
+        ${citySectionsHtml}
+        ${travelHtml}
+      `;
+    }
+
+    function renderDayCard(day, tripId) {
+      const eventCount = (day.events || []).filter(e => !e.placeholder).length;
+      const isTravel = day.isTravel ? 'is-travel' : '';
+      const cityClass = day.city || '';
+      return `
+        <a class="day-card ${isTravel} ${cityClass}"
+           href="day.html?trip=${encodeURIComponent(tripId)}&date=${encodeURIComponent(day.date)}">
+          <div class="day-card__weekday">${escHtml(day.weekday || '')}</div>
+          <div class="day-card__date">${escHtml(day.displayDate || day.date)}</div>
+          ${day.kicker ? `<div class="day-card__kicker">${escHtml(day.kicker)}</div>` : ''}
+          <div class="day-card__events">${eventCount} event${eventCount !== 1 ? 's' : ''}</div>
+        </a>
+      `;
+    }
+
+    (async () => {
+      if (!tripId) {
+        document.getElementById('nav-root').innerHTML = renderNav();
+        document.getElementById('trip-root').innerHTML =
+          `<div class="empty-state"><p>No trip specified. <a href="index.html">All trips →</a></p></div>`;
+        return;
+      }
+
       try {
         const [trip, days] = await Promise.all([fetchTrip(tripId), fetchDays(tripId)]);
-        if (!trip) { document.getElementById('nav-root').innerHTML = renderNav(); document.getElementById('trip-root').innerHTML = `<div class="empty-state"><p>Trip not found.</p></div>`; }
-        else {
-          document.title = `${trip.title} — Travels`;
-          document.getElementById('nav-root').innerHTML = renderNav(tripId, trip.title, 'trip');
-          const cityDays = {};
-          for (const d of days) { const c = d.city||'other'; if(!cityDays[c]) cityDays[c]=[]; cityDays[c].push(d); }
-          const routeHtml = (trip.route||[]).map((s,i)=>`${i>0?'<span class="route-arrow">→</span>':''}<span class="route-stop" title="${escHtml(fmtDate(s.date))}">${escHtml(s.code)}</span>`).join('');
-          const citySectionsHtml = (trip.cities||[]).map(city=>{
-            const cDays = cityDays[city.id]||[];
-            return `<div class="city-section"><div class="city-section__head ${city.cssClass||city.id}">${escHtml(city.name)}</div>${city.hotel?`<div class="city-section__hotel">🏨 ${escHtml(city.hotel)}</div>`:''}<div class="days-grid">${cDays.map(d=>`<a class="day-card ${d.isTravel?'is-travel':''} ${d.city||''}" href="day.html?trip=${encodeURIComponent(tripId)}&date=${encodeURIComponent(d.date)}"><div class="day-card__weekday">${escHtml(d.weekday||'')}</div><div class="day-card__date">${escHtml(d.displayDate||d.date)}</div>${d.kicker?`<div class="day-card__kicker">${escHtml(d.kicker)}</div>`:''}<div class="day-card__events">${(d.events||[]).filter(e=>!e.placeholder).length} events</div></a>`).join('')}</div><div class="quick-links"><a class="quick-link" href="restaurants.html?trip=${encodeURIComponent(tripId)}&city=${city.id}">Dining in ${escHtml(city.name)} →</a><a class="quick-link" href="activities.html?trip=${encodeURIComponent(tripId)}&city=${city.id}">Activities →</a></div></div>`;
-          }).join('');
-          document.getElementById('trip-root').innerHTML = `<div class="trip-hero"><span class="section-kicker">Trip</span><h1 style="font-family:var(--display);font-size:2rem;font-weight:800">${escHtml(trip.title)}</h1>${trip.subtitle?`<p style="color:var(--ink-soft)">${escHtml(trip.subtitle)}</p>`:''}<div class="trip-hero__route">${routeHtml}</div><div class="trip-meta"><span><strong>${(trip.travelers||[]).length}</strong> travelers</span><span><strong>${days.length}</strong> days</span><span>Status: <strong>${escHtml(trip.status||'')}</strong></span></div><div class="quick-links" style="margin-top:1rem"><a class="quick-link" href="restaurants.html?trip=${encodeURIComponent(tripId)}">All Dining →</a><a class="quick-link" href="activities.html?trip=${encodeURIComponent(tripId)}">All Activities →</a><a class="quick-link" href="photos.html?trip=${encodeURIComponent(tripId)}">Photos →</a><a class="quick-link" href="location-map.html?trip=${encodeURIComponent(tripId)}">Map →</a></div></div>${citySectionsHtml}`;
+
+        if (!trip) {
+          document.getElementById('nav-root').innerHTML = renderNav();
+          document.getElementById('trip-root').innerHTML =
+            `<div class="empty-state"><p>Trip not found. <a href="index.html">All trips →</a></p></div>`;
+          return;
         }
-      } catch(err) { console.error(err); document.getElementById('trip-root').innerHTML=`<div class="empty-state"><p>Error loading trip.</p></div>`; }
-    }
+
+        document.title = `${trip.title} — Travels`;
+        document.getElementById('nav-root').innerHTML = renderNav(tripId, trip.title, 'trip');
+        document.getElementById('trip-root').innerHTML = renderTrip(trip, days);
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('trip-root').innerHTML =
+          `<div class="empty-state"><p>Error loading trip.</p></div>`;
+      }
+    })();
   </script>
 </body>
 </html>

@@ -6,47 +6,203 @@
   <title>Day — Travels</title>
   <link rel="stylesheet" href="assets/styles.css" />
   <style>
-    .day-hero{padding:1.5rem 0 1.25rem;border-bottom:1.5px solid var(--rule);margin-bottom:2rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-    .day-nav-arrows{display:flex;gap:0.5rem}
-    .day-nav-arrow{font-size:0.82rem;padding:0.3rem 0.75rem;border:1.5px solid var(--rule);border-radius:99px;color:var(--navy);text-decoration:none;transition:all 0.15s}
-    .day-nav-arrow:hover{background:var(--bg-raised);text-decoration:none}
-    .day-nav-arrow.disabled{color:var(--ink-faint);pointer-events:none}
-    .day-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.75rem;font-size:0.8rem;color:var(--ink-soft)}
-    .day-section-head{font-family:var(--display);font-size:1.1rem;font-weight:700;margin:2rem 0 1rem;padding-bottom:0.4rem;border-bottom:1px solid var(--rule)}
-    .day-restaurant{background:var(--bg-raised);border:1.5px solid var(--rule);border-radius:var(--radius);padding:0.9rem 1.1rem;margin-bottom:0.75rem}
-    .day-restaurant.reserved{border-left:3px solid var(--brass-dark)}
+    .day-hero {
+      padding: 1.5rem 0 1.25rem;
+      border-bottom: 1.5px solid var(--rule);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .day-nav-arrows {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .day-nav-arrow {
+      font-size: 0.82rem;
+      padding: 0.3rem 0.75rem;
+      border: 1.5px solid var(--rule);
+      border-radius: 99px;
+      color: var(--navy);
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .day-nav-arrow:hover {
+      background: var(--bg-raised);
+      text-decoration: none;
+    }
+    .day-nav-arrow.disabled {
+      color: var(--ink-faint);
+      pointer-events: none;
+    }
+    .day-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+    }
+    .day-section-head {
+      font-family: var(--display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .day-restaurant {
+      background: var(--bg-raised);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 0.9rem 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+    .day-restaurant.reserved { border-left: 3px solid var(--brass-dark); }
   </style>
 </head>
 <body>
+
   <div id="nav-root"></div>
-  <main class="page-wrap"><div id="day-root"><div class="loading-state"><div class="loading-spinner"></div><p>Loading day…</p></div></div></main>
+
+  <main class="page-wrap">
+    <div id="day-root">
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading day…</p>
+      </div>
+    </div>
+  </main>
+
   <div id="footer-root"></div>
+
   <script type="module">
-    import { getParam, fetchTrip, fetchDay, fetchDays, fetchRestaurants, renderNav, renderFooter, escHtml } from './assets/app.js';
-    const tripId=getParam('trip'), date=getParam('date');
-    document.getElementById('footer-root').innerHTML=renderFooter();
-    if(!tripId||!date){document.getElementById('nav-root').innerHTML=renderNav();document.getElementById('day-root').innerHTML=`<div class="empty-state"><p>Missing trip or date.</p></div>`;}
-    else {
-      try {
-        const [trip,day,allDays,restaurants]=await Promise.all([fetchTrip(tripId),fetchDay(tripId,date),fetchDays(tripId),fetchRestaurants(tripId,null)]);
-        if(!trip||!day){document.getElementById('nav-root').innerHTML=renderNav(tripId);document.getElementById('day-root').innerHTML=`<div class="empty-state"><p>Day not found. <a href="trip.html?id=${encodeURIComponent(tripId)}">Back →</a></p></div>`;}
-        else {
-          document.title=`${day.displayDate||day.date} — ${trip.title}`;
-          document.getElementById('nav-root').innerHTML=renderNav(tripId,trip.title,'trip');
-          const sorted=allDays.map(d=>d.date).sort();
-          const idx=sorted.indexOf(date);
-          const prev=idx>0?sorted[idx-1]:null, next=idx<sorted.length-1?sorted[idx+1]:null;
-          const dayRests=restaurants.filter(r=>r.reservationDate===date);
-          const events=(day.events||[]);
-          const evHtml=events.length?`<div class="events-timeline">${events.map(ev=>`<div class="event-row"><div class="event-time">${escHtml(ev.time||'')}</div><div class="event-dot"></div><div class="event-content"><div class="event-title">${escHtml(ev.title||'')}</div>${ev.note?`<div class="event-note">${escHtml(ev.note)}</div>`:''}</div></div>`).join('')}</div>`:`<div class="empty-state" style="padding:1.5rem 0">No events.</div>`;
-          const resHtml=dayRests.length?`<div class="day-section-head">Dining</div>${dayRests.map(r=>`<div class="day-restaurant ${r.reserved?'reserved':''}"><div style="font-family:var(--display);font-weight:700">${escHtml(r.name)}</div><div style="font-size:0.8rem;color:var(--ink-soft)">${escHtml(r.address)}</div>${r.visitNote?`<div style="font-size:0.78rem;color:var(--brass-dark)">${escHtml(r.visitNote)}</div>`:''}</div>`).join('')}`:'';
-          const prevLink=prev?`<a class="day-nav-arrow" href="day.html?trip=${encodeURIComponent(tripId)}&date=${prev}">← Prev</a>`:`<span class="day-nav-arrow disabled">← Prev</span>`;
-          const nextLink=next?`<a class="day-nav-arrow" href="day.html?trip=${encodeURIComponent(tripId)}&date=${next}">Next →</a>`:`<span class="day-nav-arrow disabled">Next →</span>`;
-          const metaParts=[day.hotel?`🏨 ${escHtml(day.hotel)}`:'',day.sunsetTime?`🌇 Sunset ${escHtml(day.sunsetTime)}`:''].filter(Boolean);
-          document.getElementById('day-root').innerHTML=`<div class="day-hero"><div><span class="section-kicker"><a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a></span><h1 style="font-family:var(--display);font-size:2rem;font-weight:800">${escHtml(day.weekday||'')}, ${escHtml(day.displayDate||day.date)}</h1>${day.kicker?`<p style="color:var(--ink-soft)">${escHtml(day.kicker)}</p>`:''}<div class="day-meta">${metaParts.map(p=>`<span>${p}</span>`).join('')}</div></div><div class="day-nav-arrows">${prevLink}${nextLink}</div></div>${evHtml}${resHtml}`;
-        }
-      } catch(err){console.error(err);document.getElementById('day-root').innerHTML=`<div class="empty-state"><p>Error loading day.</p></div>`;}
+    import { getParam, fetchTrip, fetchDay, fetchDays, fetchRestaurants,
+             renderNav, renderFooter, escHtml, fmtDate } from './assets/app.js';
+
+    const tripId = getParam('trip');
+    const date   = getParam('date');
+    document.getElementById('footer-root').innerHTML = renderFooter();
+
+    function renderDay(trip, day, prev, next, dayRests) {
+      const events = (day.events || []);
+
+      const prevLink = prev
+        ? `<a class="day-nav-arrow" href="day.html?trip=${encodeURIComponent(tripId)}&date=${prev}">← Previous</a>`
+        : `<span class="day-nav-arrow disabled">← Previous</span>`;
+      const nextLink = next
+        ? `<a class="day-nav-arrow" href="day.html?trip=${encodeURIComponent(trip.id)}&date=${next}">Next →</a>`
+        : `<span class="day-nav-arrow disabled">Next →</span>`;
+
+      const metaParts = [];
+      if (day.hotel) metaParts.push(`🏨 ${escHtml(day.hotel)}`);
+      if (day.sunsetTime) metaParts.push(`🌇 Sunset ${escHtml(day.sunsetTime)}`);
+      if (day.publicHoliday) metaParts.push(`📅 ${escHtml(day.publicHoliday)}`);
+
+      const eventsHtml = events.length ? `
+        <div class="events-timeline">
+          ${events.map(ev => `
+            <div class="event-row">
+              <div class="event-time">${escHtml(ev.time || '')}</div>
+              <div class="event-dot"></div>
+              <div class="event-content">
+                <div class="event-title">${escHtml(ev.title || '')}</div>
+                ${ev.note ? `<div class="event-note">${escHtml(ev.note)}</div>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : `<div class="empty-state" style="padding:1.5rem 0">No events scheduled.</div>`;
+
+      const restsHtml = dayRests.length ? `
+        <div class="day-section-head">Dining</div>
+        ${dayRests.map(r => `
+          <div class="day-restaurant ${r.reserved ? 'reserved' : ''}">
+            <div style="font-family:var(--display);font-weight:700;font-size:1rem">${escHtml(r.name)}</div>
+            <div style="font-size:0.8rem;color:var(--ink-soft);margin-top:0.15rem">${escHtml(r.address)}</div>
+            ${r.visitNote ? `<div style="font-size:0.78rem;color:var(--brass-dark);margin-top:0.3rem">${escHtml(r.visitNote)}</div>` : ''}
+            ${renderRestLinks(r.links)}
+          </div>
+        `).join('')}
+      ` : '';
+
+      return `
+        <div class="day-hero">
+          <div>
+            <span class="section-kicker">
+              <a href="trip.html?id=${encodeURIComponent(trip.id)}" style="color:inherit">${escHtml(trip.title)}</a>
+            </span>
+            <h1 style="font-family:var(--display);font-size:2rem;font-weight:800;line-height:1.05">
+              ${escHtml(day.weekday || '')}, ${escHtml(day.displayDate || day.date)}
+            </h1>
+            ${day.kicker ? `<p style="color:var(--ink-soft);margin-top:0.2rem">${escHtml(day.kicker)}</p>` : ''}
+            ${metaParts.length ? `<div class="day-meta">${metaParts.map(p => `<span>${p}</span>`).join('')}</div>` : ''}
+          </div>
+          <div class="day-nav-arrows">${prevLink}${nextLink}</div>
+        </div>
+
+        ${eventsHtml}
+        ${restsHtml}
+      `;
     }
+
+    function renderRestLinks(links = {}) {
+      const entries = Object.entries(links);
+      if (!entries.length) return '';
+      return `<div class="rest-links" style="margin-top:0.5rem">
+        ${entries.map(([k, v]) => {
+          const url = typeof v === 'string' ? v : v?.url;
+          const label = { website: 'Website', menu: 'Menu', reserve: 'Reserve',
+                          michelin: 'Michelin', infatuation: 'Infatuation',
+                          instagram: 'Instagram' }[k] || k;
+          return url ? `<a class="rest-link" href="${escHtml(url)}" target="_blank" rel="noopener">${label} →</a>` : '';
+        }).join('')}
+      </div>`;
+    }
+
+    (async () => {
+      if (!tripId || !date) {
+        document.getElementById('nav-root').innerHTML = renderNav();
+        document.getElementById('day-root').innerHTML =
+          `<div class="empty-state"><p>Missing trip or date. <a href="index.html">All trips →</a></p></div>`;
+        return;
+      }
+
+      try {
+        const [trip, day, allDays, restaurants] = await Promise.all([
+          fetchTrip(tripId),
+          fetchDay(tripId, date),
+          fetchDays(tripId),
+          fetchRestaurants(tripId, null),
+        ]);
+
+        if (!trip || !day) {
+          document.getElementById('nav-root').innerHTML = renderNav(tripId);
+          document.getElementById('day-root').innerHTML =
+            `<div class="empty-state"><p>Day not found. <a href="trip.html?id=${encodeURIComponent(tripId)}">Back to trip →</a></p></div>`;
+          return;
+        }
+
+        document.title = `${day.displayDate || day.date} — ${trip.title}`;
+        document.getElementById('nav-root').innerHTML = renderNav(tripId, trip.title, 'trip');
+
+        const sorted = allDays.map(d => d.date).sort();
+        const idx = sorted.indexOf(date);
+        const prev = idx > 0 ? sorted[idx - 1] : null;
+        const next = idx < sorted.length - 1 ? sorted[idx + 1] : null;
+
+        const dayRests = restaurants.filter(r => r.reservationDate === date);
+
+        document.getElementById('day-root').innerHTML = renderDay(trip, day, prev, next, dayRests);
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('day-root').innerHTML =
+          `<div class="empty-state"><p>Error loading day.</p></div>`;
+      }
+    })();
   </script>
 </body>
 </html>

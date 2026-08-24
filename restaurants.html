@@ -7,51 +7,166 @@
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
+
   <div id="nav-root"></div>
+
   <main class="page-wrap">
-    <div class="section-head"><span class="section-kicker" id="kicker">Dining</span><h1 id="page-title">Restaurants</h1></div>
+    <div class="section-head">
+      <span class="section-kicker" id="kicker">Dining</span>
+      <h1 id="page-title">Restaurants</h1>
+    </div>
+
     <div id="filters-root"></div>
-    <div id="rests-root"><div class="loading-state"><div class="loading-spinner"></div><p>Loading restaurants…</p></div></div>
+    <div id="rests-root">
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading restaurants…</p>
+      </div>
+    </div>
   </main>
+
   <div id="footer-root"></div>
+
   <script type="module">
-    import { getParam, fetchTrip, fetchRestaurants, renderNav, renderFooter, escHtml } from './assets/app.js';
-    const tripId=getParam('trip'), cityParam=getParam('city');
-    document.getElementById('footer-root').innerHTML=renderFooter();
-    if(!tripId){document.getElementById('nav-root').innerHTML=renderNav();document.getElementById('rests-root').innerHTML=`<div class="empty-state"><p>No trip specified.</p></div>`;}
-    else {
-      const [trip,allRests]=await Promise.all([fetchTrip(tripId),fetchRestaurants(tripId)]);
-      if(!trip){document.getElementById('nav-root').innerHTML=renderNav();document.getElementById('rests-root').innerHTML=`<div class="empty-state"><p>Trip not found.</p></div>`;}
-      else {
-        document.title=`Dining — ${trip.title}`;
-        document.getElementById('nav-root').innerHTML=renderNav(tripId,trip.title,'restaurants');
-        document.getElementById('kicker').innerHTML=`<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
-        const cities=[...new Set(allRests.map(r=>r.city))];
-        const cityInfo={}; for(const c of trip.cities||[]) cityInfo[c.id]=c.name;
-        let activeCity=cityParam||'all', showReserved=false;
-        function filtered(){let l=allRests;if(activeCity!=='all')l=l.filter(r=>r.city===activeCity);if(showReserved)l=l.filter(r=>r.reserved);return l;}
-        function render(){
-          const list=filtered();
-          document.getElementById('filters-root').innerHTML=`<div class="filter-bar"><button class="filter-btn ${activeCity==='all'?'active':''}" data-city="all">All</button>${cities.map(c=>`<button class="filter-btn ${activeCity===c?'active':''}" data-city="${escHtml(c)}">${escHtml(cityInfo[c]||c)}</button>`).join('')}<button class="filter-btn ${showReserved?'active':''}" id="fr">Reserved only</button><span class="filter-count">${list.length} restaurants</span></div>`;
-          document.querySelectorAll('.filter-btn[data-city]').forEach(b=>b.addEventListener('click',()=>{activeCity=b.dataset.city;render();}));
-          document.getElementById('fr')?.addEventListener('click',()=>{showReserved=!showReserved;render();});
-          document.getElementById('page-title').textContent=`Dining${activeCity==='all'?'':' — '+(cityInfo[activeCity]||activeCity)}`;
-          if(!list.length){document.getElementById('rests-root').innerHTML=`<div class="empty-state"><p>No restaurants match this filter.</p></div>`;return;}
-          const groups={}; for(const r of list){const g=r.neighborhoodGroup||r.neighborhood||'';if(!groups[g])groups[g]=[];groups[g].push(r);}
-          let html='';
-          for(const [g,rests] of Object.entries(groups)){
-            if(g)html+=`<h3 style="font-family:var(--display);font-size:1.1rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--ink-soft)">${escHtml(g)}</h3>`;
-            html+=`<div class="rest-list-view">${rests.map(r=>{
-              const links=r.links?Object.entries(r.links).map(([k,v])=>{const url=typeof v==='string'?v:v?.url;const label={website:'Website',menu:'Menu',reserve:'Reserve',michelin:'Michelin',infatuation:'Infatuation',instagram:'Instagram'}[k]||k;return url?`<a class="rest-link" href="${escHtml(url)}" target="_blank" rel="noopener">${label} →</a>`:''}).join(''):'';
-              const muted=(r.muted||[]).map(m=>`<div style="font-size:0.72rem;color:var(--ink-faint)">${escHtml(m)}</div>`).join('');
-              return `<div class="rest-row ${r.reserved&&!r.cancelled?'reserved':''} ${r.cancelled?'cancelled':''}"><div class="rest-num">#${r.num||''}</div><div class="rest-info"><div class="rest-name">${escHtml(r.name)}${r.reserved&&!r.cancelled?'<span class="badge badge-reserved" style="margin-left:0.4rem">Reserved</span>':''}${r.cancelled?'<span class="badge badge-cancelled" style="margin-left:0.4rem">Cancelled</span>':''}</div>${r.address?`<div class="rest-addr">${escHtml(r.address)}</div>`:''} ${r.hours?`<div class="rest-addr">${escHtml(r.hours)}</div>`:''} ${r.visitNote?`<div class="rest-visit">${escHtml(r.visitNote)}</div>`:''} ${muted} ${links?`<div class="rest-links">${links}</div>`:''}</div></div>`;
-            }).join('')}</div>`;
-          }
-          document.getElementById('rests-root').innerHTML=html;
-        }
-        render();
-      }
+    import { getParam, fetchTrip, fetchRestaurants, renderNav, renderFooter,
+             escHtml } from './assets/app.js';
+
+    const tripId   = getParam('trip');
+    const cityParam = getParam('city');
+    document.getElementById('footer-root').innerHTML = renderFooter();
+
+    let activeCity = cityParam || 'all';
+    let showReservedOnly = false;
+    let allRests = [];
+    let cities = [];
+    let cityInfo = {};
+
+    function filteredRests() {
+      let list = allRests;
+      if (activeCity !== 'all') list = list.filter(r => r.city === activeCity);
+      if (showReservedOnly)    list = list.filter(r => r.reserved);
+      return list;
     }
+
+    function render() {
+      const list = filteredRests();
+
+      document.getElementById('filters-root').innerHTML = `
+        <div class="filter-bar">
+          <button class="filter-btn ${activeCity==='all'?'active':''}" data-city="all">All</button>
+          ${cities.map(c => `
+            <button class="filter-btn ${activeCity===c?'active':''}" data-city="${escHtml(c)}">
+              ${escHtml(cityInfo[c] || c)}
+            </button>
+          `).join('')}
+          <button class="filter-btn ${showReservedOnly?'active':''}" id="filter-reserved">
+            Reserved only
+          </button>
+          <span class="filter-count">${list.length} restaurant${list.length !== 1 ? 's' : ''}</span>
+        </div>
+      `;
+
+      document.querySelectorAll('.filter-btn[data-city]').forEach(btn => {
+        btn.addEventListener('click', () => { activeCity = btn.dataset.city; render(); });
+      });
+      document.getElementById('filter-reserved')?.addEventListener('click', () => {
+        showReservedOnly = !showReservedOnly; render();
+      });
+
+      const cityLabel = activeCity === 'all' ? '' : ` — ${cityInfo[activeCity] || activeCity}`;
+      document.getElementById('page-title').textContent = `Dining${cityLabel}`;
+
+      if (!list.length) {
+        document.getElementById('rests-root').innerHTML =
+          `<div class="empty-state"><p>No restaurants match this filter.</p></div>`;
+        return;
+      }
+
+      const groups = {};
+      for (const r of list) {
+        const g = r.neighborhoodGroup || r.neighborhood || '';
+        if (!groups[g]) groups[g] = [];
+        groups[g].push(r);
+      }
+
+      let html = '';
+      for (const [group, rests] of Object.entries(groups)) {
+        if (group) {
+          html += `<h3 style="font-family:var(--display);font-size:1.1rem;font-weight:700;
+                              margin:1.5rem 0 0.75rem;color:var(--ink-soft)">${escHtml(group)}</h3>`;
+        }
+        html += `<div class="rest-list-view">${rests.map(renderRest).join('')}</div>`;
+      }
+
+      document.getElementById('rests-root').innerHTML = html;
+    }
+
+    function renderRest(r) {
+      const cancelledClass = r.cancelled ? 'cancelled' : '';
+      const reservedClass  = r.reserved  ? 'reserved'  : '';
+
+      const badges = [
+        r.reserved  && !r.cancelled ? '<span class="badge badge-reserved">Reserved</span>' : '',
+        r.cancelled                 ? '<span class="badge badge-cancelled">Cancelled</span>' : '',
+      ].filter(Boolean).join(' ');
+
+      const links = r.links ? Object.entries(r.links).map(([k, v]) => {
+        const url = typeof v === 'string' ? v : v?.url;
+        const label = { website: 'Website', menu: 'Menu', reserve: 'Reserve',
+                        michelin: 'Michelin', infatuation: 'Infatuation',
+                        instagram: 'Instagram' }[k] || k;
+        return url
+          ? `<a class="rest-link" href="${escHtml(url)}" target="_blank" rel="noopener">${label} →</a>`
+          : '';
+      }).join('') : '';
+
+      const muted = (r.muted || []).map(m => `
+        <div style="font-size:0.72rem;color:var(--ink-faint);margin-top:0.3rem">${escHtml(m)}</div>
+      `).join('');
+
+      return `
+        <div class="rest-row ${reservedClass} ${cancelledClass}">
+          <div class="rest-num">#${r.num || ''}</div>
+          <div class="rest-info">
+            <div class="rest-name">${escHtml(r.name)} ${badges}</div>
+            ${r.address ? `<div class="rest-addr">${escHtml(r.address)}</div>` : ''}
+            ${r.hours   ? `<div class="rest-addr">${escHtml(r.hours)}</div>` : ''}
+            ${r.visitNote ? `<div class="rest-visit">${escHtml(r.visitNote)}</div>` : ''}
+            ${muted}
+            ${links ? `<div class="rest-links">${links}</div>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    (async () => {
+      if (!tripId) {
+        document.getElementById('nav-root').innerHTML = renderNav();
+        document.getElementById('rests-root').innerHTML =
+          `<div class="empty-state"><p>No trip specified. <a href="index.html">All trips →</a></p></div>`;
+        return;
+      }
+
+      const [trip, rests] = await Promise.all([fetchTrip(tripId), fetchRestaurants(tripId)]);
+
+      if (!trip) {
+        document.getElementById('nav-root').innerHTML = renderNav();
+        document.getElementById('rests-root').innerHTML =
+          `<div class="empty-state"><p>Trip not found.</p></div>`;
+        return;
+      }
+
+      allRests = rests;
+      cities = [...new Set(allRests.map(r => r.city))];
+      for (const c of trip.cities || []) cityInfo[c.id] = c.name;
+
+      document.title = `Dining — ${trip.title}`;
+      document.getElementById('nav-root').innerHTML = renderNav(tripId, trip.title, 'restaurants');
+      document.getElementById('kicker').innerHTML =
+        `<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
+
+      render();
+    })();
   </script>
 </body>
 </html>

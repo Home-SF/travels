@@ -6,60 +6,200 @@
   <title>Photos — Travels</title>
   <link rel="stylesheet" href="assets/styles.css" />
   <style>
-    .photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;margin-top:1rem}
-    .photo-item{background:var(--bg-raised);border:1.5px solid var(--rule);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:box-shadow 0.2s}
-    .photo-item:hover{box-shadow:var(--shadow-md)}
-    .photo-item img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
-    .photo-caption{padding:0.4rem 0.6rem;font-size:0.72rem;color:var(--ink-soft)}
-    .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;flex-direction:column;padding:2rem}
-    .lightbox.open{display:flex}
-    .lightbox img{max-width:90vw;max-height:80vh;object-fit:contain;border-radius:var(--radius)}
-    .lightbox-caption{color:#fff;margin-top:1rem;font-size:0.9rem;text-align:center}
-    .lightbox-close{position:absolute;top:1rem;right:1.25rem;background:none;border:none;color:#fff;font-size:1.75rem;cursor:pointer}
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .photo-item {
+      background: var(--bg-raised);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+    }
+    .photo-item:hover { box-shadow: var(--shadow-md); }
+    .photo-item img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-caption {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+    }
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: var(--radius);
+    }
+    .lightbox-caption {
+      color: #fff;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.75rem;
+      cursor: pointer;
+      line-height: 1;
+    }
   </style>
 </head>
 <body>
+
   <div id="nav-root"></div>
+
   <main class="page-wrap">
-    <div class="section-head"><span class="section-kicker" id="kicker">Photos</span><h1>Photo Gallery</h1></div>
+    <div class="section-head">
+      <span class="section-kicker" id="kicker">Photos</span>
+      <h1>Photo Gallery</h1>
+    </div>
+
     <div id="filters-root"></div>
-    <div id="photos-root"><div class="loading-state"><div class="loading-spinner"></div><p>Loading photos…</p></div></div>
+    <div id="photos-root">
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading photos…</p>
+      </div>
+    </div>
   </main>
-  <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lb-close">×</button><img id="lb-img" src="" alt="" /><div class="lightbox-caption" id="lb-caption"></div></div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lb-close" aria-label="Close">×</button>
+    <img id="lb-img" src="" alt="" />
+    <div class="lightbox-caption" id="lb-caption"></div>
+  </div>
+
   <div id="footer-root"></div>
+
   <script type="module">
     import { db } from './assets/firebase-config.js';
     import { getParam, fetchTrip, renderNav, renderFooter, escHtml } from './assets/app.js';
-    import { collection, query, orderBy, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-    const tripId=getParam('trip');
-    document.getElementById('footer-root').innerHTML=renderFooter();
-    if(!tripId){document.getElementById('nav-root').innerHTML=renderNav();document.getElementById('photos-root').innerHTML=`<div class="empty-state"><p>No trip specified.</p></div>`;}
-    else {
-      const trip=await fetchTrip(tripId);
-      if(!trip){document.getElementById('nav-root').innerHTML=renderNav();document.getElementById('photos-root').innerHTML=`<div class="empty-state"><p>Trip not found.</p></div>`;}
-      else {
-        document.title=`Photos — ${trip.title}`;
-        document.getElementById('nav-root').innerHTML=renderNav(tripId,trip.title,'photos');
-        document.getElementById('kicker').innerHTML=`<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
-        const snap=await getDocs(query(collection(db,'trips',tripId,'photos'),orderBy('date','asc')));
-        const photos=snap.docs.map(d=>({id:d.id,...d.data()}));
-        const cityInfo={}; for(const c of trip.cities||[]) cityInfo[c.id]=c.name;
-        const cities=[...new Set(photos.map(p=>p.city).filter(Boolean))];
-        let activeCity='all';
-        function filtered(){return activeCity==='all'?photos:photos.filter(p=>p.city===activeCity);}
-        function render(){
-          const list=filtered();
-          document.getElementById('filters-root').innerHTML=cities.length>1?`<div class="filter-bar"><button class="filter-btn ${activeCity==='all'?'active':''}" data-city="all">All</button>${cities.map(c=>`<button class="filter-btn ${activeCity===c?'active':''}" data-city="${escHtml(c)}">${escHtml(cityInfo[c]||c)}</button>`).join('')}<span class="filter-count">${list.length} photos</span></div>`:'';
-          document.querySelectorAll('.filter-btn[data-city]').forEach(b=>b.addEventListener('click',()=>{activeCity=b.dataset.city;render();}));
-          if(!list.length){document.getElementById('photos-root').innerHTML=`<div class="empty-state"><p>No photos yet.</p></div>`;return;}
-          document.getElementById('photos-root').innerHTML=`<div class="photo-grid">${list.map((p,i)=>`<div class="photo-item" data-idx="${i}"><img src="${escHtml(p.thumbnailUrl||p.url)}" alt="${escHtml(p.caption||'')}" loading="lazy" />${p.caption?`<div class="photo-caption">${escHtml(p.caption)}</div>`:''}</div>`).join('')}</div>`;
-          document.querySelectorAll('.photo-item').forEach(el=>el.addEventListener('click',()=>{const p=list[+el.dataset.idx];document.getElementById('lb-img').src=p.url||p.thumbnailUrl;document.getElementById('lb-caption').textContent=[p.caption,p.person,p.date].filter(Boolean).join(' · ');document.getElementById('lightbox').classList.add('open');}));
-        }
-        document.getElementById('lb-close').addEventListener('click',()=>document.getElementById('lightbox').classList.remove('open'));
-        document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('open');});
-        render();
-      }
+    import { collection, query, where, orderBy, getDocs }
+      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    const tripId = getParam('trip');
+    document.getElementById('footer-root').innerHTML = renderFooter();
+
+    let photos = [];
+    let cityInfo = {};
+    let cities = [];
+    let activeCity = 'all';
+
+    function filtered() {
+      return activeCity === 'all' ? photos : photos.filter(p => p.city === activeCity);
     }
+
+    function render() {
+      const list = filtered();
+
+      document.getElementById('filters-root').innerHTML = cities.length > 1 ? `
+        <div class="filter-bar">
+          <button class="filter-btn ${activeCity==='all'?'active':''}" data-city="all">All</button>
+          ${cities.map(c => `
+            <button class="filter-btn ${activeCity===c?'active':''}" data-city="${escHtml(c)}">
+              ${escHtml(cityInfo[c] || c)}
+            </button>
+          `).join('')}
+          <span class="filter-count">${list.length} photo${list.length!==1?'s':''}</span>
+        </div>
+      ` : '';
+
+      document.querySelectorAll('.filter-btn[data-city]').forEach(btn => {
+        btn.addEventListener('click', () => { activeCity = btn.dataset.city; render(); });
+      });
+
+      if (!list.length) {
+        document.getElementById('photos-root').innerHTML =
+          `<div class="empty-state"><p>No photos yet.</p></div>`;
+        return;
+      }
+
+      document.getElementById('photos-root').innerHTML = `
+        <div class="photo-grid">
+          ${list.map((p, i) => `
+            <div class="photo-item" data-idx="${i}">
+              <img src="${escHtml(p.thumbnailUrl || p.url)}" alt="${escHtml(p.caption||'')}" loading="lazy" />
+              ${p.caption ? `<div class="photo-caption">${escHtml(p.caption)}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      document.querySelectorAll('.photo-item').forEach(el => {
+        el.addEventListener('click', () => openLightbox(list[+el.dataset.idx]));
+      });
+    }
+
+    function openLightbox(photo) {
+      document.getElementById('lb-img').src    = photo.url || photo.thumbnailUrl;
+      document.getElementById('lb-img').alt    = photo.caption || '';
+      document.getElementById('lb-caption').textContent =
+        [photo.caption, photo.person, photo.date].filter(Boolean).join(' · ');
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    document.getElementById('lb-close').addEventListener('click', () => {
+      document.getElementById('lightbox').classList.remove('open');
+    });
+    document.getElementById('lightbox').addEventListener('click', e => {
+      if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+    });
+
+    (async () => {
+      if (!tripId) {
+        document.getElementById('nav-root').innerHTML = renderNav();
+        document.getElementById('photos-root').innerHTML =
+          `<div class="empty-state"><p>No trip specified. <a href="index.html">All trips →</a></p></div>`;
+        return;
+      }
+
+      const trip = await fetchTrip(tripId);
+      if (!trip) {
+        document.getElementById('nav-root').innerHTML = renderNav();
+        document.getElementById('photos-root').innerHTML =
+          `<div class="empty-state"><p>Trip not found.</p></div>`;
+        return;
+      }
+
+      document.title = `Photos — ${trip.title}`;
+      document.getElementById('nav-root').innerHTML = renderNav(tripId, trip.title, 'photos');
+      document.getElementById('kicker').innerHTML =
+        `<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
+
+      const snap = await getDocs(
+        query(collection(db, 'trips', tripId, 'photos'), orderBy('date', 'asc'))
+      );
+      photos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      for (const c of trip.cities || []) cityInfo[c.id] = c.name;
+      cities = [...new Set(photos.map(p => p.city).filter(Boolean))];
+
+      render();
+    })();
   </script>
 </body>
 </html>

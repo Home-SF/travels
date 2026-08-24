@@ -7,60 +7,142 @@
   <link rel="stylesheet" href="assets/styles.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
-    #map-container{height:65vh;min-height:400px;border:1.5px solid var(--rule);border-radius:var(--radius);overflow:hidden;margin-top:1.5rem}
-    #map{height:100%}
-    .map-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;font-size:0.78rem;color:var(--ink-soft)}
-    .legend-item{display:flex;align-items:center;gap:0.3rem}
-    .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    #map-container {
+      height: 65vh;
+      min-height: 400px;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+    #map { height: 100%; }
+    .map-legend {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.3rem; }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
+
   <div id="nav-root"></div>
+
   <main class="page-wrap">
-    <div class="section-head"><span class="section-kicker" id="kicker">Map</span><h1>Location Map</h1></div>
+    <div class="section-head">
+      <span class="section-kicker" id="kicker">Map</span>
+      <h1>Location Map</h1>
+    </div>
+
     <div id="map-container"><div id="map"></div></div>
     <div class="map-legend" id="legend"></div>
   </main>
+
   <div id="footer-root"></div>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module">
     import { db } from './assets/firebase-config.js';
     import { getParam, fetchTrip, renderNav, renderFooter, escHtml } from './assets/app.js';
-    import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-    const tripId=getParam('trip');
-    document.getElementById('footer-root').innerHTML=renderFooter();
-    if(!tripId){document.getElementById('nav-root').innerHTML=renderNav();}
-    else {
-      const trip=await fetchTrip(tripId);
-      if(!trip){document.getElementById('nav-root').innerHTML=renderNav();}
-      else {
-        document.title=`Map — ${trip.title}`;
-        document.getElementById('nav-root').innerHTML=renderNav(tripId,trip.title,'map');
-        document.getElementById('kicker').innerHTML=`<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
-        const trackSnap=await getDocs(query(collection(db,'tracks'),where('tripId','==',tripId)));
-        const tracks=trackSnap.docs.map(d=>({id:d.id,...d.data()}));
-        const cityColors={paris:'#E1512B',london:'#1D4E89',toronto:'#1B7A5C',tokyo:'#C0392B','kuala-lumpur':'#8E44AD',singapore:'#16A085'};
-        const map=L.map('map');
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',maxZoom:18}).addTo(map);
-        const bounds=[];
-        for(const city of trip.cities||[]){
-          if(!city.coords?.lat) continue;
-          const {lat,lon}=city.coords; bounds.push([lat,lon]);
-          L.circleMarker([lat,lon],{radius:10,color:cityColors[city.id]||'#888',fillColor:cityColors[city.id]||'#888',fillOpacity:0.8,weight:2}).addTo(map).bindPopup(`<strong>${city.name}</strong><br>${city.hotel||''}`);
-        }
-        const tvColors={}; for(const t of trip.travelers||[]) tvColors[t.key]=t.color;
-        for(const track of tracks){
-          const pts=track.points||[]; if(!pts.length) continue;
-          const color=tvColors[track.id]||'#888';
-          const lls=pts.map(p=>[p.lat,p.lon]); lls.forEach(ll=>bounds.push(ll));
-          L.polyline(lls,{color,weight:2.5,opacity:0.7}).addTo(map);
-        }
-        if(bounds.length) map.fitBounds(L.latLngBounds(bounds),{padding:[40,40]});
-        else map.setView([48.8566,2.3522],5);
-        const legendItems=[...(trip.cities||[]).map(c=>({label:c.name,color:cityColors[c.id]||'#888'})),...(trip.travelers||[]).map(t=>({label:t.name,color:t.color}))];
-        document.getElementById('legend').innerHTML=legendItems.map(item=>`<span class="legend-item"><span class="legend-dot" style="background:${escHtml(item.color)}"></span>${escHtml(item.label)}</span>`).join('');
+    import { collection, query, where, getDocs }
+      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    const tripId = getParam('trip');
+    document.getElementById('footer-root').innerHTML = renderFooter();
+
+    (async () => {
+      if (!tripId) {
+        document.getElementById('nav-root').innerHTML = renderNav();
+        return;
       }
-    }
+
+      const trip = await fetchTrip(tripId);
+      if (!trip) {
+        document.getElementById('nav-root').innerHTML = renderNav();
+        return;
+      }
+
+      document.title = `Map — ${trip.title}`;
+      document.getElementById('nav-root').innerHTML = renderNav(tripId, trip.title, 'map');
+      document.getElementById('kicker').innerHTML =
+        `<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
+
+      const trackSnap = await getDocs(
+        query(collection(db, 'tracks'), where('tripId', '==', tripId))
+      );
+      const tracks = trackSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      const cities = trip.cities || [];
+      const cityColors = {
+        paris: '#E1512B', london: '#1D4E89', toronto: '#1B7A5C',
+        tokyo: '#C0392B', 'kuala-lumpur': '#8E44AD', singapore: '#16A085',
+      };
+
+      const map = L.map('map');
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18,
+      }).addTo(map);
+
+      const bounds = [];
+
+      for (const city of cities) {
+        if (!city.coords?.lat) continue;
+        const { lat, lon } = city.coords;
+        bounds.push([lat, lon]);
+        const color = cityColors[city.id] || '#888';
+        const marker = L.circleMarker([lat, lon], {
+          radius: 10, color, fillColor: color, fillOpacity: 0.8, weight: 2,
+        }).addTo(map);
+        marker.bindPopup(`<strong>${city.name}</strong><br>${city.hotel || ''}`);
+      }
+
+      const travelerColors = {};
+      for (const t of trip.travelers || []) travelerColors[t.key] = t.color;
+
+      for (const track of tracks) {
+        const pts = track.points || [];
+        if (!pts.length) continue;
+        const color = travelerColors[track.id] || '#888';
+        const latLngs = pts.map(p => [p.lat, p.lon]);
+        latLngs.forEach(ll => bounds.push(ll));
+        L.polyline(latLngs, { color, weight: 2.5, opacity: 0.7 }).addTo(map);
+
+        const step = Math.max(1, Math.floor(pts.length / 20));
+        pts.filter((_, i) => i % step === 0).forEach(pt => {
+          L.circleMarker([pt.lat, pt.lon], {
+            radius: 4, color, fillColor: color, fillOpacity: 0.6, weight: 1,
+          }).addTo(map).bindPopup(
+            `${escHtml(track.id)}<br>${pt.timestamp ? new Date(pt.timestamp.seconds*1000).toLocaleString() : ''}`
+          );
+        });
+      }
+
+      if (bounds.length) {
+        map.fitBounds(L.latLngBounds(bounds), { padding: [40, 40] });
+      } else {
+        map.setView([48.8566, 2.3522], 5);
+      }
+
+      const legendItems = [
+        ...cities.map(c => ({ label: c.name, color: cityColors[c.id] || '#888' })),
+        ...(trip.travelers || []).map(t => ({ label: t.name, color: t.color })),
+      ];
+      document.getElementById('legend').innerHTML = legendItems.map(item => `
+        <span class="legend-item">
+          <span class="legend-dot" style="background:${escHtml(item.color)}"></span>
+          ${escHtml(item.label)}
+        </span>
+      `).join('');
+    })();
   </script>
 </body>
 </html>
