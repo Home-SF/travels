@@ -106,8 +106,13 @@
       }
 
       const travelerColors = {};
-      for (const t of trip.travelers || []) travelerColors[t.key] = t.color;
+      const travelerNames = {};
+      for (const t of trip.travelers || []) {
+        travelerColors[t.key] = t.color;
+        travelerNames[t.key] = t.name;
+      }
 
+      // GPS tracks (polylines)
       for (const track of tracks) {
         const pts = track.points || [];
         if (!pts.length) continue;
@@ -124,6 +129,25 @@
             `${escHtml(track.id)}<br>${pt.timestamp ? new Date(pt.timestamp.seconds*1000).toLocaleString() : ''}`
           );
         });
+      }
+
+      // Check-in points
+      const checkinSnap = await getDocs(
+        query(collection(db, 'checkins'), where('tripId', '==', tripId))
+      );
+      const checkins = checkinSnap.docs.map(d => d.data());
+      for (const c of checkins) {
+        if (!c.lat || !c.lon) continue;
+        const travelerKey = Object.keys(travelerNames).find(k => travelerNames[k] === c.person) || c.personKey;
+        const color = travelerColors[travelerKey] || '#888';
+        const ts = c.timestamp?.toDate ? c.timestamp.toDate() : null;
+        const when = ts ? ts.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '';
+        bounds.push([c.lat, c.lon]);
+        L.circleMarker([c.lat, c.lon], {
+          radius: 6, color, fillColor: color, fillOpacity: 0.75, weight: 1.5,
+        }).addTo(map).bindPopup(
+          `<strong>${escHtml(c.person || '')}</strong><br>${escHtml(c.placeName || '')}<br><span style="font-size:0.8em;color:#888">${escHtml(when)}</span>`
+        );
       }
 
       if (bounds.length) {
