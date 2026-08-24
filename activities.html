@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Activities — Travels</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-root"></div>
+  <main class="page-wrap">
+    <div class="section-head"><span class="section-kicker" id="kicker">Activities</span><h1 id="page-title">Things to Do</h1></div>
+    <div id="filters-root"></div>
+    <div id="acts-root"><div class="loading-state"><div class="loading-spinner"></div><p>Loading activities…</p></div></div>
+  </main>
+  <div id="footer-root"></div>
+  <script type="module">
+    import { getParam, fetchTrip, fetchActivities, renderNav, renderFooter, escHtml } from './assets/app.js';
+    const tripId=getParam('trip'), cityParam=getParam('city');
+    document.getElementById('footer-root').innerHTML=renderFooter();
+    if(!tripId){document.getElementById('nav-root').innerHTML=renderNav();document.getElementById('acts-root').innerHTML=`<div class="empty-state"><p>No trip specified.</p></div>`;}
+    else {
+      const [trip,allActs]=await Promise.all([fetchTrip(tripId),fetchActivities(tripId)]);
+      if(!trip){document.getElementById('nav-root').innerHTML=renderNav();document.getElementById('acts-root').innerHTML=`<div class="empty-state"><p>Trip not found.</p></div>`;}
+      else {
+        document.title=`Activities — ${trip.title}`;
+        document.getElementById('nav-root').innerHTML=renderNav(tripId,trip.title,'activities');
+        document.getElementById('kicker').innerHTML=`<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
+        const cities=[...new Set(allActs.map(a=>a.city))];
+        const cityInfo={}; for(const c of trip.cities||[]) cityInfo[c.id]=c.name;
+        let activeCity=cityParam||'all', showPlanned=false;
+        function filtered(){let l=allActs;if(activeCity!=='all')l=l.filter(a=>a.city===activeCity);if(showPlanned)l=l.filter(a=>a.planned);return l;}
+        function render(){
+          const list=filtered();
+          document.getElementById('filters-root').innerHTML=`<div class="filter-bar"><button class="filter-btn ${activeCity==='all'?'active':''}" data-city="all">All</button>${cities.map(c=>`<button class="filter-btn ${activeCity===c?'active':''}" data-city="${escHtml(c)}">${escHtml(cityInfo[c]||c)}</button>`).join('')}<button class="filter-btn ${showPlanned?'active':''}" id="fp">Planned only</button><span class="filter-count">${list.length} activities</span></div>`;
+          document.querySelectorAll('.filter-btn[data-city]').forEach(b=>b.addEventListener('click',()=>{activeCity=b.dataset.city;render();}));
+          document.getElementById('fp')?.addEventListener('click',()=>{showPlanned=!showPlanned;render();});
+          document.getElementById('page-title').textContent=`Things to Do${activeCity==='all'?'':' — '+(cityInfo[activeCity]||activeCity)}`;
+          if(!list.length){document.getElementById('acts-root').innerHTML=`<div class="empty-state"><p>No activities match.</p></div>`;return;}
+          document.getElementById('acts-root').innerHTML=`<div class="act-grid">${list.map(a=>{
+            const factsHtml=(a.facts||[]).map(f=>`<div class="act-fact">${f.label?`<span class="act-fact-label">${escHtml(f.label)}</span>`:''} ${escHtml(f.text)}</div>`).join('');
+            return `<div class="act-card ${a.planned?'planned':''}"><div class="act-name">${escHtml(a.name)}${a.planned?'<span class="badge badge-planned" style="margin-left:0.4rem">Planned</span>':''}</div>${a.address?`<div class="act-addr">${escHtml(a.address)}</div>`:''} ${a.hours?`<div class="act-hours">${escHtml(a.hours)}</div>`:''} ${a.fee?`<div class="act-fee">${escHtml(a.fee)}</div>`:''} ${factsHtml?`<div class="act-facts">${factsHtml}</div>`:''} ${a.website?`<a class="rest-link" href="${escHtml(a.website)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:0.75rem">Website →</a>`:''}</div>`;
+          }).join('')}</div>`;
+        }
+        render();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Status — Travels</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <style>
+    .checkin-feed{display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem}
+    .checkin-card{background:var(--bg-raised);border:1.5px solid var(--rule);border-radius:var(--radius);padding:1rem 1.25rem}
+    .checkin-meta{display:flex;justify-content:space-between;align-items:center;gap:0.75rem;margin-bottom:0.35rem}
+    .checkin-who{font-weight:600;font-size:0.9rem}
+    .checkin-when{font-family:var(--mono);font-size:0.68rem;color:var(--ink-faint)}
+    .checkin-place{font-size:0.82rem;color:var(--ink-soft)}
+    .checkin-note{font-size:0.82rem;margin-top:0.35rem}
+    .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22C55E;animation:pulse 1.5s infinite;margin-right:0.4rem}
+    .refresh-bar{display:flex;align-items:center;gap:0.75rem;font-size:0.78rem;color:var(--ink-faint);margin-top:1rem}
+    .refresh-btn{font-size:0.78rem;padding:0.25rem 0.75rem;border:1.5px solid var(--rule);border-radius:99px;background:var(--bg);color:var(--navy);cursor:pointer}
+  </style>
+</head>
+<body>
+  <div id="nav-root"></div>
+  <main class="page-wrap">
+    <div class="section-head"><span class="section-kicker" id="kicker">Live</span><h1><span class="live-dot"></span>Live Status</h1></div>
+    <div class="refresh-bar"><span id="last-updated">Loading…</span><button class="refresh-btn" id="refresh-btn">↺ Refresh</button></div>
+    <div id="live-root"><div class="loading-state"><div class="loading-spinner"></div><p>Fetching check-ins…</p></div></div>
+  </main>
+  <div id="footer-root"></div>
+  <script type="module">
+    import { getParam, fetchTrip, fetchCheckins, renderNav, renderFooter, escHtml } from './assets/app.js';
+    const tripId=getParam('trip');
+    document.getElementById('footer-root').innerHTML=renderFooter();
+    if(!tripId){document.getElementById('nav-root').innerHTML=renderNav();document.getElementById('live-root').innerHTML=`<div class="empty-state"><p>No trip specified.</p></div>`;}
+    else {
+      const trip=await fetchTrip(tripId);
+      if(!trip){document.getElementById('nav-root').innerHTML=renderNav();document.getElementById('live-root').innerHTML=`<div class="empty-state"><p>Trip not found.</p></div>`;}
+      else {
+        document.title=`Live Status — ${trip.title}`;
+        document.getElementById('nav-root').innerHTML=renderNav(tripId,trip.title,'live');
+        document.getElementById('kicker').innerHTML=`<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
+        const tvColors={}; for(const t of trip.travelers||[]) tvColors[t.key]=t.color;
+        async function load(){
+          const checkins=await fetchCheckins(tripId,50);
+          document.getElementById('last-updated').textContent=`Updated ${new Date().toLocaleTimeString()}`;
+          if(!checkins.length){document.getElementById('live-root').innerHTML=`<div class="empty-state"><p>No check-ins yet.</p></div>`;return;}
+          document.getElementById('live-root').innerHTML=`<div class="checkin-feed">${checkins.map(c=>{
+            const ts=c.timestamp?.toDate?c.timestamp.toDate():null;
+            const when=ts?ts.toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'';
+            const color=tvColors[c.personKey]||'#888';
+            return `<div class="checkin-card"><div class="checkin-meta"><span class="checkin-who" style="color:${escHtml(color)}">${escHtml(c.name||c.personKey||'Someone')}</span><span class="checkin-when">${escHtml(when)}</span></div><div class="checkin-place">📍 ${escHtml(c.place||c.city||'')}</div>${c.note?`<div class="checkin-note">${escHtml(c.note)}</div>`:''}</div>`;
+          }).join('')}</div>`;
+        }
+        document.getElementById('refresh-btn').addEventListener('click',load);
+        load(); setInterval(load,60000);
+      }
+    }
+  </script>
+</body>
+</html>
