@@ -146,6 +146,13 @@
       document.getElementById('live-root').innerHTML = `
         <div class="checkin-feed">${list.map(renderCheckin).join('')}</div>
       `;
+      document.querySelectorAll('.checkin-who[data-person]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activePerson = btn.dataset.person;
+          renderFilters();
+          renderFeed();
+        });
+      });
     }
 
     async function load() {
@@ -176,9 +183,10 @@
       return `
         <div class="checkin-card">
           <div class="checkin-meta">
-            <span class="checkin-who" style="color:${escHtml(color)}">
+            <button class="checkin-who" data-person="${escHtml(personName)}"
+              style="color:${escHtml(color)};background:none;border:none;padding:0;cursor:pointer;font-weight:600;font-size:0.9rem;font-family:inherit">
               ${escHtml(personName)}
-            </span>
+            </button>
             <span class="checkin-when">${escHtml(when)}</span>
           </div>
           <div class="checkin-place">📍 ${escHtml(c.placeName || c.place || c.city || '')}</div>
