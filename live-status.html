@@ -87,6 +87,7 @@
       <button class="refresh-btn" id="refresh-btn">↺ Refresh</button>
     </div>
 
+    <div id="filters-root"></div>
     <div id="live-root">
       <div class="loading-state">
         <div class="loading-spinner"></div>
@@ -105,23 +106,62 @@
     document.getElementById('footer-root').innerHTML = renderFooter();
 
     let travelerColors = {};
+    let allCheckins = [];
+    let activePerson = 'all';
+
+    function persons() {
+      return [...new Set(allCheckins.map(c => c.person || c.personKey).filter(Boolean))];
+    }
+
+    function renderFilters() {
+      const ps = persons();
+      if (ps.length < 2) { document.getElementById('filters-root').innerHTML = ''; return; }
+      const list = allCheckins.filter(c => activePerson === 'all' || (c.person || c.personKey) === activePerson);
+      document.getElementById('filters-root').innerHTML = `
+        <div class="filter-bar">
+          <button class="filter-btn ${activePerson === 'all' ? 'active' : ''}" data-person="all">All</button>
+          ${ps.map(p => `
+            <button class="filter-btn ${activePerson === p ? 'active' : ''}" data-person="${escHtml(p)}"
+              style="${activePerson === p ? `background:${escHtml(travelerColors[p] || '#888')};border-color:${escHtml(travelerColors[p] || '#888')};color:#fff` : ''}">
+              ${escHtml(p)}
+            </button>
+          `).join('')}
+          <span class="filter-count">${list.length} check-in${list.length !== 1 ? 's' : ''}</span>
+        </div>
+      `;
+      document.querySelectorAll('.filter-btn[data-person]').forEach(btn => {
+        btn.addEventListener('click', () => { activePerson = btn.dataset.person; renderFilters(); renderFeed(); });
+      });
+    }
+
+    function renderFeed() {
+      const list = activePerson === 'all'
+        ? allCheckins
+        : allCheckins.filter(c => (c.person || c.personKey) === activePerson);
+      if (!list.length) {
+        document.getElementById('live-root').innerHTML =
+          `<div class="empty-state"><p>No check-ins for this person.</p></div>`;
+        return;
+      }
+      document.getElementById('live-root').innerHTML = `
+        <div class="checkin-feed">${list.map(renderCheckin).join('')}</div>
+      `;
+    }
 
     async function load() {
-      const checkins = await fetchCheckins(tripId, 50);
+      allCheckins = await fetchCheckins(tripId, 200);
       document.getElementById('last-updated').textContent =
         `Updated ${new Date().toLocaleTimeString()}`;
 
-      if (!checkins.length) {
+      if (!allCheckins.length) {
+        document.getElementById('filters-root').innerHTML = '';
         document.getElementById('live-root').innerHTML =
           `<div class="empty-state"><p>No check-ins yet for this trip.</p></div>`;
         return;
       }
 
-      document.getElementById('live-root').innerHTML = `
-        <div class="checkin-feed">
-          ${checkins.map(renderCheckin).join('')}
-        </div>
-      `;
+      renderFilters();
+      renderFeed();
     }
 
     function renderCheckin(c) {
