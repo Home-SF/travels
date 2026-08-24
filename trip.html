@@ -109,7 +109,7 @@
       const route = (trip.route || []);
       const routeHtml = route.map((s, i) =>
         `${i > 0 ? '<span class="route-arrow">→</span>' : ''}
-         <span class="route-stop" title="${escHtml(fmtDate(s.date))}">${escHtml(s.code)}</span>`
+         <span class="route-stop">${escHtml(s)}</span>`
       ).join('');
 
       const cities = trip.cities || [];
