@@ -59,16 +59,16 @@
     const tripId = getParam('trip');
     document.getElementById('footer-root').innerHTML = renderFooter();
 
-    (async () => {
+    try {
       if (!tripId) {
         document.getElementById('nav-root').innerHTML = renderNav();
-        return;
+        throw new Error('no tripId');
       }
 
       const trip = await fetchTrip(tripId);
       if (!trip) {
         document.getElementById('nav-root').innerHTML = renderNav();
-        return;
+        throw new Error('trip not found');
       }
 
       document.title = `Map — ${trip.title}`;
@@ -76,96 +76,89 @@
       document.getElementById('kicker').innerHTML =
         `<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
 
-      const trackSnap = await getDocs(
-        query(collection(db, 'tracks'), where('tripId', '==', tripId))
-      );
-      const tracks = trackSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const [trackSnap, checkinSnap] = await Promise.all([
+        getDocs(query(collection(db, 'tracks'), where('tripId', '==', tripId))),
+        getDocs(query(collection(db, 'checkins'), where('tripId', '==', tripId))),
+      ]);
+      const tracks   = trackSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const checkins = checkinSnap.docs.map(d => d.data());
 
+      const travelers = (trip.travelers || []).filter(t => t.key && t.name && t.color);
       const cities = trip.cities || [];
+
       const cityColors = {
         paris: '#E1512B', london: '#1D4E89', toronto: '#1B7A5C',
         tokyo: '#C0392B', 'kuala-lumpur': '#8E44AD', singapore: '#16A085',
       };
 
+      // Traveler lookups
+      const colorByKey  = {};
+      const colorByName = {};
+      const nameByKey   = {};
+      for (const t of travelers) {
+        colorByKey[t.key]   = t.color;
+        colorByName[t.name] = t.color;
+        nameByKey[t.key]    = t.name;
+      }
+      const keyForName = name => travelers.find(t => t.name === name)?.key ?? null;
+
+      // Init map
       const map = L.map('map');
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 18,
+        attribution: '© OpenStreetMap contributors', maxZoom: 18,
       }).addTo(map);
 
       const bounds = [];
 
-      // City markers (always visible)
+      // City markers — always on
       for (const city of cities) {
         if (!city.coords?.lat) continue;
         const { lat, lon } = city.coords;
         bounds.push([lat, lon]);
         const color = cityColors[city.id] || '#888';
-        const marker = L.circleMarker([lat, lon], {
+        L.circleMarker([lat, lon], {
           radius: 10, color, fillColor: color, fillOpacity: 0.8, weight: 2,
-        }).addTo(map);
-        marker.bindPopup(`<strong>${city.name}</strong><br>${city.hotel || ''}`);
+        }).addTo(map).bindPopup(`<strong>${escHtml(city.name)}</strong>`);
       }
 
-      // Build traveler lookup maps
-      const travelerColors = {};       // key → color
-      const travelerColorsByName = {}; // name → color
-      const travelerNames = {};        // key → name
-      for (const t of trip.travelers || []) {
-        travelerColors[t.key] = t.color;
-        travelerColorsByName[t.name] = t.color;
-        travelerNames[t.key] = t.name;
+      // One LayerGroup per traveler key
+      const layers = {};
+      for (const t of travelers) {
+        layers[t.key] = L.layerGroup().addTo(map);
       }
-
-      // Layer groups per traveler key
-      const travelerLayers = {};
-      for (const t of trip.travelers || []) {
-        travelerLayers[t.key] = L.layerGroup().addTo(map);
-      }
-      const unknownLayer = L.layerGroup().addTo(map);
-
-      function layerForKey(key) {
-        return travelerLayers[key] || unknownLayer;
-      }
-      function layerForName(name) {
-        const key = Object.keys(travelerNames).find(k => travelerNames[k] === name);
-        return key ? travelerLayers[key] : unknownLayer;
-      }
+      const fallbackLayer = L.layerGroup().addTo(map);
 
       // GPS tracks
       for (const track of tracks) {
         const pts = track.points || [];
         if (!pts.length) continue;
-        const color = travelerColors[track.id] || '#888';
-        const layer = layerForKey(track.id);
+        const color = colorByKey[track.id] || '#888';
+        const lg = layers[track.id] || fallbackLayer;
         const latLngs = pts.map(p => [p.lat, p.lon]);
         latLngs.forEach(ll => bounds.push(ll));
-        L.polyline(latLngs, { color, weight: 2.5, opacity: 0.7 }).addTo(layer);
+        L.polyline(latLngs, { color, weight: 2.5, opacity: 0.7 }).addTo(lg);
         const step = Math.max(1, Math.floor(pts.length / 20));
         pts.filter((_, i) => i % step === 0).forEach(pt => {
           L.circleMarker([pt.lat, pt.lon], {
             radius: 4, color, fillColor: color, fillOpacity: 0.6, weight: 1,
-          }).addTo(layer).bindPopup(
-            `${escHtml(travelerNames[track.id] || track.id)}<br>${pt.timestamp ? new Date(pt.timestamp.seconds*1000).toLocaleString() : ''}`
+          }).addTo(lg).bindPopup(
+            `${escHtml(nameByKey[track.id] || track.id)}<br>${pt.timestamp ? new Date(pt.timestamp.seconds*1000).toLocaleString() : ''}`
           );
         });
       }
 
-      // Check-in points
-      const checkinSnap = await getDocs(
-        query(collection(db, 'checkins'), where('tripId', '==', tripId))
-      );
-      const checkins = checkinSnap.docs.map(d => d.data());
+      // Check-in markers
       for (const c of checkins) {
         if (!c.lat || !c.lon) continue;
-        const color = travelerColorsByName[c.person] || travelerColors[c.personKey] || '#888';
-        const layer = layerForName(c.person);
+        const color = colorByName[c.person] || colorByKey[c.personKey] || '#888';
+        const key = keyForName(c.person) || c.personKey;
+        const lg = (key && layers[key]) ? layers[key] : fallbackLayer;
         const ts = c.timestamp?.toDate ? c.timestamp.toDate() : null;
         const when = ts ? ts.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '';
         bounds.push([c.lat, c.lon]);
         L.circleMarker([c.lat, c.lon], {
           radius: 6, color, fillColor: color, fillOpacity: 0.75, weight: 1.5,
-        }).addTo(layer).bindPopup(
+        }).addTo(lg).bindPopup(
           `<strong>${escHtml(c.person || '')}</strong><br>${escHtml(c.placeName || '')}<br><span style="font-size:0.8em;color:#888">${escHtml(when)}</span>`
         );
       }
@@ -177,38 +170,37 @@
       }
 
       // Filter bar
-      const travelers = trip.travelers || [];
       if (travelers.length >= 2) {
         let activeKey = 'all';
 
-        function renderMapFilters() {
+        const renderFilters = () => {
           document.getElementById('filters-root').innerHTML = `
             <div class="filter-bar" style="margin-top:1rem">
-              <button class="filter-btn ${activeKey === 'all' ? 'active' : ''}" data-key="all">All</button>
+              <button class="filter-btn ${activeKey === 'all' ? 'active' : ''}" data-fkey="all">All</button>
               ${travelers.map(t => `
-                <button class="filter-btn ${activeKey === t.key ? 'active' : ''}" data-key="${escHtml(t.key)}"
+                <button class="filter-btn ${activeKey === t.key ? 'active' : ''}" data-fkey="${escHtml(t.key)}"
                   style="${activeKey === t.key ? `background:${escHtml(t.color)};border-color:${escHtml(t.color)};color:#fff` : ''}">
                   ${escHtml(t.name)}
                 </button>
               `).join('')}
             </div>
           `;
-          document.querySelectorAll('.filter-btn[data-key]').forEach(btn => {
+          document.querySelectorAll('.filter-btn[data-fkey]').forEach(btn => {
             btn.addEventListener('click', () => {
-              activeKey = btn.dataset.key;
+              activeKey = btn.dataset.fkey;
               for (const t of travelers) {
                 if (activeKey === 'all' || activeKey === t.key) {
-                  map.addLayer(travelerLayers[t.key]);
+                  map.addLayer(layers[t.key]);
                 } else {
-                  map.removeLayer(travelerLayers[t.key]);
+                  map.removeLayer(layers[t.key]);
                 }
               }
-              renderMapFilters();
+              renderFilters();
             });
           });
-        }
+        };
 
-        renderMapFilters();
+        renderFilters();
       }
 
       // Legend
@@ -222,7 +214,10 @@
           ${escHtml(item.label)}
         </span>
       `).join('');
-    })();
+
+    } catch (err) {
+      console.error('Map error:', err);
+    }
   </script>
 </body>
 </html>
