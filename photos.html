@@ -32,6 +32,18 @@
       font-size: 0.72rem;
       color: var(--ink-soft);
     }
+    /* Sort control */
+    .sort-select {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.6rem;
+      border: 1.5px solid var(--rule);
+      border-radius: 99px;
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    /* Lightbox */
     .lightbox {
       display: none;
       position: fixed;
@@ -88,6 +100,7 @@
     </div>
   </main>
 
+  <!-- Lightbox -->
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" id="lb-close" aria-label="Close">×</button>
     <img id="lb-img" src="" alt="" />
@@ -109,28 +122,55 @@
     let cityInfo = {};
     let cities = [];
     let activeCity = 'all';
+    let sortOrder = 'date-asc'; // 'date-asc' | 'date-desc' | 'uploaded-desc'
+
+    function sorted(list) {
+      const copy = [...list];
+      if (sortOrder === 'date-desc') {
+        copy.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      } else if (sortOrder === 'uploaded-desc') {
+        copy.sort((a, b) => {
+          const ta = a.uploadedAt?.toMillis?.() ?? 0;
+          const tb = b.uploadedAt?.toMillis?.() ?? 0;
+          return tb - ta;
+        });
+      }
+      // 'date-asc' — already ordered by Firestore
+      return copy;
+    }
 
     function filtered() {
-      return activeCity === 'all' ? photos : photos.filter(p => p.city === activeCity);
+      const base = activeCity === 'all' ? photos : photos.filter(p => p.city === activeCity);
+      return sorted(base);
     }
 
     function render() {
       const list = filtered();
 
-      document.getElementById('filters-root').innerHTML = cities.length > 1 ? `
+      document.getElementById('filters-root').innerHTML = `
         <div class="filter-bar">
-          <button class="filter-btn ${activeCity==='all'?'active':''}" data-city="all">All</button>
-          ${cities.map(c => `
-            <button class="filter-btn ${activeCity===c?'active':''}" data-city="${escHtml(c)}">
-              ${escHtml(cityInfo[c] || c)}
-            </button>
-          `).join('')}
+          ${cities.length > 1 ? `
+            <button class="filter-btn ${activeCity==='all'?'active':''}" data-city="all">All</button>
+            ${cities.map(c => `
+              <button class="filter-btn ${activeCity===c?'active':''}" data-city="${escHtml(c)}">
+                ${escHtml(cityInfo[c] || c)}
+              </button>
+            `).join('')}
+          ` : ''}
           <span class="filter-count">${list.length} photo${list.length!==1?'s':''}</span>
+          <select class="sort-select" id="sort-select">
+            <option value="date-asc"  ${sortOrder==='date-asc' ?'selected':''}>📅 Oldest first</option>
+            <option value="date-desc" ${sortOrder==='date-desc'?'selected':''}>📅 Newest first</option>
+            <option value="uploaded-desc" ${sortOrder==='uploaded-desc'?'selected':''}>🕐 Recently added</option>
+          </select>
         </div>
-      ` : '';
+      `;
 
       document.querySelectorAll('.filter-btn[data-city]').forEach(btn => {
         btn.addEventListener('click', () => { activeCity = btn.dataset.city; render(); });
+      });
+      document.getElementById('sort-select').addEventListener('change', e => {
+        sortOrder = e.target.value; render();
       });
 
       if (!list.length) {
