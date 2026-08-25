@@ -40,6 +40,16 @@
       border-color: var(--rule-strong);
       text-decoration: none;
     }
+    .city-section-head {
+      font-family: var(--display);
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin: 2.25rem 0 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--rule);
+      color: var(--ink);
+    }
+    .city-section-head:first-child { margin-top: 0; }
   </style>
 </head>
 <body>
@@ -67,10 +77,29 @@
     function renderTrip(trip, days) {
       const cities = trip.cities || [];
 
-      // All days in flat date order — no city-grouped sections
-      const dayCardsHtml = days.length
-        ? `<div class="days-grid">${days.map(d => renderDayCard(d, tripId)).join('')}</div>`
-        : `<div class="empty-state" style="padding:1rem">No days scheduled.</div>`;
+      let sectionsHtml;
+      if (!days.length) {
+        sectionsHtml = `<div class="empty-state" style="padding:1rem">No days scheduled.</div>`;
+      } else {
+        // Group consecutive days by city so travel days appear inline in date order
+        const groups = [];
+        for (const day of days) {
+          const dc = day.city || 'travel';
+          if (!groups.length || groups[groups.length - 1].city !== dc) {
+            groups.push({ city: dc, days: [day] });
+          } else {
+            groups[groups.length - 1].days.push(day);
+          }
+        }
+
+        sectionsHtml = groups.map(g => {
+          const cardsHtml = `<div class="days-grid">${g.days.map(d => renderDayCard(d, tripId)).join('')}</div>`;
+          if (g.city === 'travel') return cardsHtml; // no header for travel days
+          const cityObj = cities.find(c => c.id === g.city);
+          const cityName = cityObj ? cityObj.name : g.city;
+          return `<div class="city-section-head">${escHtml(cityName)}</div>${cardsHtml}`;
+        }).join('');
+      }
 
       // Per-city quick links
       const cityLinksHtml = cities.map(city => `
@@ -102,7 +131,7 @@
             ${cityLinksHtml}
           </div>
         </div>
-        ${dayCardsHtml}
+        ${sectionsHtml}
       `;
     }
 
