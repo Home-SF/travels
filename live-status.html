@@ -106,6 +106,7 @@
     document.getElementById('footer-root').innerHTML = renderFooter();
 
     let travelerColors = {};
+    let travelerColorsByName = {};
     let allCheckins = [];
     let activePerson = 'all';
 
@@ -122,7 +123,7 @@
           <button class="filter-btn ${activePerson === 'all' ? 'active' : ''}" data-person="all">All</button>
           ${ps.map(p => `
             <button class="filter-btn ${activePerson === p ? 'active' : ''}" data-person="${escHtml(p)}"
-              style="${activePerson === p ? `background:${escHtml(travelerColors[p] || '#888')};border-color:${escHtml(travelerColors[p] || '#888')};color:#fff` : ''}">
+              style="${activePerson === p ? `background:${escHtml(travelerColorsByName[p] || '#888')};border-color:${escHtml(travelerColorsByName[p] || '#888')};color:#fff` : ''}">
               ${escHtml(p)}
             </button>
           `).join('')}
@@ -178,13 +179,13 @@
         hour: 'numeric', minute: '2-digit',
       }) : '';
       const personName = c.person || c.name || c.personKey || 'Someone';
-      const color = travelerColors[c.personKey || c.person] || '#888';
+      const color = travelerColorsByName[personName] || travelerColors[c.personKey] || '#1D4E89';
 
       return `
         <div class="checkin-card">
           <div class="checkin-meta">
             <button class="checkin-who" data-person="${escHtml(personName)}"
-              style="color:${escHtml(color)};background:none;border:none;padding:0;cursor:pointer;font-weight:600;font-size:0.9rem;font-family:inherit">
+              style="color:${escHtml(color)};background:none;border:none;padding:0;cursor:pointer;font-weight:600;font-size:0.9rem;font-family:inherit;text-decoration:underline;text-underline-offset:2px">
               ${escHtml(personName)}
             </button>
             <span class="checkin-when">${escHtml(when)}</span>
@@ -216,7 +217,10 @@
       document.getElementById('kicker').innerHTML =
         `<a href="trip.html?id=${encodeURIComponent(tripId)}" style="color:inherit">${escHtml(trip.title)}</a>`;
 
-      for (const t of trip.travelers || []) travelerColors[t.key] = t.color;
+      for (const t of trip.travelers || []) {
+        travelerColors[t.key] = t.color;
+        if (t.name) travelerColorsByName[t.name] = t.color;
+      }
 
       document.getElementById('refresh-btn').addEventListener('click', load);
       load();
