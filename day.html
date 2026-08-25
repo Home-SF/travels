@@ -757,13 +757,16 @@
     async function renderDayPhotos(tripId, date) {
       const root = document.getElementById('day-photos-root');
       try {
-        // Fetch all photos for the trip (same query as photos.html, proven to work),
-        // then filter client-side to this day's date.
-        const snap = await getDocs(
-          query(collection(db, 'trips', tripId, 'photos'), orderBy('uploadedAt', 'asc'))
-        );
+        // Plain collection read — no orderBy so no documents are excluded.
+        const snap = await getDocs(collection(db, 'trips', tripId, 'photos'));
         const allPhotos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        const dayPhotos = allPhotos.filter(p => p.date === date);
+        console.log('[day photos] tripId:', tripId, 'date:', date,
+                    'total photos:', allPhotos.length,
+                    'dates found:', [...new Set(allPhotos.map(p => p.date))].join(', '));
+        const dayPhotos = allPhotos
+          .filter(p => p.date === date)
+          .sort((a, b) => (a.uploadedAt?.toMillis?.() ?? 0) - (b.uploadedAt?.toMillis?.() ?? 0));
+        console.log('[day photos] matched:', dayPhotos.length);
 
         if (!dayPhotos.length) return; // no photos for this day yet
 
