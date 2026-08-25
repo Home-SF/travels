@@ -47,6 +47,7 @@
     .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
     .auth-error { color: #c0392b; font-size: 0.82rem; margin-top: 0.5rem; }
 
+    /* Upload UI */
     #upload-ui { display: none; }
     .user-bar {
       display: flex;
@@ -114,7 +115,11 @@
       background: var(--bg);
       border: 1.5px solid var(--rule);
     }
-    .preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .preview-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
     .preview-remove {
       position: absolute;
       top: 3px; right: 3px;
@@ -129,6 +134,16 @@
       cursor: pointer;
       padding: 0;
     }
+    .preview-date {
+      position: absolute;
+      top: 3px; left: 3px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 0.55rem;
+      padding: 1px 4px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
     .preview-name {
       position: absolute;
       bottom: 0; left: 0; right: 0;
@@ -140,7 +155,19 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .upload-log { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .exif-note {
+      font-size: 0.78rem;
+      color: var(--ink-faint);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Progress */
+    .upload-log {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
     .upload-row {
       background: var(--bg-raised);
       border: 1.5px solid var(--rule);
@@ -149,8 +176,19 @@
       font-size: 0.8rem;
     }
     .upload-row__name { font-weight: 500; margin-bottom: 0.25rem; }
-    .upload-row__bar-wrap { height: 4px; background: var(--rule); border-radius: 99px; overflow: hidden; }
-    .upload-row__bar { height: 100%; background: var(--navy); border-radius: 99px; width: 0%; transition: width 0.2s; }
+    .upload-row__bar-wrap {
+      height: 4px;
+      background: var(--rule);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .upload-row__bar {
+      height: 100%;
+      background: var(--navy);
+      border-radius: 99px;
+      width: 0%;
+      transition: width 0.2s;
+    }
     .upload-row__status { margin-top: 0.25rem; color: var(--ink-faint); }
     .upload-row.done .upload-row__bar { background: #16a34a; }
     .upload-row.error .upload-row__bar { background: #c0392b; }
@@ -166,6 +204,7 @@
       <h1>Upload Photos</h1>
     </div>
 
+    <!-- Sign-in -->
     <div id="auth-ui">
       <div class="auth-box">
         <h2>Sign in</h2>
@@ -182,6 +221,7 @@
       </div>
     </div>
 
+    <!-- Upload UI (shown after sign-in) -->
     <div id="upload-ui">
       <div class="user-bar">
         <span id="user-email"></span>
@@ -211,10 +251,12 @@
             </select>
           </div>
           <div class="field">
-            <label>Date</label>
+            <label>Fallback date (if no EXIF)</label>
             <input type="date" id="sel-date" value="2026-08-07" min="2026-08-07" max="2026-08-23" />
           </div>
         </div>
+
+        <p class="exif-note">📷 Each photo's shoot date is read from EXIF data automatically. The fallback date is used only when a photo has no EXIF.</p>
 
         <label class="file-drop" id="file-drop">
           <input type="file" id="file-input" multiple accept="image/*" />
@@ -223,6 +265,7 @@
         </label>
 
         <div class="preview-grid" id="preview-grid"></div>
+
         <button class="btn-primary" id="upload-btn" disabled>Upload photos</button>
       </div>
 
@@ -234,7 +277,7 @@
 
   <script type="module">
     import { app, db } from './assets/firebase-config.js';
-    import { renderNav, renderFooter, escHtml } from './assets/app.js';
+    import { renderNav, renderFooter, escHtml, getParam } from './assets/app.js';
     import {
       getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
@@ -244,6 +287,7 @@
     import {
       collection, addDoc, serverTimestamp
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    import exifr from 'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.esm.js';
 
     const TRIP_ID = 'paris-london-2026';
     const auth    = getAuth(app);
@@ -252,15 +296,16 @@
     document.getElementById('footer-root').innerHTML = renderFooter();
     document.getElementById('nav-root').innerHTML = renderNav(TRIP_ID, 'Paris & London', '');
 
-    // Auth
+    // ── Auth ──────────────────────────────────────────────────
+
     onAuthStateChanged(auth, user => {
       if (user) {
-        document.getElementById('auth-ui').style.display   = 'none';
-        document.getElementById('upload-ui').style.display = 'block';
-        document.getElementById('user-email').textContent  = user.email;
+        document.getElementById('auth-ui').style.display    = 'none';
+        document.getElementById('upload-ui').style.display  = 'block';
+        document.getElementById('user-email').textContent   = user.email;
       } else {
-        document.getElementById('auth-ui').style.display   = 'block';
-        document.getElementById('upload-ui').style.display = 'none';
+        document.getElementById('auth-ui').style.display    = 'block';
+        document.getElementById('upload-ui').style.display  = 'none';
       }
     });
 
@@ -275,30 +320,70 @@
         errEl.textContent = e.message.replace('Firebase: ', '');
       }
     });
+
     document.getElementById('password').addEventListener('keydown', e => {
       if (e.key === 'Enter') document.getElementById('sign-in-btn').click();
     });
+
     document.getElementById('sign-out-btn').addEventListener('click', () => signOut(auth));
 
-    // File picking
+    // ── EXIF date extraction ──────────────────────────────────
+
+    // Parse EXIF DateTimeOriginal and return 'YYYY-MM-DD' or null
+    async function extractExifDate(file) {
+      try {
+        const data = await exifr.parse(file, ['DateTimeOriginal']);
+        if (data?.DateTimeOriginal instanceof Date) {
+          const d = data.DateTimeOriginal;
+          return [
+            d.getFullYear(),
+            String(d.getMonth() + 1).padStart(2, '0'),
+            String(d.getDate()).padStart(2, '0'),
+          ].join('-');
+        }
+      } catch (_) {
+        // EXIF unreadable — fall through
+      }
+      return null;
+    }
+
+    // ── File picking ──────────────────────────────────────────
+
+    // Each entry: { file: File, exifDate: string|null|undefined }
+    // undefined = EXIF extraction still pending
+    // null      = no EXIF date found
+    // 'YYYY-MM-DD' = EXIF date extracted
     let selectedFiles = [];
+
     const fileInput   = document.getElementById('file-input');
     const fileDrop    = document.getElementById('file-drop');
     const previewGrid = document.getElementById('preview-grid');
     const uploadBtn   = document.getElementById('upload-btn');
 
     fileDrop.addEventListener('dragover', e => { e.preventDefault(); fileDrop.classList.add('drag-over'); });
-    fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('drag-over'));
+    fileDrop.addEventListener('dragleave', ()  => fileDrop.classList.remove('drag-over'));
     fileDrop.addEventListener('drop', e => {
       e.preventDefault();
       fileDrop.classList.remove('drag-over');
       addFiles([...e.dataTransfer.files].filter(f => f.type.startsWith('image/')));
     });
-    fileInput.addEventListener('change', () => { addFiles([...fileInput.files]); fileInput.value = ''; });
+
+    fileInput.addEventListener('change', () => {
+      addFiles([...fileInput.files]);
+      fileInput.value = '';
+    });
 
     function addFiles(files) {
       for (const f of files) {
-        if (!selectedFiles.find(x => x.name === f.name && x.size === f.size)) selectedFiles.push(f);
+        if (!selectedFiles.find(x => x.file.name === f.name && x.file.size === f.size)) {
+          const item = { file: f, exifDate: undefined };
+          selectedFiles.push(item);
+          // Fire-and-forget EXIF extraction; re-render when each resolves
+          extractExifDate(f).then(date => {
+            item.exifDate = date; // null or 'YYYY-MM-DD'
+            renderPreviews();
+          });
+        }
       }
       renderPreviews();
     }
@@ -306,45 +391,65 @@
     function renderPreviews() {
       previewGrid.innerHTML = '';
       for (let i = 0; i < selectedFiles.length; i++) {
-        const f = selectedFiles[i];
-        const url = URL.createObjectURL(f);
+        const { file, exifDate } = selectedFiles[i];
+        const url = URL.createObjectURL(file);
+
+        let dateBadge = '';
+        if (exifDate === undefined) {
+          dateBadge = `<div class="preview-date">⏳</div>`;
+        } else if (exifDate) {
+          dateBadge = `<div class="preview-date">📷 ${escHtml(exifDate)}</div>`;
+        }
+
         const div = document.createElement('div');
         div.className = 'preview-item';
         div.innerHTML = `
           <img src="${url}" />
+          ${dateBadge}
           <button class="preview-remove" data-idx="${i}">×</button>
-          <div class="preview-name">${escHtml(f.name)}</div>
+          <div class="preview-name">${escHtml(file.name)}</div>
         `;
         previewGrid.appendChild(div);
       }
       previewGrid.querySelectorAll('.preview-remove').forEach(btn => {
-        btn.addEventListener('click', () => { selectedFiles.splice(+btn.dataset.idx, 1); renderPreviews(); });
+        btn.addEventListener('click', () => {
+          selectedFiles.splice(+btn.dataset.idx, 1);
+          renderPreviews();
+        });
       });
       uploadBtn.disabled = selectedFiles.length === 0;
     }
 
-    // Upload
+    // ── Upload ────────────────────────────────────────────────
+
     uploadBtn.addEventListener('click', async () => {
       if (!selectedFiles.length) return;
-      const person = document.getElementById('sel-person').value;
-      const city   = document.getElementById('sel-city').value;
-      const date   = document.getElementById('sel-date').value;
-      const log    = document.getElementById('upload-log');
+
+      const person      = document.getElementById('sel-person').value;
+      const city        = document.getElementById('sel-city').value;
+      const fallbackDate = document.getElementById('sel-date').value;
+      const log         = document.getElementById('upload-log');
 
       uploadBtn.disabled = true;
+
       const filesToUpload = [...selectedFiles];
       selectedFiles = [];
       renderPreviews();
 
-      for (const file of filesToUpload) {
+      for (const item of filesToUpload) {
+        const { file } = item;
+        // Use EXIF date if available; fall back to picker date
+        const date = item.exifDate || fallbackDate;
+
         const rowId = `row-${Date.now()}-${Math.random().toString(36).slice(2)}`;
         log.insertAdjacentHTML('afterbegin', `
           <div class="upload-row" id="${rowId}">
-            <div class="upload-row__name">${escHtml(file.name)}</div>
+            <div class="upload-row__name">${escHtml(file.name)}${item.exifDate ? ` <span style="font-weight:400;color:var(--ink-faint)">(📷 ${escHtml(item.exifDate)})</span>` : ''}</div>
             <div class="upload-row__bar-wrap"><div class="upload-row__bar" id="bar-${rowId}"></div></div>
             <div class="upload-row__status" id="st-${rowId}">Uploading…</div>
           </div>
         `);
+
         try {
           const path = `photos/${TRIP_ID}/${date}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
           const sRef = storageRef(storage, path);
@@ -363,9 +468,15 @@
           });
 
           const url = await getDownloadURL(sRef);
+
           await addDoc(collection(db, 'trips', TRIP_ID, 'photos'), {
-            url, thumbnailUrl: url, person, city, date,
-            filename: file.name, tripId: TRIP_ID,
+            url,
+            thumbnailUrl: url,
+            person,
+            city,
+            date,
+            filename: file.name,
+            tripId: TRIP_ID,
             uploadedAt: serverTimestamp(),
           });
 
@@ -373,12 +484,14 @@
           document.getElementById(`bar-${rowId}`).style.width = '100%';
           document.getElementById(`st-${rowId}`).innerHTML =
             `✓ Done — <a href="photos.html?trip=${TRIP_ID}" target="_blank">View gallery →</a>`;
+
         } catch (err) {
           document.getElementById(rowId).classList.add('error');
           document.getElementById(`st-${rowId}`).textContent = `Error: ${err.message}`;
           console.error(err);
         }
       }
+
       uploadBtn.disabled = false;
     });
   </script>
