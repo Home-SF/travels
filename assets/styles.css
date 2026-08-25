@@ -295,13 +295,14 @@ a:hover { text-decoration: underline; }
   letter-spacing: 0.02em;
 }
 
-.city-pill.paris    { background: var(--paris-soft);   color: var(--paris); }
-.city-pill.london   { background: var(--london-soft);  color: var(--london); }
-.city-pill.toronto  { background: var(--toronto-soft); color: var(--toronto); }
-.city-pill.travel   { background: var(--travel-soft);  color: var(--travel); }
-.city-pill.tokyo    { background: var(--tokyo-soft);   color: var(--tokyo); }
-.city-pill.kuala-lumpur   { background: var(--kuala-lumpur-soft);  color: var(--kuala-lumpur); }
-.city-pill.singapore { background: var(--singapore-soft); color: var(--singapore); }
+.city-pill.paris      { background: var(--paris-soft);         color: var(--paris); }
+.city-pill.london     { background: var(--london-soft);        color: var(--london); }
+.city-pill.toronto    { background: var(--toronto-soft);       color: var(--toronto); }
+.city-pill.travel     { background: var(--travel-soft);        color: var(--travel); }
+.city-pill.tokyo      { background: var(--tokyo-soft);         color: var(--tokyo); }
+.city-pill.kuala-lumpur  { background: var(--kuala-lumpur-soft); color: var(--kuala-lumpur); }
+.city-pill.kualalumpur   { background: var(--kuala-lumpur-soft); color: var(--kuala-lumpur); }
+.city-pill.singapore  { background: var(--singapore-soft);    color: var(--singapore); }
 
 .trip-card__travelers {
   font-size: 0.78rem;
@@ -342,13 +343,14 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 
-.day-card.is-travel { background: var(--travel-soft); }
-.day-card.paris     { border-left: 3px solid var(--paris); }
-.day-card.london    { border-left: 3px solid var(--london); }
-.day-card.toronto   { border-left: 3px solid var(--toronto); }
-.day-card.tokyo     { border-left: 3px solid var(--tokyo); }
-.day-card.kuala-lumpur  { border-left: 3px solid var(--kuala-lumpur); }
-.day-card.singapore { border-left: 3px solid var(--singapore); }
+.day-card.is-travel    { background: var(--travel-soft); }
+.day-card.paris        { border-left: 3px solid var(--paris); }
+.day-card.london       { border-left: 3px solid var(--london); }
+.day-card.toronto      { border-left: 3px solid var(--toronto); }
+.day-card.tokyo        { border-left: 3px solid var(--tokyo); }
+.day-card.kuala-lumpur { border-left: 3px solid var(--kuala-lumpur); }
+.day-card.kualalumpur  { border-left: 3px solid var(--kuala-lumpur); }
+.day-card.singapore    { border-left: 3px solid var(--singapore); }
 
 .day-card__weekday {
   font-family: var(--mono);
