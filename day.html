@@ -382,7 +382,7 @@
       getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
     import {
-      collection, addDoc, serverTimestamp, query, where, getDocs
+      collection, addDoc, serverTimestamp, query, where, getDocs, orderBy
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
     import exifr from 'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.esm.js';
 
@@ -757,14 +757,15 @@
     async function renderDayPhotos(tripId, date) {
       const root = document.getElementById('day-photos-root');
       try {
+        // Fetch all photos for the trip (same query as photos.html, proven to work),
+        // then filter client-side to this day's date.
         const snap = await getDocs(
-          query(collection(db, 'trips', tripId, 'photos'), where('date', '==', date))
+          query(collection(db, 'trips', tripId, 'photos'), orderBy('uploadedAt', 'asc'))
         );
-        const dayPhotos = snap.docs
-          .map(d => ({ id: d.id, ...d.data() }))
-          .sort((a, b) => (a.uploadedAt?.toMillis?.() ?? 0) - (b.uploadedAt?.toMillis?.() ?? 0));
+        const allPhotos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const dayPhotos = allPhotos.filter(p => p.date === date);
 
-        if (!dayPhotos.length) return; // no photos yet — show nothing
+        if (!dayPhotos.length) return; // no photos for this day yet
 
         root.innerHTML = `
           <div class="day-photos-section">
