@@ -756,14 +756,8 @@
 
     async function renderDayPhotos(tripId, date) {
       const root = document.getElementById('day-photos-root');
-      // Temporary debug banner — remove once photos are working
-      root.innerHTML = `<p style="font-size:0.75rem;color:var(--ink-faint);margin-top:1rem">📷 Loading photos for ${date}…</p>`;
       try {
-        // Use the same fetchPhotos helper as the rest of the app — same pattern as
-        // fetchDays/fetchRestaurants which are proven to work on this page.
         const allPhotos = await fetchPhotos(tripId);
-        const allDates = [...new Set(allPhotos.map(p => p.date))].join(', ') || '(none)';
-        root.innerHTML = `<p style="font-size:0.75rem;color:var(--ink-faint);margin-top:1rem">📷 Debug: ${allPhotos.length} total photos. Dates: ${allDates}. Looking for: ${date}</p>`;
         const dayPhotos = allPhotos
           .filter(p => p.date === date)
           .sort((a, b) => (a.uploadedAt?.toMillis?.() ?? 0) - (b.uploadedAt?.toMillis?.() ?? 0));
@@ -779,7 +773,8 @@
             <div class="day-photo-grid" id="day-photo-grid">
               ${dayPhotos.map((p, i) => `
                 <div class="day-photo-item" data-idx="${i}">
-                  <img src="${escHtml(p.thumbnailUrl || p.url)}" alt="${escHtml(p.caption || '')}" loading="lazy" />
+                  <img src="${escHtml(p.thumbnailUrl || p.url)}" alt="${escHtml(p.caption || '')}" loading="lazy"
+                       onerror="this.closest('.day-photo-item').style.display='none'" />
                 </div>
               `).join('')}
             </div>
