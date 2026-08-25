@@ -327,7 +327,7 @@
 
     document.getElementById('sign-out-btn').addEventListener('click', () => signOut(auth));
 
-    // ── EXIF date extraction ──────────────────────────────────
+    // ── EXIF date extraction ────────────────────────────────
 
     // Parse EXIF DateTimeOriginal and return 'YYYY-MM-DD' or null
     async function extractExifDate(file) {
@@ -347,7 +347,7 @@
       return null;
     }
 
-    // ── File picking ──────────────────────────────────────────
+    // ── File picking ────────────────────────────────────────────
 
     // Each entry: { file: File, exifDate: string|null|undefined }
     // undefined = EXIF extraction still pending
@@ -453,7 +453,7 @@
         try {
           const path = `photos/${TRIP_ID}/${date}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
           const sRef = storageRef(storage, path);
-          const task = uploadBytesResumable(sRef, file, { contentType: file.type });
+          const task = uploadBytesResumable(sRef, file, { contentType: file.type, customMetadata: { person } });
 
           await new Promise((resolve, reject) => {
             task.on('state_changed',

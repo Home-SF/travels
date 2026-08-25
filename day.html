@@ -62,7 +62,7 @@
     }
     .day-restaurant.reserved { border-left: 3px solid var(--brass-dark); }
 
-    /* ── Day upload panel ─────────────────────────────────── */
+    /* ── Day upload panel ───────────────────────────────── */
     .day-upload-panel {
       margin-top: 2.5rem;
       padding-top: 0.5rem;
@@ -225,6 +225,17 @@
     }
     .day-btn-primary:hover { opacity: 0.88; }
     .day-btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .day-btn-secondary {
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      color: var(--ink);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .day-btn-secondary:hover { background: var(--bg-raised); }
     .day-exif-note { font-size: 0.75rem; color: var(--ink-faint); margin-bottom: 0.75rem; }
 
     /* Upload log */
@@ -369,7 +380,7 @@
       </div>`;
     }
 
-    // ── EXIF extraction ────────────────────────────────────────
+    // ── EXIF extraction ─────────────────────────────────────────
 
     async function extractExifDate(file) {
       try {
@@ -386,7 +397,7 @@
       return null;
     }
 
-    // ── Photo upload section ───────────────────────────────────
+    // ── Photo upload section ─────────────────────────────────────
 
     function initUploadSection(trip, day) {
       const auth    = getAuth(app);
@@ -597,7 +608,7 @@
           try {
             const path = `photos/${TRIP_ID}/${photoDate}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
             const sRef = storageRef(storage, path);
-            const task = uploadBytesResumable(sRef, file, { contentType: file.type });
+            const task = uploadBytesResumable(sRef, file, { contentType: file.type, customMetadata: { person } });
 
             await new Promise((resolve, reject) => {
               task.on('state_changed',
@@ -636,7 +647,7 @@
       });
     }
 
-    // ── Main ───────────────────────────────────────────────────
+    // ── Main ──────────────────────────────────────────────────
 
     (async () => {
       if (!tripId || !date) {
