@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Migrate Photos — Travels</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <style>
+    .auth-box {
+      max-width: 360px;
+      margin: 3rem auto;
+      background: var(--bg-raised);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .auth-box h2 { margin-bottom: 1.25rem; }
+    .field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+    .field label { font-size: 0.8rem; color: var(--ink-soft); font-weight: 500; }
+    .field input, .field select {
+      padding: 0.5rem 0.75rem;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      background: var(--bg); color: var(--ink);
+      font-size: 0.9rem; font-family: inherit;
+    }
+    .field input:focus, .field select:focus { outline: none; border-color: var(--navy); }
+    .btn-primary {
+      padding: 0.6rem 1.25rem;
+      background: var(--navy); color: #fff;
+      border: none; border-radius: var(--radius);
+      font-size: 0.9rem; font-family: inherit; font-weight: 600;
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-secondary {
+      padding: 0.55rem 1.1rem;
+      background: var(--bg); color: var(--ink);
+      border: 1.5px solid var(--rule); border-radius: var(--radius);
+      font-size: 0.88rem; font-family: inherit;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-secondary:hover { background: var(--bg-raised); }
+    .auth-error { color: #c0392b; font-size: 0.82rem; margin-top: 0.5rem; }
+
+    #main-ui { display: none; }
+    .user-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: var(--bg-raised); border: 1.5px solid var(--rule);
+      border-radius: var(--radius); margin-bottom: 1.5rem;
+      font-size: 0.82rem; color: var(--ink-soft);
+    }
+    .sign-out-btn {
+      font-size: 0.78rem; padding: 0.2rem 0.65rem;
+      border: 1.5px solid var(--rule); border-radius: 99px;
+      background: var(--bg); color: var(--ink); cursor: pointer;
+    }
+
+    .panel {
+      background: var(--bg-raised); border: 1.5px solid var(--rule);
+      border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .panel h2 { margin-bottom: 0.5rem; font-size: 1rem; }
+    .panel p { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 1rem; }
+
+    .path-preview {
+      font-family: var(--mono); font-size: 0.78rem;
+      background: var(--bg); border: 1px solid var(--rule);
+      border-radius: var(--radius); padding: 0.5rem 0.75rem;
+      margin-bottom: 1rem; color: var(--ink-soft);
+    }
+
+    .scan-result {
+      margin-top: 1.5rem;
+    }
+    .scan-result h3 { font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .day-group {
+      border: 1.5px solid var(--rule); border-radius: var(--radius);
+      margin-bottom: 0.75rem; overflow: hidden;
+    }
+    .day-group-header {
+      background: var(--bg-raised); padding: 0.55rem 0.9rem;
+      font-size: 0.82rem; font-weight: 600;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--rule);
+    }
+    .day-group-files {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.75rem; font-family: var(--mono);
+      color: var(--ink-soft);
+      display: flex; flex-direction: column; gap: 0.2rem;
+    }
+
+    .log {
+      margin-top: 1rem;
+      display: flex; flex-direction: column; gap: 0.35rem;
+      max-height: 400px; overflow-y: auto;
+    }
+    .log-row {
+      font-size: 0.78rem; padding: 0.3rem 0.6rem;
+      border-radius: calc(var(--radius) - 2px);
+    }
+    .log-row.ok  { background: #f0fdf4; color: #15803d; border-left: 3px solid #16a34a; }
+    .log-row.err { background: #fef2f2; color: #b91c1c; border-left: 3px solid #dc2626; }
+    .log-row.inf { background: var(--bg-raised); color: var(--ink-soft); border-left: 3px solid var(--rule); }
+
+    :root[data-theme="dark"] .log-row.ok  { background: #052e16; color: #4ade80; }
+    :root[data-theme="dark"] .log-row.err { background: #2d0000; color: #f87171; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .log-row.ok  { background: #052e16; color: #4ade80; }
+      :root:not([data-theme="light"]) .log-row.err { background: #2d0000; color: #f87171; }
+    }
+
+    .summary-box {
+      background: #f0fdf4; border: 1.5px solid #16a34a; border-radius: var(--radius);
+      padding: 1rem 1.25rem; margin-top: 1rem; font-size: 0.9rem; color: #15803d;
+    }
+    :root[data-theme="dark"] .summary-box { background: #052e16; border-color: #4ade80; color: #4ade80; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .summary-box { background: #052e16; border-color: #4ade80; color: #4ade80; }
+    }
+
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 500px) { .form-row-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div id="nav-root"></div>
+
+  <main class="page-wrap">
+    <div class="section-head">
+      <span class="section-kicker">Admin</span>
+      <h1>Migrate Photos to Gallery</h1>
+      <p style="color:var(--ink-soft);margin-top:0.4rem;font-size:0.88rem">
+        One-time tool: scans existing photos in Firebase Storage and creates the Firestore records the gallery needs.
+      </p>
+    </div>
+
+    <!-- Sign-in -->
+    <div id="auth-ui">
+      <div class="auth-box">
+        <h2>Sign in</h2>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="email" autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" />
+        </div>
+        <button class="btn-primary" id="sign-in-btn">Sign in</button>
+        <div class="auth-error" id="auth-error"></div>
+      </div>
+    </div>
+
+    <div id="main-ui">
+      <div class="user-bar">
+        <span id="user-email"></span>
+        <button class="sign-out-btn" id="sign-out-btn">Sign out</button>
+      </div>
+
+      <!-- Step 1: Configure scan -->
+      <div class="panel">
+        <h2>Step 1 — Configure</h2>
+        <p>Set the Storage root path where your photos live, and default metadata for files that don't encode person info in their name.</p>
+
+        <div class="form-row-2">
+          <div class="field">
+            <label>Storage root path</label>
+            <input type="text" id="storage-root" value="photos" placeholder="photos" />
+          </div>
+          <div class="field">
+            <label>Firestore trip ID</label>
+            <input type="text" id="trip-id" value="paris-london-2026" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Default person (applied to all migrated photos)</label>
+          <select id="default-person">
+            <option value="">— unknown —</option>
+            <option value="Michael Lee">Michael Lee</option>
+            <option value="Uwen Kok">Uwen Kok</option>
+            <option value="Carl Kurbat">Carl Kurbat</option>
+            <option value="Amanda Lee">Amanda Lee</option>
+            <option value="Norman Lee">Norman Lee</option>
+            <option value="Megan Lee">Megan Lee</option>
+            <option value="Brodie Demain">Brodie Demain</option>
+          </select>
+        </div>
+
+        <div class="path-preview" id="path-preview">
+          Storage path: <strong>photos/{date-folder}/filename</strong>
+        </div>
+
+        <button class="btn-primary" id="scan-btn">🔍 Scan Storage</button>
+      </div>
+
+      <!-- Step 2: Review -->
+      <div id="scan-result-panel" style="display:none" class="panel">
+        <h2>Step 2 — Review</h2>
+        <p>These files were found. Review them, then click <strong>Write to Firestore</strong> to create the gallery records. Files that already have a Firestore record will be skipped.</p>
+        <div id="scan-result"></div>
+        <div style="margin-top:1.25rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+          <button class="btn-primary" id="write-btn">✍️ Write to Firestore</button>
+          <button class="btn-secondary" id="rescan-btn">↺ Re-scan</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Progress -->
+      <div id="write-panel" style="display:none" class="panel">
+        <h2>Step 3 — Writing records</h2>
+        <div class="log" id="write-log"></div>
+        <div id="write-summary" style="display:none"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module">
+    import { app, db } from './assets/firebase-config.js';
+    import { renderNav, renderFooter, escHtml } from './assets/app.js';
+    import {
+      getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+    import {
+      getStorage, ref, listAll, getDownloadURL
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+    import {
+      collection, addDoc, getDocs, query, where, serverTimestamp
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    const auth    = getAuth(app);
+    const storage = getStorage(app);
+
+    document.getElementById('footer-root').innerHTML = renderFooter();
+    document.getElementById('nav-root').innerHTML    = renderNav('paris-london-2026', 'Paris & London', '');
+
+    // ── Auth ──────────────────────────────────────────────────
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        document.getElementById('auth-ui').style.display  = 'none';
+        document.getElementById('main-ui').style.display  = 'block';
+        document.getElementById('user-email').textContent = user.email;
+      } else {
+        document.getElementById('auth-ui').style.display  = 'block';
+        document.getElementById('main-ui').style.display  = 'none';
+      }
+    });
+
+    document.getElementById('sign-in-btn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const pass  = document.getElementById('password').value;
+      const errEl = document.getElementById('auth-error');
+      errEl.textContent = '';
+      try { await signInWithEmailAndPassword(auth, email, pass); }
+      catch (e) { errEl.textContent = e.message.replace('Firebase: ', ''); }
+    });
+    document.getElementById('password').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('sign-in-btn').click();
+    });
+    document.getElementById('sign-out-btn').addEventListener('click', () => signOut(auth));
+
+    // Update path preview as user types
+    document.getElementById('storage-root').addEventListener('input', updatePreview);
+    function updatePreview() {
+      const root = document.getElementById('storage-root').value.trim() || 'photos';
+      document.getElementById('path-preview').innerHTML =
+        `Storage path: <strong>${escHtml(root)}/{date-folder}/filename</strong>`;
+    }
+
+    // ── Helpers ───────────────────────────────────────────────
+
+    function cityFromDate(date) {
+      if (date >= '2026-08-15') return 'london';
+      if (date >= '2026-08-07') return 'paris';
+      return 'toronto';
+    }
+
+    // ── Scan ──────────────────────────────────────────────────
+
+    let scannedFiles = []; // [{date, city, filename, storagePath, ref}]
+
+    document.getElementById('scan-btn').addEventListener('click', scanStorage);
+    document.getElementById('rescan-btn').addEventListener('click', scanStorage);
+
+    async function scanStorage() {
+      const storageRoot = document.getElementById('storage-root').value.trim() || 'photos';
+      const scanBtn = document.getElementById('scan-btn');
+      scanBtn.disabled = true;
+      scanBtn.textContent = 'Scanning…';
+      scannedFiles = [];
+
+      try {
+        const rootRef  = ref(storage, storageRoot);
+        const rootList = await listAll(rootRef);
+
+        // Each prefix = a date folder
+        const IMAGE_EXTS = /\.(jpg|jpeg|png|gif|webp|heic|heif|avif)$/i;
+
+        for (const folderRef of rootList.prefixes) {
+          const folderName = folderRef.name; // e.g. "2026-08-12"
+          const folderList = await listAll(folderRef);
+          for (const fileRef of folderList.items) {
+            if (!IMAGE_EXTS.test(fileRef.name)) continue;
+            scannedFiles.push({
+              date:        folderName,
+              city:        cityFromDate(folderName),
+              filename:    fileRef.name,
+              storagePath: fileRef.fullPath,
+              fileRef,
+            });
+          }
+        }
+
+        // Also handle flat files directly under root (no date subfolder)
+        for (const fileRef of rootList.items) {
+          if (!IMAGE_EXTS.test(fileRef.name)) continue;
+          // Try to infer date from filename prefix YYYY-MM-DD
+          const match = fileRef.name.match(/^(\d{4}-\d{2}-\d{2})/);
+          const date  = match ? match[1] : '';
+          scannedFiles.push({
+            date,
+            city:        cityFromDate(date),
+            filename:    fileRef.name,
+            storagePath: fileRef.fullPath,
+            fileRef,
+          });
+        }
+
+        renderScanResult();
+      } catch (err) {
+        alert('Scan error: ' + err.message);
+        console.error(err);
+      } finally {
+        scanBtn.disabled = false;
+        scanBtn.textContent = '🔍 Scan Storage';
+      }
+    }
+
+    function renderScanResult() {
+      const panel  = document.getElementById('scan-result-panel');
+      const result = document.getElementById('scan-result');
+
+      if (!scannedFiles.length) {
+        result.innerHTML = `<div class="empty-state"><p>No image files found under that path.</p></div>`;
+        panel.style.display = 'block';
+        return;
+      }
+
+      // Group by date
+      const byDate = {};
+      for (const f of scannedFiles) {
+        const key = f.date || '(no date)';
+        if (!byDate[key]) byDate[key] = [];
+        byDate[key].push(f);
+      }
+
+      const total = scannedFiles.length;
+      let html = `<p style="font-size:0.82rem;color:var(--ink-soft);margin-bottom:0.75rem">Found <strong>${total} image${total!==1?'s':''}</strong> across <strong>${Object.keys(byDate).length} date folders</strong>.</p>`;
+
+      for (const [date, files] of Object.entries(byDate).sort()) {
+        html += `
+          <div class="day-group">
+            <div class="day-group-header">
+              <span>${escHtml(date)} — ${escHtml(cityFromDate(date))}</span>
+              <span style="font-weight:400;color:var(--ink-soft)">${files.length} file${files.length!==1?'s':''}</span>
+            </div>
+            <div class="day-group-files">
+              ${files.map(f => escHtml(f.filename)).join('<br>')}
+            </div>
+          </div>
+        `;
+      }
+
+      result.innerHTML = html;
+      panel.style.display = 'block';
+      document.getElementById('write-panel').style.display = 'none';
+    }
+
+    // ── Write ─────────────────────────────────────────────────
+
+    document.getElementById('write-btn').addEventListener('click', writeToFirestore);
+
+    async function writeToFirestore() {
+      const tripId        = document.getElementById('trip-id').value.trim() || 'paris-london-2026';
+      const defaultPerson = document.getElementById('default-person').value;
+
+      const writePanel = document.getElementById('write-panel');
+      const log        = document.getElementById('write-log');
+      const summary    = document.getElementById('write-summary');
+      writePanel.style.display = 'block';
+      log.innerHTML = '';
+      summary.style.display = 'none';
+
+      document.getElementById('write-btn').disabled = true;
+
+      // Check which filenames already have Firestore records (by filename field)
+      addLog('inf', `Checking for existing Firestore records…`);
+      const existingSnap = await getDocs(
+        query(collection(db, 'trips', tripId, 'photos'))
+      );
+      const existingPaths = new Set(
+        existingSnap.docs.map(d => d.data().storagePath || d.data().filename)
+      );
+      addLog('inf', `Found ${existingSnap.size} existing record(s) in Firestore.`);
+
+      let written = 0, skipped = 0, errored = 0;
+
+      for (const item of scannedFiles) {
+        // Skip if already in Firestore (match by storagePath or filename)
+        if (existingPaths.has(item.storagePath) || existingPaths.has(item.filename)) {
+          addLog('inf', `⏭ Skipped (already exists): ${item.filename}`);
+          skipped++;
+          continue;
+        }
+
+        try {
+          const url = await getDownloadURL(item.fileRef);
+          await addDoc(collection(db, 'trips', tripId, 'photos'), {
+            url,
+            thumbnailUrl: url,
+            person:      defaultPerson,
+            city:        item.city,
+            date:        item.date,
+            filename:    item.filename,
+            storagePath: item.storagePath,
+            tripId,
+            uploadedAt:  serverTimestamp(),
+          });
+          addLog('ok', `✓ ${item.date}/${item.filename}`);
+          written++;
+        } catch (err) {
+          addLog('err', `✗ ${item.filename}: ${err.message}`);
+          errored++;
+          console.error(err);
+        }
+      }
+
+      summary.style.display = 'block';
+      summary.innerHTML = `
+        <div class="summary-box">
+          ✓ Migration complete — <strong>${written} written</strong>, ${skipped} skipped, ${errored} errors.<br>
+          <a href="photos.html?trip=${encodeURIComponent(tripId)}" target="_blank" style="color:inherit;font-weight:600">Open gallery →</a>
+        </div>
+      `;
+      document.getElementById('write-btn').disabled = false;
+    }
+
+    function addLog(type, msg) {
+      const log = document.getElementById('write-log');
+      const div = document.createElement('div');
+      div.className = `log-row ${type}`;
+      div.textContent = msg;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+    }
+  </script>
+</body>
+</html>
