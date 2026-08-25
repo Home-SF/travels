@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Upload Photos — Travels</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <style>
+    .auth-box {
+      max-width: 360px;
+      margin: 3rem auto;
+      background: var(--bg-raised);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .auth-box h2 { margin-bottom: 1.25rem; }
+    .field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+    .field label { font-size: 0.8rem; color: var(--ink-soft); font-weight: 500; }
+    .field input, .field select {
+      padding: 0.5rem 0.75rem;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .field input:focus, .field select:focus {
+      outline: none;
+      border-color: var(--navy);
+    }
+    .btn-primary {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .auth-error { color: #c0392b; font-size: 0.82rem; margin-top: 0.5rem; }
+
+    #upload-ui { display: none; }
+    .user-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.6rem 1rem;
+      background: var(--bg-raised);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+    .sign-out-btn {
+      font-size: 0.78rem;
+      padding: 0.2rem 0.65rem;
+      border: 1.5px solid var(--rule);
+      border-radius: 99px;
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .upload-form {
+      background: var(--bg-raised);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    .file-drop {
+      border: 2px dashed var(--rule);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      margin-bottom: 1rem;
+    }
+    .file-drop:hover, .file-drop.drag-over {
+      border-color: var(--navy);
+      background: var(--bg);
+    }
+    .file-drop input[type=file] { display: none; }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .preview-item {
+      position: relative;
+      border-radius: calc(var(--radius) - 2px);
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: var(--bg);
+      border: 1.5px solid var(--rule);
+    }
+    .preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .preview-remove {
+      position: absolute;
+      top: 3px; right: 3px;
+      width: 20px; height: 20px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      line-height: 20px;
+      text-align: center;
+      cursor: pointer;
+      padding: 0;
+    }
+    .preview-name {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-size: 0.6rem;
+      padding: 2px 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .upload-log { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .upload-row {
+      background: var(--bg-raised);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 0.6rem 0.9rem;
+      font-size: 0.8rem;
+    }
+    .upload-row__name { font-weight: 500; margin-bottom: 0.25rem; }
+    .upload-row__bar-wrap { height: 4px; background: var(--rule); border-radius: 99px; overflow: hidden; }
+    .upload-row__bar { height: 100%; background: var(--navy); border-radius: 99px; width: 0%; transition: width 0.2s; }
+    .upload-row__status { margin-top: 0.25rem; color: var(--ink-faint); }
+    .upload-row.done .upload-row__bar { background: #16a34a; }
+    .upload-row.error .upload-row__bar { background: #c0392b; }
+  </style>
+</head>
+<body>
+
+  <div id="nav-root"></div>
+
+  <main class="page-wrap">
+    <div class="section-head">
+      <span class="section-kicker">Admin</span>
+      <h1>Upload Photos</h1>
+    </div>
+
+    <div id="auth-ui">
+      <div class="auth-box">
+        <h2>Sign in</h2>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="email" autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" />
+        </div>
+        <button class="btn-primary" id="sign-in-btn">Sign in</button>
+        <div class="auth-error" id="auth-error"></div>
+      </div>
+    </div>
+
+    <div id="upload-ui">
+      <div class="user-bar">
+        <span id="user-email"></span>
+        <button class="sign-out-btn" id="sign-out-btn">Sign out</button>
+      </div>
+
+      <div class="upload-form">
+        <div class="form-row">
+          <div class="field">
+            <label>Person</label>
+            <select id="sel-person">
+              <option value="Michael Lee">Michael Lee</option>
+              <option value="Uwen Kok">Uwen Kok</option>
+              <option value="Carl Kurbat">Carl Kurbat</option>
+              <option value="Amanda Lee">Amanda Lee</option>
+              <option value="Norman Lee">Norman Lee</option>
+              <option value="Megan Lee">Megan Lee</option>
+              <option value="Brodie Demain">Brodie Demain</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>City</label>
+            <select id="sel-city">
+              <option value="toronto">Toronto</option>
+              <option value="paris">Paris</option>
+              <option value="london">London</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Date</label>
+            <input type="date" id="sel-date" value="2026-08-07" min="2026-08-07" max="2026-08-23" />
+          </div>
+        </div>
+
+        <label class="file-drop" id="file-drop">
+          <input type="file" id="file-input" multiple accept="image/*" />
+          <div>📷 Click or drag photos here</div>
+          <div style="font-size:0.75rem;margin-top:0.3rem;color:var(--ink-faint)">JPG, PNG, HEIC — multiple OK</div>
+        </label>
+
+        <div class="preview-grid" id="preview-grid"></div>
+        <button class="btn-primary" id="upload-btn" disabled>Upload photos</button>
+      </div>
+
+      <div class="upload-log" id="upload-log"></div>
+    </div>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module">
+    import { app, db } from './assets/firebase-config.js';
+    import { renderNav, renderFooter, escHtml } from './assets/app.js';
+    import {
+      getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+    import {
+      getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+    import {
+      collection, addDoc, serverTimestamp
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    const TRIP_ID = 'paris-london-2026';
+    const auth    = getAuth(app);
+    const storage = getStorage(app);
+
+    document.getElementById('footer-root').innerHTML = renderFooter();
+    document.getElementById('nav-root').innerHTML = renderNav(TRIP_ID, 'Paris & London', '');
+
+    // Auth
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        document.getElementById('auth-ui').style.display   = 'none';
+        document.getElementById('upload-ui').style.display = 'block';
+        document.getElementById('user-email').textContent  = user.email;
+      } else {
+        document.getElementById('auth-ui').style.display   = 'block';
+        document.getElementById('upload-ui').style.display = 'none';
+      }
+    });
+
+    document.getElementById('sign-in-btn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const pass  = document.getElementById('password').value;
+      const errEl = document.getElementById('auth-error');
+      errEl.textContent = '';
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+      } catch (e) {
+        errEl.textContent = e.message.replace('Firebase: ', '');
+      }
+    });
+    document.getElementById('password').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('sign-in-btn').click();
+    });
+    document.getElementById('sign-out-btn').addEventListener('click', () => signOut(auth));
+
+    // File picking
+    let selectedFiles = [];
+    const fileInput   = document.getElementById('file-input');
+    const fileDrop    = document.getElementById('file-drop');
+    const previewGrid = document.getElementById('preview-grid');
+    const uploadBtn   = document.getElementById('upload-btn');
+
+    fileDrop.addEventListener('dragover', e => { e.preventDefault(); fileDrop.classList.add('drag-over'); });
+    fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('drag-over'));
+    fileDrop.addEventListener('drop', e => {
+      e.preventDefault();
+      fileDrop.classList.remove('drag-over');
+      addFiles([...e.dataTransfer.files].filter(f => f.type.startsWith('image/')));
+    });
+    fileInput.addEventListener('change', () => { addFiles([...fileInput.files]); fileInput.value = ''; });
+
+    function addFiles(files) {
+      for (const f of files) {
+        if (!selectedFiles.find(x => x.name === f.name && x.size === f.size)) selectedFiles.push(f);
+      }
+      renderPreviews();
+    }
+
+    function renderPreviews() {
+      previewGrid.innerHTML = '';
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const f = selectedFiles[i];
+        const url = URL.createObjectURL(f);
+        const div = document.createElement('div');
+        div.className = 'preview-item';
+        div.innerHTML = `
+          <img src="${url}" />
+          <button class="preview-remove" data-idx="${i}">×</button>
+          <div class="preview-name">${escHtml(f.name)}</div>
+        `;
+        previewGrid.appendChild(div);
+      }
+      previewGrid.querySelectorAll('.preview-remove').forEach(btn => {
+        btn.addEventListener('click', () => { selectedFiles.splice(+btn.dataset.idx, 1); renderPreviews(); });
+      });
+      uploadBtn.disabled = selectedFiles.length === 0;
+    }
+
+    // Upload
+    uploadBtn.addEventListener('click', async () => {
+      if (!selectedFiles.length) return;
+      const person = document.getElementById('sel-person').value;
+      const city   = document.getElementById('sel-city').value;
+      const date   = document.getElementById('sel-date').value;
+      const log    = document.getElementById('upload-log');
+
+      uploadBtn.disabled = true;
+      const filesToUpload = [...selectedFiles];
+      selectedFiles = [];
+      renderPreviews();
+
+      for (const file of filesToUpload) {
+        const rowId = `row-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        log.insertAdjacentHTML('afterbegin', `
+          <div class="upload-row" id="${rowId}">
+            <div class="upload-row__name">${escHtml(file.name)}</div>
+            <div class="upload-row__bar-wrap"><div class="upload-row__bar" id="bar-${rowId}"></div></div>
+            <div class="upload-row__status" id="st-${rowId}">Uploading…</div>
+          </div>
+        `);
+        try {
+          const path = `photos/${TRIP_ID}/${date}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+          const sRef = storageRef(storage, path);
+          const task = uploadBytesResumable(sRef, file, { contentType: file.type });
+
+          await new Promise((resolve, reject) => {
+            task.on('state_changed',
+              snap => {
+                const pct = Math.round(snap.bytesTransferred / snap.totalBytes * 100);
+                document.getElementById(`bar-${rowId}`).style.width = pct + '%';
+                document.getElementById(`st-${rowId}`).textContent  = `${pct}%`;
+              },
+              reject,
+              resolve,
+            );
+          });
+
+          const url = await getDownloadURL(sRef);
+          await addDoc(collection(db, 'trips', TRIP_ID, 'photos'), {
+            url, thumbnailUrl: url, person, city, date,
+            filename: file.name, tripId: TRIP_ID,
+            uploadedAt: serverTimestamp(),
+          });
+
+          document.getElementById(rowId).classList.add('done');
+          document.getElementById(`bar-${rowId}`).style.width = '100%';
+          document.getElementById(`st-${rowId}`).innerHTML =
+            `✓ Done — <a href="photos.html?trip=${TRIP_ID}" target="_blank">View gallery →</a>`;
+        } catch (err) {
+          document.getElementById(rowId).classList.add('error');
+          document.getElementById(`st-${rowId}`).textContent = `Error: ${err.message}`;
+          console.error(err);
+        }
+      }
+      uploadBtn.disabled = false;
+    });
+  </script>
+</body>
+</html>

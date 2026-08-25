@@ -12,14 +12,13 @@ import { getFirestore }   from 'https://www.gstatic.com/firebasejs/10.12.0/fireb
 
 const firebaseConfig = {
   // ⚠️  Replace with your actual Firebase web app config:
-    apiKey: "AIzaSyBsz14W9nE4fpWuwKsHtWkr0KImEFgf17o",
-    authDomain: "paris-london-2026.firebaseapp.com",
-    projectId: "paris-london-2026",
-    storageBucket: "paris-london-2026.firebasestorage.app",
-    messagingSenderId: "771202564912",
-    appId: "1:771202564912:web:1c3cda000d5ee1b299bef5",
-    measurementId: "G-G74W0PQX2K"
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "paris-london-2026.firebaseapp.com",
+  projectId:         "paris-london-2026",
+  storageBucket:     "paris-london-2026.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId:             "YOUR_APP_ID",
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
