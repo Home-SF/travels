@@ -4,7 +4,7 @@
  * Seeds the asia-2026 trip into Firestore.
  *
  * Usage:
- *   GOOGLE_APPLICATION_CREDENTIALS=./serviceAccount.json node scripts/sync-asia-2026.js
+ *   GOOGLE_APPLICATION_CREDENTIALS=<path/to/key.json> node scripts/sync-asia-2026.js
  *
  * Run from the repo root. Safe to re-run — fully overwrites existing docs.
  */
@@ -36,71 +36,84 @@ const tripDoc = {
 
 const days = [
   {
-    date: '2026-12-19', weekday: 'Saturday', city: 'travel', kicker: 'Departure day',
+    date: '2026-12-19', displayDate: 'Dec 19', weekday: 'Saturday', city: 'travel', isTravel: true,
+    kicker: 'Departure day',
     events: [
       { time: '16:45', title: 'Flight ZG 025 SFO → NRT', note: 'Seats 5K / 5D / 5G — departs 4:45 PM' },
     ],
   },
   {
-    date: '2026-12-20', weekday: 'Sunday', city: 'tokyo', kicker: 'Arrival in Tokyo',
+    date: '2026-12-20', displayDate: 'Dec 20', weekday: 'Sunday', city: 'tokyo', isTravel: false,
+    kicker: 'Arrival in Tokyo',
     events: [
       { time: '20:00', title: 'Land NRT', note: 'Arrives 8:00 PM' },
       { time: '',      title: 'Check in — Hotel TBD', note: '' },
     ],
   },
   {
-    date: '2026-12-21', weekday: 'Monday', city: 'tokyo', kicker: 'Day 1 in Tokyo',
+    date: '2026-12-21', displayDate: 'Dec 21', weekday: 'Monday', city: 'tokyo', isTravel: false,
+    kicker: 'Day 1 in Tokyo',
     events: [],
   },
   {
-    // Red-eye departs just after midnight into Dec 23
-    date: '2026-12-22', weekday: 'Tuesday', city: 'travel', kicker: 'Travel day — overnight to KL',
+    date: '2026-12-22', displayDate: 'Dec 22', weekday: 'Tuesday', city: 'travel', isTravel: true,
+    kicker: 'Travel day — overnight to KL',
     events: [
       { time: '00:05', title: 'Flight NH 885 HND → KUL', note: 'Departs 12:05 AM · Seats 4A / 4D / 4C · Boeing 787-8' },
     ],
   },
   {
-    date: '2026-12-23', weekday: 'Wednesday', city: 'kualalumpur', kicker: 'KL arrival',
+    date: '2026-12-23', displayDate: 'Dec 23', weekday: 'Wednesday', city: 'kualalumpur', isTravel: false,
+    kicker: 'KL arrival',
     events: [
       { time: '06:45', title: 'Arrive KLIA', note: 'Arrives 6:45 AM MYT' },
     ],
   },
   {
-    date: '2026-12-24', weekday: 'Thursday', city: 'kualalumpur', kicker: 'Day 2 in KL',
+    date: '2026-12-24', displayDate: 'Dec 24', weekday: 'Thursday', city: 'kualalumpur', isTravel: false,
+    kicker: 'Day 2 in KL',
     events: [],
   },
   {
-    date: '2026-12-25', weekday: 'Friday', city: 'kualalumpur', kicker: 'Day 3 in KL · Christmas Day',
+    date: '2026-12-25', displayDate: 'Dec 25', weekday: 'Friday', city: 'kualalumpur', isTravel: false,
+    kicker: 'Day 3 in KL · Christmas Day',
     events: [],
   },
   {
-    date: '2026-12-26', weekday: 'Saturday', city: 'kualalumpur', kicker: 'Day 4 in KL',
+    date: '2026-12-26', displayDate: 'Dec 26', weekday: 'Saturday', city: 'kualalumpur', isTravel: false,
+    kicker: 'Day 4 in KL',
     events: [],
   },
   {
-    date: '2026-12-27', weekday: 'Sunday', city: 'kualalumpur', kicker: 'Day 5 in KL',
+    date: '2026-12-27', displayDate: 'Dec 27', weekday: 'Sunday', city: 'kualalumpur', isTravel: false,
+    kicker: 'Day 5 in KL',
     events: [],
   },
   {
-    date: '2026-12-28', weekday: 'Monday', city: 'travel', kicker: 'Travel day',
+    date: '2026-12-28', displayDate: 'Dec 28', weekday: 'Monday', city: 'travel', isTravel: true,
+    kicker: 'Travel day',
     events: [
       { time: '', title: 'Flight KUL → SIN — TBD (not yet booked)', note: '' },
     ],
   },
   {
-    date: '2026-12-29', weekday: 'Tuesday', city: 'singapore', kicker: 'Day 1 in Singapore',
+    date: '2026-12-29', displayDate: 'Dec 29', weekday: 'Tuesday', city: 'singapore', isTravel: false,
+    kicker: 'Day 1 in Singapore',
     events: [],
   },
   {
-    date: '2026-12-30', weekday: 'Wednesday', city: 'singapore', kicker: 'Day 2 in Singapore',
+    date: '2026-12-30', displayDate: 'Dec 30', weekday: 'Wednesday', city: 'singapore', isTravel: false,
+    kicker: 'Day 2 in Singapore',
     events: [],
   },
   {
-    date: '2026-12-31', weekday: 'Thursday', city: 'singapore', kicker: "Day 3 in Singapore · New Year's Eve",
+    date: '2026-12-31', displayDate: 'Dec 31', weekday: 'Thursday', city: 'singapore', isTravel: false,
+    kicker: "Day 3 in Singapore · New Year's Eve",
     events: [],
   },
   {
-    date: '2027-01-01', weekday: 'Friday', city: 'travel', kicker: 'Return day',
+    date: '2027-01-01', displayDate: 'Jan 1', weekday: 'Friday', city: 'travel', isTravel: true,
+    kicker: 'Return day',
     events: [
       { time: '', title: 'Flight SIN → SFO — TBD (not yet booked)', note: '' },
     ],
