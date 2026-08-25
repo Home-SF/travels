@@ -13,7 +13,7 @@
       border: 1.5px solid var(--rule);
       border-radius: var(--radius);
       overflow: hidden;
-      margin-top: 1.5rem;
+      margin-top: 1rem;
     }
     #map { height: 100%; }
     .map-legend {
@@ -42,6 +42,7 @@
       <h1>Location Map</h1>
     </div>
 
+    <div id="filters-root"></div>
     <div id="map-container"><div id="map"></div></div>
     <div class="map-legend" id="legend"></div>
   </main>
@@ -94,6 +95,7 @@
 
       const bounds = [];
 
+      // City markers (always visible)
       for (const city of cities) {
         if (!city.coords?.lat) continue;
         const { lat, lon } = city.coords;
@@ -105,28 +107,46 @@
         marker.bindPopup(`<strong>${city.name}</strong><br>${city.hotel || ''}`);
       }
 
-      const travelerColors = {};
-      const travelerNames = {};
+      // Build traveler lookup maps
+      const travelerColors = {};       // key → color
+      const travelerColorsByName = {}; // name → color
+      const travelerNames = {};        // key → name
       for (const t of trip.travelers || []) {
         travelerColors[t.key] = t.color;
+        travelerColorsByName[t.name] = t.color;
         travelerNames[t.key] = t.name;
       }
 
-      // GPS tracks (polylines)
+      // Layer groups per traveler key
+      const travelerLayers = {};
+      for (const t of trip.travelers || []) {
+        travelerLayers[t.key] = L.layerGroup().addTo(map);
+      }
+      const unknownLayer = L.layerGroup().addTo(map);
+
+      function layerForKey(key) {
+        return travelerLayers[key] || unknownLayer;
+      }
+      function layerForName(name) {
+        const key = Object.keys(travelerNames).find(k => travelerNames[k] === name);
+        return key ? travelerLayers[key] : unknownLayer;
+      }
+
+      // GPS tracks
       for (const track of tracks) {
         const pts = track.points || [];
         if (!pts.length) continue;
         const color = travelerColors[track.id] || '#888';
+        const layer = layerForKey(track.id);
         const latLngs = pts.map(p => [p.lat, p.lon]);
         latLngs.forEach(ll => bounds.push(ll));
-        L.polyline(latLngs, { color, weight: 2.5, opacity: 0.7 }).addTo(map);
-
+        L.polyline(latLngs, { color, weight: 2.5, opacity: 0.7 }).addTo(layer);
         const step = Math.max(1, Math.floor(pts.length / 20));
         pts.filter((_, i) => i % step === 0).forEach(pt => {
           L.circleMarker([pt.lat, pt.lon], {
             radius: 4, color, fillColor: color, fillOpacity: 0.6, weight: 1,
-          }).addTo(map).bindPopup(
-            `${escHtml(track.id)}<br>${pt.timestamp ? new Date(pt.timestamp.seconds*1000).toLocaleString() : ''}`
+          }).addTo(layer).bindPopup(
+            `${escHtml(travelerNames[track.id] || track.id)}<br>${pt.timestamp ? new Date(pt.timestamp.seconds*1000).toLocaleString() : ''}`
           );
         });
       }
@@ -138,14 +158,14 @@
       const checkins = checkinSnap.docs.map(d => d.data());
       for (const c of checkins) {
         if (!c.lat || !c.lon) continue;
-        const travelerKey = Object.keys(travelerNames).find(k => travelerNames[k] === c.person) || c.personKey;
-        const color = travelerColors[travelerKey] || '#888';
+        const color = travelerColorsByName[c.person] || travelerColors[c.personKey] || '#888';
+        const layer = layerForName(c.person);
         const ts = c.timestamp?.toDate ? c.timestamp.toDate() : null;
         const when = ts ? ts.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '';
         bounds.push([c.lat, c.lon]);
         L.circleMarker([c.lat, c.lon], {
           radius: 6, color, fillColor: color, fillOpacity: 0.75, weight: 1.5,
-        }).addTo(map).bindPopup(
+        }).addTo(layer).bindPopup(
           `<strong>${escHtml(c.person || '')}</strong><br>${escHtml(c.placeName || '')}<br><span style="font-size:0.8em;color:#888">${escHtml(when)}</span>`
         );
       }
@@ -156,9 +176,45 @@
         map.setView([48.8566, 2.3522], 5);
       }
 
+      // Filter bar
+      const travelers = trip.travelers || [];
+      if (travelers.length >= 2) {
+        let activeKey = 'all';
+
+        function renderMapFilters() {
+          document.getElementById('filters-root').innerHTML = `
+            <div class="filter-bar" style="margin-top:1rem">
+              <button class="filter-btn ${activeKey === 'all' ? 'active' : ''}" data-key="all">All</button>
+              ${travelers.map(t => `
+                <button class="filter-btn ${activeKey === t.key ? 'active' : ''}" data-key="${escHtml(t.key)}"
+                  style="${activeKey === t.key ? `background:${escHtml(t.color)};border-color:${escHtml(t.color)};color:#fff` : ''}">
+                  ${escHtml(t.name)}
+                </button>
+              `).join('')}
+            </div>
+          `;
+          document.querySelectorAll('.filter-btn[data-key]').forEach(btn => {
+            btn.addEventListener('click', () => {
+              activeKey = btn.dataset.key;
+              for (const t of travelers) {
+                if (activeKey === 'all' || activeKey === t.key) {
+                  map.addLayer(travelerLayers[t.key]);
+                } else {
+                  map.removeLayer(travelerLayers[t.key]);
+                }
+              }
+              renderMapFilters();
+            });
+          });
+        }
+
+        renderMapFilters();
+      }
+
+      // Legend
       const legendItems = [
         ...cities.map(c => ({ label: c.name, color: cityColors[c.id] || '#888' })),
-        ...(trip.travelers || []).map(t => ({ label: t.name, color: t.color })),
+        ...travelers.map(t => ({ label: t.name, color: t.color })),
       ];
       document.getElementById('legend').innerHTML = legendItems.map(item => `
         <span class="legend-item">
