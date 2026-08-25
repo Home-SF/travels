@@ -581,7 +581,7 @@
                 </select>
               </div>
             </div>
-            <p class="day-exif-note">📷 Shot date is read from EXIF automatically. These are tagged to <strong>${escHtml(day.displayDate || day.date)}</strong> as fallback.</p>
+            <p class="day-exif-note">📷 Shot date is read from EXIF automatically. Photos without EXIF are tagged to today's date.</p>
             <label class="day-file-drop" id="day-file-drop">
               <input type="file" id="day-file-input" multiple accept="image/*" />
               <div>📷 Click or drag photos here</div>
@@ -683,7 +683,7 @@
 
         for (const item of filesToUpload) {
           const { file } = item;
-          const photoDate = item.exifDate || dayDate; // EXIF date or this day's date
+          const photoDate = item.exifDate || new Date().toISOString().slice(0, 10); // EXIF date or today
 
           const rowId = `drow-${Date.now()}-${Math.random().toString(36).slice(2)}`;
           log.insertAdjacentHTML('afterbegin', `

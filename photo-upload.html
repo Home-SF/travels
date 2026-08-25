@@ -252,7 +252,7 @@
           </div>
           <div class="field">
             <label>Fallback date (if no EXIF)</label>
-            <input type="date" id="sel-date" value="2026-08-07" min="2026-08-07" max="2026-08-23" />
+            <input type="date" id="sel-date" />
           </div>
         </div>
 
@@ -293,6 +293,10 @@
     const auth    = getAuth(app);
     const storage = getStorage(app);
 
+    // Default fallback date to today (used when a photo has no EXIF)
+    const todayISO = new Date().toISOString().slice(0, 10);
+    document.getElementById('sel-date').value = todayISO;
+
     document.getElementById('footer-root').innerHTML = renderFooter();
     document.getElementById('nav-root').innerHTML = renderNav(TRIP_ID, 'Paris & London', '');
 
@@ -327,7 +331,7 @@
 
     document.getElementById('sign-out-btn').addEventListener('click', () => signOut(auth));
 
-    // ── EXIF date extraction ────────────────────────────────
+    // ── EXIF date extraction ──────────────────────────────────
 
     // Parse EXIF DateTimeOriginal and return 'YYYY-MM-DD' or null
     async function extractExifDate(file) {
@@ -347,7 +351,7 @@
       return null;
     }
 
-    // ── File picking ────────────────────────────────────────────
+    // ── File picking ──────────────────────────────────────────
 
     // Each entry: { file: File, exifDate: string|null|undefined }
     // undefined = EXIF extraction still pending
