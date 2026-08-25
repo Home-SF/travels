@@ -62,7 +62,7 @@
     }
     .day-restaurant.reserved { border-left: 3px solid var(--brass-dark); }
 
-    /* ── Day upload panel ───────────────────────────────── */
+    /* ── Day upload panel ─────────────────────────────────── */
     .day-upload-panel {
       margin-top: 2.5rem;
       padding-top: 0.5rem;
@@ -264,6 +264,87 @@
     .day-upload-row__status { margin-top: 0.2rem; color: var(--ink-faint); }
     .day-upload-row.done .day-upload-row__bar { background: #16a34a; }
     .day-upload-row.error .day-upload-row__bar { background: #c0392b; }
+
+    /* ── Day photos section ───────────────────────────────────── */
+    .day-photos-section {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--rule);
+    }
+    .day-photos-head {
+      font-family: var(--display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .day-photos-head a {
+      font-family: var(--body, inherit);
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--navy);
+    }
+    .day-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.5rem;
+    }
+    .day-photo-item {
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: var(--radius);
+      cursor: pointer;
+      border: 1.5px solid var(--rule);
+      background: var(--bg-raised);
+    }
+    .day-photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.2s;
+    }
+    .day-photo-item:hover img { transform: scale(1.04); }
+
+    /* Lightbox */
+    .day-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem;
+    }
+    .day-lightbox.open { display: flex; }
+    .day-lightbox img {
+      max-width: 90vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: var(--radius);
+    }
+    .day-lightbox-caption {
+      color: #fff;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    .day-lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.75rem;
+      cursor: pointer;
+      line-height: 1;
+    }
   </style>
 </head>
 <body>
@@ -277,8 +358,16 @@
         <p>Loading day…</p>
       </div>
     </div>
+    <div id="day-photos-root"></div>
     <div id="day-upload-root"></div>
   </main>
+
+  <!-- Day lightbox -->
+  <div class="day-lightbox" id="day-lightbox">
+    <button class="day-lightbox-close" id="day-lb-close" aria-label="Close">×</button>
+    <img id="day-lb-img" src="" alt="" />
+    <div class="day-lightbox-caption" id="day-lb-caption"></div>
+  </div>
 
   <div id="footer-root"></div>
 
@@ -293,7 +382,7 @@
       getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
     import {
-      collection, addDoc, serverTimestamp
+      collection, addDoc, serverTimestamp, query, where, getDocs
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
     import exifr from 'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.esm.js';
 
@@ -380,7 +469,7 @@
       </div>`;
     }
 
-    // ── EXIF extraction ─────────────────────────────────────────
+    // ── EXIF extraction ────────────────────────────────────────
 
     async function extractExifDate(file) {
       try {
@@ -397,7 +486,7 @@
       return null;
     }
 
-    // ── Photo upload section ─────────────────────────────────────
+    // ── Photo upload section ───────────────────────────────────
 
     function initUploadSection(trip, day) {
       const auth    = getAuth(app);
@@ -647,7 +736,61 @@
       });
     }
 
-    // ── Main ──────────────────────────────────────────────────
+    // ── Day photo section ─────────────────────────────────────
+
+    // Lightbox wiring (shared across all day photos)
+    document.getElementById('day-lb-close').addEventListener('click', () => {
+      document.getElementById('day-lightbox').classList.remove('open');
+    });
+    document.getElementById('day-lightbox').addEventListener('click', e => {
+      if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+    });
+
+    function openDayLightbox(photo) {
+      document.getElementById('day-lb-img').src = photo.url || photo.thumbnailUrl;
+      document.getElementById('day-lb-img').alt = photo.caption || '';
+      document.getElementById('day-lb-caption').textContent =
+        [photo.caption, photo.person, photo.date].filter(Boolean).join(' · ');
+      document.getElementById('day-lightbox').classList.add('open');
+    }
+
+    async function renderDayPhotos(tripId, date) {
+      const root = document.getElementById('day-photos-root');
+      try {
+        const snap = await getDocs(
+          query(collection(db, 'trips', tripId, 'photos'), where('date', '==', date))
+        );
+        const dayPhotos = snap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => (a.uploadedAt?.toMillis?.() ?? 0) - (b.uploadedAt?.toMillis?.() ?? 0));
+
+        if (!dayPhotos.length) return; // no photos yet — show nothing
+
+        root.innerHTML = `
+          <div class="day-photos-section">
+            <div class="day-photos-head">
+              <span>Photos <span style="font-size:0.85rem;font-weight:400;color:var(--ink-soft)">(${dayPhotos.length})</span></span>
+              <a href="photos.html?trip=${encodeURIComponent(tripId)}">All photos →</a>
+            </div>
+            <div class="day-photo-grid" id="day-photo-grid">
+              ${dayPhotos.map((p, i) => `
+                <div class="day-photo-item" data-idx="${i}">
+                  <img src="${escHtml(p.thumbnailUrl || p.url)}" alt="${escHtml(p.caption || '')}" loading="lazy" />
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+
+        document.querySelectorAll('#day-photo-grid .day-photo-item').forEach(el => {
+          el.addEventListener('click', () => openDayLightbox(dayPhotos[+el.dataset.idx]));
+        });
+      } catch (err) {
+        console.error('Day photos error:', err);
+      }
+    }
+
+    // ── Main ───────────────────────────────────────────────────
 
     (async () => {
       if (!tripId || !date) {
@@ -683,6 +826,9 @@
         const dayRests = restaurants.filter(r => r.reservationDate === date);
 
         document.getElementById('day-root').innerHTML = renderDay(trip, day, prev, next, dayRests);
+
+        // Photos for this day
+        renderDayPhotos(tripId, date);
 
         // Initialize the upload section for this day
         initUploadSection(trip, day);
