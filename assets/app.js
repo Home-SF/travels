@@ -9,13 +9,13 @@ import {
 
 export { db };
 
-// ── URL params ────────────────────────────────────────────────
+// ── URL params ────────────────────────────────────────────
 
 export function getParam(key) {
   return new URLSearchParams(window.location.search).get(key);
 }
 
-// ── Firestore helpers ───────────────────────────────────────────────
+// ── Firestore helpers ─────────────────────────────────────
 
 /** Fetch a single trip document. */
 export async function fetchTrip(tripId) {
@@ -67,6 +67,14 @@ export async function fetchActivities(tripId, city = null) {
   return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 
+/** Fetch all photos for a trip, ordered by date ascending. */
+export async function fetchPhotos(tripId) {
+  const snap = await getDocs(
+    query(collection(db, 'trips', tripId, 'photos'), orderBy('date', 'asc'))
+  );
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
+
 /** Fetch recent checkins for a trip (most recent first). */
 export async function fetchCheckins(tripId, maxCount = 30) {
   const q = query(
@@ -79,7 +87,7 @@ export async function fetchCheckins(tripId, maxCount = 30) {
   return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 
-// ── Rendering helpers ───────────────────────────────────────────────
+// ── Rendering helpers ─────────────────────────────────────
 
 /** Build the shared site nav. tripLabel is optional e.g. "Paris & London 2026". */
 export function renderNav(tripId = null, tripLabel = null, activePage = '') {

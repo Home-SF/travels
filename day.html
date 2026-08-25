@@ -372,7 +372,7 @@
   <div id="footer-root"></div>
 
   <script type="module">
-    import { getParam, fetchTrip, fetchDay, fetchDays, fetchRestaurants,
+    import { getParam, fetchTrip, fetchDay, fetchDays, fetchRestaurants, fetchPhotos,
              renderNav, renderFooter, escHtml, fmtDate } from './assets/app.js';
     import { app, db } from './assets/firebase-config.js';
     import {
@@ -391,7 +391,7 @@
     const date    = getParam('date');
     document.getElementById('footer-root').innerHTML = renderFooter();
 
-    // ── Day rendering ──────────────────────────────────────────────────
+    // ── Day rendering ──────────────────────────────────────────
 
     function renderDay(trip, day, prev, next, dayRests) {
       const events = (day.events || []);
@@ -469,7 +469,7 @@
       </div>`;
     }
 
-    // ── EXIF extraction ────────────────────────────────────────────────
+    // ── EXIF extraction ────────────────────────────────────────
 
     async function extractExifDate(file) {
       try {
@@ -486,7 +486,7 @@
       return null;
     }
 
-    // ── Photo upload section ─────────────────────────────────────────
+    // ── Photo upload section ───────────────────────────────────
 
     function initUploadSection(trip, day) {
       const auth    = getAuth(app);
@@ -736,7 +736,7 @@
       });
     }
 
-    // ── Day photo section ─────────────────────────────────────────
+    // ── Day photo section ─────────────────────────────────────
 
     // Lightbox wiring (shared across all day photos)
     document.getElementById('day-lb-close').addEventListener('click', () => {
@@ -759,9 +759,9 @@
       // Temporary debug banner — remove once photos are working
       root.innerHTML = `<p style="font-size:0.75rem;color:var(--ink-faint);margin-top:1rem">📷 Loading photos for ${date}…</p>`;
       try {
-        // Plain collection read — no orderBy so no documents are excluded.
-        const snap = await getDocs(collection(db, 'trips', tripId, 'photos'));
-        const allPhotos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        // Use the same fetchPhotos helper as the rest of the app — same pattern as
+        // fetchDays/fetchRestaurants which are proven to work on this page.
+        const allPhotos = await fetchPhotos(tripId);
         const allDates = [...new Set(allPhotos.map(p => p.date))].join(', ') || '(none)';
         root.innerHTML = `<p style="font-size:0.75rem;color:var(--ink-faint);margin-top:1rem">📷 Debug: ${allPhotos.length} total photos. Dates: ${allDates}. Looking for: ${date}</p>`;
         const dayPhotos = allPhotos
@@ -795,7 +795,7 @@
       }
     }
 
-    // ── Main ─────────────────────────────────────────────────────
+    // ── Main ───────────────────────────────────────────────────
 
     (async () => {
       if (!tripId || !date) {
