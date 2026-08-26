@@ -46,6 +46,10 @@
   --singapore:   #16A085;
   --singapore-soft: #D5F0EB;
 
+  /* San Francisco */
+  --san-francisco:      #B45309;
+  --san-francisco-soft: #FEF3C7;
+
   /* Typography */
   --display: 'Big Shoulders Display', system-ui, sans-serif;
   --body:    'Inter', system-ui, sans-serif;
@@ -295,14 +299,15 @@ a:hover { text-decoration: underline; }
   letter-spacing: 0.02em;
 }
 
-.city-pill.paris      { background: var(--paris-soft);         color: var(--paris); }
-.city-pill.london     { background: var(--london-soft);        color: var(--london); }
-.city-pill.toronto    { background: var(--toronto-soft);       color: var(--toronto); }
-.city-pill.travel     { background: var(--travel-soft);        color: var(--travel); }
-.city-pill.tokyo      { background: var(--tokyo-soft);         color: var(--tokyo); }
-.city-pill.kuala-lumpur  { background: var(--kuala-lumpur-soft); color: var(--kuala-lumpur); }
-.city-pill.kualalumpur   { background: var(--kuala-lumpur-soft); color: var(--kuala-lumpur); }
-.city-pill.singapore  { background: var(--singapore-soft);    color: var(--singapore); }
+.city-pill.paris           { background: var(--paris-soft);            color: var(--paris); }
+.city-pill.london          { background: var(--london-soft);           color: var(--london); }
+.city-pill.toronto         { background: var(--toronto-soft);          color: var(--toronto); }
+.city-pill.travel          { background: var(--travel-soft);           color: var(--travel); }
+.city-pill.tokyo           { background: var(--tokyo-soft);            color: var(--tokyo); }
+.city-pill.kuala-lumpur    { background: var(--kuala-lumpur-soft);     color: var(--kuala-lumpur); }
+.city-pill.kualalumpur     { background: var(--kuala-lumpur-soft);     color: var(--kuala-lumpur); }
+.city-pill.singapore       { background: var(--singapore-soft);        color: var(--singapore); }
+.city-pill.sanfrancisco    { background: var(--san-francisco-soft);    color: var(--san-francisco); }
 
 .trip-card__travelers {
   font-size: 0.78rem;
@@ -343,14 +348,15 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 
-.day-card.is-travel    { background: var(--travel-soft); }
-.day-card.paris        { border-left: 3px solid var(--paris); }
-.day-card.london       { border-left: 3px solid var(--london); }
-.day-card.toronto      { border-left: 3px solid var(--toronto); }
-.day-card.tokyo        { border-left: 3px solid var(--tokyo); }
-.day-card.kuala-lumpur { border-left: 3px solid var(--kuala-lumpur); }
-.day-card.kualalumpur  { border-left: 3px solid var(--kuala-lumpur); }
-.day-card.singapore    { border-left: 3px solid var(--singapore); }
+.day-card.is-travel       { background: var(--travel-soft); }
+.day-card.paris           { border-left: 3px solid var(--paris); }
+.day-card.london          { border-left: 3px solid var(--london); }
+.day-card.toronto         { border-left: 3px solid var(--toronto); }
+.day-card.tokyo           { border-left: 3px solid var(--tokyo); }
+.day-card.kuala-lumpur    { border-left: 3px solid var(--kuala-lumpur); }
+.day-card.kualalumpur     { border-left: 3px solid var(--kuala-lumpur); }
+.day-card.singapore       { border-left: 3px solid var(--singapore); }
+.day-card.sanfrancisco    { border-left: 3px solid var(--san-francisco); }
 
 .day-card__weekday {
   font-family: var(--mono);
