@@ -50,6 +50,30 @@
   --san-francisco:      #B45309;
   --san-francisco-soft: #FEF3C7;
 
+  /* Europe 2025 — Mediterranean cruise */
+  --genoa:            #B04A2A;
+  --genoa-soft:       #F5E0D9;
+  --montecarlo:       #8B6914;
+  --montecarlo-soft:  #F5EDCA;
+  --livorno:          #4A7840;
+  --livorno-soft:     #DEF0D8;
+  --rome:             #C06828;
+  --rome-soft:        #FAE8D4;
+  --sorrento:         #1E6B8A;
+  --sorrento-soft:    #D0EAF5;
+  --santorini:        #1A52A8;
+  --santorini-soft:   #D5E6F8;
+  --rhodes:           #A07010;
+  --rhodes-soft:      #F8EEC8;
+  --antalya:          #0A7880;
+  --antalya-soft:     #C5EDF0;
+  --bodrum:           #6428A0;
+  --bodrum-soft:      #E8D5F8;
+  --patmos:           #2A6878;
+  --patmos-soft:      #D0EAF0;
+  --athens:           #8A5A20;
+  --athens-soft:      #F5E8D0;
+
   /* Typography */
   --display: 'Big Shoulders Display', system-ui, sans-serif;
   --body:    'Inter', system-ui, sans-serif;
@@ -308,6 +332,17 @@ a:hover { text-decoration: underline; }
 .city-pill.kualalumpur     { background: var(--kuala-lumpur-soft);     color: var(--kuala-lumpur); }
 .city-pill.singapore       { background: var(--singapore-soft);        color: var(--singapore); }
 .city-pill.sanfrancisco    { background: var(--san-francisco-soft);    color: var(--san-francisco); }
+.city-pill.genoa           { background: var(--genoa-soft);            color: var(--genoa); }
+.city-pill.montecarlo      { background: var(--montecarlo-soft);       color: var(--montecarlo); }
+.city-pill.livorno         { background: var(--livorno-soft);          color: var(--livorno); }
+.city-pill.rome            { background: var(--rome-soft);             color: var(--rome); }
+.city-pill.sorrento        { background: var(--sorrento-soft);         color: var(--sorrento); }
+.city-pill.santorini       { background: var(--santorini-soft);        color: var(--santorini); }
+.city-pill.rhodes          { background: var(--rhodes-soft);           color: var(--rhodes); }
+.city-pill.antalya         { background: var(--antalya-soft);          color: var(--antalya); }
+.city-pill.bodrum          { background: var(--bodrum-soft);           color: var(--bodrum); }
+.city-pill.patmos          { background: var(--patmos-soft);           color: var(--patmos); }
+.city-pill.athens          { background: var(--athens-soft);           color: var(--athens); }
 
 .trip-card__travelers {
   font-size: 0.78rem;
@@ -357,6 +392,17 @@ a:hover { text-decoration: underline; }
 .day-card.kualalumpur     { border-left: 3px solid var(--kuala-lumpur); }
 .day-card.singapore       { border-left: 3px solid var(--singapore); }
 .day-card.sanfrancisco    { border-left: 3px solid var(--san-francisco); }
+.day-card.genoa           { border-left: 3px solid var(--genoa); }
+.day-card.montecarlo      { border-left: 3px solid var(--montecarlo); }
+.day-card.livorno         { border-left: 3px solid var(--livorno); }
+.day-card.rome            { border-left: 3px solid var(--rome); }
+.day-card.sorrento        { border-left: 3px solid var(--sorrento); }
+.day-card.santorini       { border-left: 3px solid var(--santorini); }
+.day-card.rhodes          { border-left: 3px solid var(--rhodes); }
+.day-card.antalya         { border-left: 3px solid var(--antalya); }
+.day-card.bodrum          { border-left: 3px solid var(--bodrum); }
+.day-card.patmos          { border-left: 3px solid var(--patmos); }
+.day-card.athens          { border-left: 3px solid var(--athens); }
 
 .day-card__weekday {
   font-family: var(--mono);
