@@ -293,6 +293,7 @@
       gap: 0.5rem;
     }
     .day-photo-item {
+      position: relative;
       aspect-ratio: 1;
       overflow: hidden;
       border-radius: var(--radius);
@@ -308,6 +309,27 @@
       transition: transform 0.2s;
     }
     .day-photo-item:hover img { transform: scale(1.04); }
+    .day-photo-delete {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 22px;
+      height: 22px;
+      background: rgba(160, 0, 0, 0.78);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 0.78rem;
+      line-height: 1;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      z-index: 2;
+      transition: background 0.15s;
+    }
+    .day-photo-delete:hover { background: rgba(180, 0, 0, 1); }
 
     /* Lightbox */
     .day-lightbox {
@@ -379,16 +401,25 @@
       getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
     import {
-      getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL
+      getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL, deleteObject
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
     import {
-      collection, addDoc, serverTimestamp, query, where, getDocs, orderBy
+      collection, addDoc, serverTimestamp, query, where, getDocs, orderBy,
+      deleteDoc, doc
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
     import exifr from 'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.esm.js';
 
     const tripId  = getParam('trip');
     const date    = getParam('date');
     document.getElementById('footer-root').innerHTML = renderFooter();
+
+    // Extract Firebase Storage path from a download URL
+    function storagePathFromUrl(url) {
+      try {
+        const pathname = new URL(url).pathname;
+        return decodeURIComponent(pathname.split('/o/')[1]);
+      } catch (_) { return null; }
+    }
 
     // ── Day rendering ──────────────────────────────────────────
 
@@ -597,6 +628,11 @@
       }
 
       onAuthStateChanged(auth, user => {
+        // Show/hide delete buttons on day photos based on auth state
+        document.querySelectorAll('.day-photo-delete').forEach(btn => {
+          btn.style.display = user ? 'flex' : 'none';
+        });
+
         if (user) {
           renderUploadForm(user.email);
         } else {
@@ -609,7 +645,6 @@
     // ── File picking & upload (day page) ──────────────────────
 
     function initFilePickerAndUpload(dayDate) {
-      // { file: File, exifDate: string|null|undefined }
       let selectedFiles = [];
 
       const fileInput   = document.getElementById('day-file-input');
@@ -696,8 +731,8 @@
           `);
 
           try {
-            const path = `photos/${tripId}/${photoDate}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
-            const sRef = storageRef(storage, path);
+            const storagePath = `photos/${tripId}/${photoDate}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+            const sRef = storageRef(storage, storagePath);
             const task = uploadBytesResumable(sRef, file, { contentType: file.type, customMetadata: { person } });
 
             await new Promise((resolve, reject) => {
@@ -717,6 +752,7 @@
               person, city,
               date: photoDate,
               filename: file.name,
+              storagePath,
               tripId: tripId,
               uploadedAt: serverTimestamp(),
             });
@@ -739,7 +775,6 @@
 
     // ── Day photo section ─────────────────────────────────────
 
-    // Lightbox wiring (shared across all day photos)
     document.getElementById('day-lb-close').addEventListener('click', () => {
       document.getElementById('day-lightbox').classList.remove('open');
     });
@@ -756,35 +791,77 @@
     }
 
     async function renderDayPhotos(tripId, date) {
-      const root = document.getElementById('day-photos-root');
+      const root    = document.getElementById('day-photos-root');
+      const storage = getStorage(app);
+
       try {
         const allPhotos = await fetchPhotos(tripId);
-        const dayPhotos = allPhotos
+        let dayPhotos = allPhotos
           .filter(p => p.date === date)
           .sort((a, b) => (a.uploadedAt?.toMillis?.() ?? 0) - (b.uploadedAt?.toMillis?.() ?? 0));
 
-        if (!dayPhotos.length) return; // no photos for this day yet
+        if (!dayPhotos.length) return;
 
-        root.innerHTML = `
-          <div class="day-photos-section">
-            <div class="day-photos-head">
-              <span>Photos <span style="font-size:0.85rem;font-weight:400;color:var(--ink-soft)">(${dayPhotos.length})</span></span>
-              <a href="photos.html?trip=${encodeURIComponent(tripId)}">All photos →</a>
+        function renderGrid() {
+          if (!dayPhotos.length) {
+            root.innerHTML = '';
+            return;
+          }
+          root.innerHTML = `
+            <div class="day-photos-section">
+              <div class="day-photos-head">
+                <span>Photos <span style="font-size:0.85rem;font-weight:400;color:var(--ink-soft)">(${dayPhotos.length})</span></span>
+                <a href="photos.html?trip=${encodeURIComponent(tripId)}">All photos →</a>
+              </div>
+              <div class="day-photo-grid" id="day-photo-grid">
+                ${dayPhotos.map((p, i) => `
+                  <div class="day-photo-item" data-idx="${i}" data-id="${escHtml(p.id)}" data-url="${escHtml(p.url || '')}">
+                    <img src="${escHtml(p.thumbnailUrl || p.url)}" alt="${escHtml(p.caption || '')}" loading="lazy"
+                         onerror="this.style.opacity='0.35'" />
+                    <button class="day-photo-delete" title="Delete photo">✕</button>
+                  </div>
+                `).join('')}
+              </div>
             </div>
-            <div class="day-photo-grid" id="day-photo-grid">
-              ${dayPhotos.map((p, i) => `
-                <div class="day-photo-item" data-idx="${i}">
-                  <img src="${escHtml(p.thumbnailUrl || p.url)}" alt="${escHtml(p.caption || '')}" loading="lazy"
-                       onerror="this.closest('.day-photo-item').style.display='none'" />
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
+          `;
 
-        document.querySelectorAll('#day-photo-grid .day-photo-item').forEach(el => {
-          el.addEventListener('click', () => openDayLightbox(dayPhotos[+el.dataset.idx]));
-        });
+          document.querySelectorAll('#day-photo-grid .day-photo-item').forEach(el => {
+            el.addEventListener('click', e => {
+              if (e.target.closest('.day-photo-delete')) return;
+              openDayLightbox(dayPhotos[+el.dataset.idx]);
+            });
+
+            el.querySelector('.day-photo-delete').addEventListener('click', async e => {
+              e.stopPropagation();
+              if (!confirm('Delete this photo? This cannot be undone.')) return;
+              const btn = e.currentTarget;
+              btn.disabled = true;
+              btn.textContent = '…';
+              const photoId  = el.dataset.id;
+              const photoUrl = el.dataset.url;
+              try {
+                // Try storage first (ignore 404 — may already be deleted)
+                const path = storagePathFromUrl(photoUrl);
+                if (path) {
+                  try { await deleteObject(storageRef(storage, path)); }
+                  catch (e) { if (e.code !== 'storage/object-not-found') throw e; }
+                }
+                // Always remove the Firestore record
+                await deleteDoc(doc(db, 'trips', tripId, 'photos', photoId));
+                dayPhotos = dayPhotos.filter(p => p.id !== photoId);
+                renderGrid();
+              } catch (err) {
+                console.error('Delete failed:', err);
+                btn.textContent = '✕';
+                btn.disabled = false;
+                alert('Delete failed: ' + err.message);
+              }
+            });
+          });
+        }
+
+        renderGrid();
+
       } catch (err) {
         console.error('Day photos error:', err);
         root.innerHTML = `<p style="font-size:0.75rem;color:#c0392b;margin-top:1rem">📷 Photo load error: ${err.message}</p>`;
@@ -828,10 +905,10 @@
 
         document.getElementById('day-root').innerHTML = renderDay(trip, day, prev, next, dayRests);
 
-        // Photos for this day
+        // Photos for this day (loads independently)
         renderDayPhotos(tripId, date);
 
-        // Initialize the upload section for this day
+        // Initialize the upload section (also wires auth → delete button visibility)
         initUploadSection(trip, day);
 
       } catch (err) {
