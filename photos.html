@@ -13,6 +13,7 @@
       margin-top: 1rem;
     }
     .photo-item {
+      position: relative;
       background: var(--bg-raised);
       border: 1.5px solid var(--rule);
       border-radius: var(--radius);
@@ -32,6 +33,28 @@
       font-size: 0.72rem;
       color: var(--ink-soft);
     }
+    /* Delete button */
+    .photo-delete-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 22px;
+      height: 22px;
+      background: rgba(160, 0, 0, 0.78);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 0.78rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      z-index: 2;
+      transition: background 0.15s;
+    }
+    .photo-delete-btn:hover { background: rgba(180, 0, 0, 1); }
     /* Sort control */
     .sort-select {
       font-size: 0.78rem;
@@ -110,19 +133,47 @@
   <div id="footer-root"></div>
 
   <script type="module">
-    import { db } from './assets/firebase-config.js';
+    import { app, db } from './assets/firebase-config.js';
     import { getParam, fetchTrip, renderNav, renderFooter, escHtml } from './assets/app.js';
-    import { collection, query, where, orderBy, getDocs }
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+    import { getStorage, ref as storageRef, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+    import { collection, query, orderBy, getDocs, deleteDoc, doc }
       from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
     const tripId = getParam('trip');
     document.getElementById('footer-root').innerHTML = renderFooter();
+
+    const auth    = getAuth(app);
+    const storage = getStorage(app);
 
     let photos = [];
     let cityInfo = {};
     let cities = [];
     let activeCity = 'all';
     let sortOrder = 'date-asc'; // 'date-asc' | 'date-desc' | 'uploaded-desc'
+    let authed = false;
+
+    // Extract Firebase Storage path from a download URL
+    function storagePathFromUrl(url) {
+      try {
+        const pathname = new URL(url).pathname; // /v0/b/BUCKET/o/ENCODED_PATH
+        return decodeURIComponent(pathname.split('/o/')[1]);
+      } catch (_) { return null; }
+    }
+
+    async function deletePhoto(photoId, photoUrl) {
+      // Delete from Storage (ignore 404 — file may already be gone)
+      const path = storagePathFromUrl(photoUrl);
+      if (path) {
+        try { await deleteObject(storageRef(storage, path)); } catch (e) {
+          if (e.code !== 'storage/object-not-found') throw e;
+        }
+      }
+      // Always delete the Firestore record
+      await deleteDoc(doc(db, 'trips', tripId, 'photos', photoId));
+      // Remove from local array
+      photos = photos.filter(p => p.id !== photoId);
+    }
 
     function sorted(list) {
       const copy = [...list];
@@ -135,7 +186,6 @@
           return tb - ta;
         });
       }
-      // 'date-asc' — already ordered by Firestore
       return copy;
     }
 
@@ -169,7 +219,7 @@
       document.querySelectorAll('.filter-btn[data-city]').forEach(btn => {
         btn.addEventListener('click', () => { activeCity = btn.dataset.city; render(); });
       });
-      document.getElementById('sort-select').addEventListener('change', e => {
+      document.getElementById('sort-select')?.addEventListener('change', e => {
         sortOrder = e.target.value; render();
       });
 
@@ -182,8 +232,10 @@
       document.getElementById('photos-root').innerHTML = `
         <div class="photo-grid">
           ${list.map((p, i) => `
-            <div class="photo-item" data-idx="${i}">
-              <img src="${escHtml(p.thumbnailUrl || p.url)}" alt="${escHtml(p.caption||'')}" loading="lazy" />
+            <div class="photo-item" data-idx="${i}" data-id="${escHtml(p.id)}" data-url="${escHtml(p.url || p.thumbnailUrl)}">
+              <img src="${escHtml(p.thumbnailUrl || p.url)}" alt="${escHtml(p.caption||'')}" loading="lazy"
+                   onerror="this.closest('.photo-item').style.opacity='0.35'" />
+              <button class="photo-delete-btn" title="Delete photo" style="display:${authed?'flex':'none'}">✕</button>
               ${p.caption ? `<div class="photo-caption">${escHtml(p.caption)}</div>` : ''}
             </div>
           `).join('')}
@@ -191,7 +243,29 @@
       `;
 
       document.querySelectorAll('.photo-item').forEach(el => {
-        el.addEventListener('click', () => openLightbox(list[+el.dataset.idx]));
+        // Open lightbox on click (but not on delete button)
+        el.addEventListener('click', e => {
+          if (e.target.closest('.photo-delete-btn')) return;
+          openLightbox(list[+el.dataset.idx]);
+        });
+
+        // Delete
+        el.querySelector('.photo-delete-btn')?.addEventListener('click', async e => {
+          e.stopPropagation();
+          if (!confirm('Delete this photo? This cannot be undone.')) return;
+          const btn = e.currentTarget;
+          btn.disabled = true;
+          btn.textContent = '…';
+          try {
+            await deletePhoto(el.dataset.id, el.dataset.url);
+            render(); // re-render with updated photos array
+          } catch (err) {
+            console.error('Delete failed:', err);
+            btn.textContent = '✕';
+            btn.disabled = false;
+            alert('Delete failed: ' + err.message);
+          }
+        });
       });
     }
 
@@ -208,6 +282,14 @@
     });
     document.getElementById('lightbox').addEventListener('click', e => {
       if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+    });
+
+    // Show/hide delete buttons when auth state changes
+    onAuthStateChanged(auth, user => {
+      authed = !!user;
+      document.querySelectorAll('.photo-delete-btn').forEach(btn => {
+        btn.style.display = authed ? 'flex' : 'none';
+      });
     });
 
     (async () => {
