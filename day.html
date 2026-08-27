@@ -386,7 +386,6 @@
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
     import exifr from 'https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.esm.js';
 
-    const TRIP_ID = 'paris-london-2026';
     const tripId  = getParam('trip');
     const date    = getParam('date');
     document.getElementById('footer-root').innerHTML = renderFooter();
@@ -492,16 +491,16 @@
       const auth    = getAuth(app);
       const storage = getStorage(app);
 
-      // Infer city from day data or date range (Paris → London)
-      const dayCity = day.city
-        || (day.date >= '2026-08-15' ? 'london' : day.date >= '2026-08-07' ? 'paris' : 'toronto');
+      // Use day.city directly — always present in seeded data
+      const dayCity = day.city || '';
 
       const PERSONS = [
         'Michael Lee', 'Uwen Kok', 'Carl Kurbat',
         'Amanda Lee', 'Norman Lee', 'Megan Lee', 'Brodie Demain',
       ];
 
-      const CITIES = { toronto: 'Toronto', paris: 'Paris', london: 'London' };
+      // Build city list dynamically from the trip document
+      const CITIES = Object.fromEntries((trip.cities || []).map(c => [c.id, c.name]));
 
       const root = document.getElementById('day-upload-root');
       root.innerHTML = `
@@ -695,7 +694,7 @@
           `);
 
           try {
-            const path = `photos/${TRIP_ID}/${photoDate}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+            const path = `photos/${tripId}/${photoDate}_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
             const sRef = storageRef(storage, path);
             const task = uploadBytesResumable(sRef, file, { contentType: file.type, customMetadata: { person } });
 
@@ -711,19 +710,19 @@
             });
 
             const url = await getDownloadURL(sRef);
-            await addDoc(collection(db, 'trips', TRIP_ID, 'photos'), {
+            await addDoc(collection(db, 'trips', tripId, 'photos'), {
               url, thumbnailUrl: url,
               person, city,
               date: photoDate,
               filename: file.name,
-              tripId: TRIP_ID,
+              tripId: tripId,
               uploadedAt: serverTimestamp(),
             });
 
             document.getElementById(rowId).classList.add('done');
             document.getElementById(`bar-${rowId}`).style.width = '100%';
             document.getElementById(`st-${rowId}`).innerHTML =
-              `✓ Done — <a href="photos.html?trip=${TRIP_ID}" target="_blank">View gallery →</a>`;
+              `✓ Done — <a href="photos.html?trip=${encodeURIComponent(tripId)}" target="_blank">View gallery →</a>`;
 
           } catch (err) {
             document.getElementById(rowId).classList.add('error');
