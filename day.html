@@ -580,7 +580,7 @@
                 </select>
               </div>
             </div>
-            <p class="day-exif-note">📷 Shot date is read from EXIF automatically. Photos without EXIF are tagged to today's date.</p>
+            <p class="day-exif-note">📷 Shot date is read from EXIF automatically. Photos without EXIF are tagged to this day's date.</p>
             <label class="day-file-drop" id="day-file-drop">
               <input type="file" id="day-file-input" multiple accept="image/*" />
               <div>📷 Click or drag photos here</div>
@@ -655,6 +655,7 @@
           div.innerHTML = `
             <img src="${url}" />
             ${badge}
+            ${exifDate === null ? `<div class="day-preview-date" style="background:rgba(180,100,0,0.7)">📅 ${escHtml(dayDate)}</div>` : ''}
             <button class="day-preview-remove" data-idx="${i}">×</button>
             <div class="day-preview-name">${escHtml(file.name)}</div>
           `;
@@ -682,7 +683,8 @@
 
         for (const item of filesToUpload) {
           const { file } = item;
-          const photoDate = item.exifDate || new Date().toISOString().slice(0, 10); // EXIF date or today
+          // Fall back to the trip day's date (not today) when no EXIF
+          const photoDate = item.exifDate || dayDate;
 
           const rowId = `drow-${Date.now()}-${Math.random().toString(36).slice(2)}`;
           log.insertAdjacentHTML('afterbegin', `
