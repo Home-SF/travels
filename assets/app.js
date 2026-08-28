@@ -55,16 +55,20 @@ export async function fetchRestaurants(tripId, city = null) {
   return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 
-/** Fetch activities for a trip. Optionally filter by city. */
+/** Fetch activities for a trip. Optionally filter by city.
+ *  Sorts in JS to avoid requiring a composite Firestore index on (city, order).
+ */
 export async function fetchActivities(tripId, city = null) {
   let q = collection(db, 'trips', tripId, 'activities');
   if (city) {
-    q = query(q, where('city', '==', city), orderBy('order', 'asc'));
-  } else {
-    q = query(q, orderBy('city', 'asc'), orderBy('order', 'asc'));
+    q = query(q, where('city', '==', city));
   }
   const snap = await getDocs(q);
-  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  const acts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  return acts.sort((a, b) =>
+    (a.city || '').localeCompare(b.city || '') ||
+    ((a.order ?? 999) - (b.order ?? 999))
+  );
 }
 
 /** Fetch all photos for a trip, ordered by date ascending. */
