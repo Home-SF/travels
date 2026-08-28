@@ -74,6 +74,14 @@
   --athens:           #8A5A20;
   --athens-soft:      #F5E8D0;
 
+  /* Europe 2025 — country groupings (restaurants tab) */
+  --italy:            #8B3A10;
+  --italy-soft:       #F5E2D5;
+  --greece:           #0D3B7A;
+  --greece-soft:      #D0DCF5;
+  --turkey:           #9C1A1A;
+  --turkey-soft:      #F5D5D5;
+
   /* Bordeaux · Spain 2022 */
   --bordeaux:           #7A2838;
   --bordeaux-soft:      #F5DDE0;
@@ -377,6 +385,9 @@ a:hover { text-decoration: underline; }
 .city-pill.bodrum          { background: var(--bodrum-soft);           color: var(--bodrum); }
 .city-pill.patmos          { background: var(--patmos-soft);           color: var(--patmos); }
 .city-pill.athens          { background: var(--athens-soft);           color: var(--athens); }
+.city-pill.italy           { background: var(--italy-soft);            color: var(--italy); }
+.city-pill.greece          { background: var(--greece-soft);           color: var(--greece); }
+.city-pill.turkey          { background: var(--turkey-soft);           color: var(--turkey); }
 .city-pill.bordeaux        { background: var(--bordeaux-soft);         color: var(--bordeaux); }
 .city-pill.sansebastian    { background: var(--sansebastian-soft);     color: var(--sansebastian); }
 .city-pill.bilbao          { background: var(--bilbao-soft);           color: var(--bilbao); }
@@ -450,6 +461,9 @@ a:hover { text-decoration: underline; }
 .day-card.bodrum          { border-left: 3px solid var(--bodrum); }
 .day-card.patmos          { border-left: 3px solid var(--patmos); }
 .day-card.athens          { border-left: 3px solid var(--athens); }
+.day-card.italy           { border-left: 3px solid var(--italy); }
+.day-card.greece          { border-left: 3px solid var(--greece); }
+.day-card.turkey          { border-left: 3px solid var(--turkey); }
 .day-card.bordeaux        { border-left: 3px solid var(--bordeaux); }
 .day-card.sansebastian    { border-left: 3px solid var(--sansebastian); }
 .day-card.bilbao          { border-left: 3px solid var(--bilbao); }
