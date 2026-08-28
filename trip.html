@@ -75,18 +75,33 @@
     document.getElementById('footer-root').innerHTML = renderFooter();
 
     function renderTrip(trip, days) {
-      const cities = trip.cities || [];
+      const cities      = trip.cities      || [];
+      const cityGroups  = trip.cityGroups  || {};   // { genoa: 'italy', rome: 'italy', … }
+      const groupNames  = trip.cityGroupNames || {}; // { italy: 'Italy', … }
+
+      // Resolve a day's city to its display group key (country or self)
+      function groupKey(dayCity) {
+        if (!dayCity || dayCity === 'travel') return 'travel';
+        return cityGroups[dayCity] || dayCity;
+      }
+
+      // Resolve display name: groupNames → trip.cities → raw key
+      function groupDisplayName(key) {
+        if (groupNames[key]) return groupNames[key];
+        const cityObj = cities.find(c => c.id === key);
+        return cityObj ? cityObj.name : key;
+      }
 
       let sectionsHtml;
       if (!days.length) {
         sectionsHtml = `<div class="empty-state" style="padding:1rem">No days scheduled.</div>`;
       } else {
-        // Group consecutive days by city so travel days appear inline in date order
+        // Group consecutive days by their resolved group key
         const groups = [];
         for (const day of days) {
-          const dc = day.city || 'travel';
-          if (!groups.length || groups[groups.length - 1].city !== dc) {
-            groups.push({ city: dc, days: [day] });
+          const gk = groupKey(day.city);
+          if (!groups.length || groups[groups.length - 1].key !== gk) {
+            groups.push({ key: gk, days: [day] });
           } else {
             groups[groups.length - 1].days.push(day);
           }
@@ -94,22 +109,42 @@
 
         sectionsHtml = groups.map(g => {
           const cardsHtml = `<div class="days-grid">${g.days.map(d => renderDayCard(d, tripId)).join('')}</div>`;
-          if (g.city === 'travel') return cardsHtml; // no header for travel days
-          const cityObj = cities.find(c => c.id === g.city);
-          const cityName = cityObj ? cityObj.name : g.city;
-          return `<div class="city-section-head">${escHtml(cityName)}</div>${cardsHtml}`;
+          if (g.key === 'travel') return cardsHtml; // no header for travel days
+          return `<div class="city-section-head">${escHtml(groupDisplayName(g.key))}</div>${cardsHtml}`;
         }).join('');
       }
 
-      // Per-city quick links
-      const cityLinksHtml = cities.map(city => `
-        <a class="quick-link" href="restaurants.html?trip=${encodeURIComponent(tripId)}&city=${city.id}">
-          ${escHtml(city.name)} Dining →
-        </a>
-        <a class="quick-link" href="activities.html?trip=${encodeURIComponent(tripId)}&city=${city.id}">
-          ${escHtml(city.name)} Activities →
-        </a>
-      `).join('');
+      // Quick links — use group names if cityGroups present, else individual cities
+      let cityLinksHtml;
+      if (Object.keys(cityGroups).length) {
+        // Deduplicated group keys in order of first appearance
+        const seen = new Set();
+        const orderedGroups = [];
+        for (const cityId of Object.keys(cityGroups)) {
+          const gk = cityGroups[cityId];
+          if (!seen.has(gk)) { seen.add(gk); orderedGroups.push(gk); }
+        }
+        cityLinksHtml = orderedGroups.map(gk => {
+          const label = groupDisplayName(gk);
+          return `
+            <a class="quick-link" href="restaurants.html?trip=${encodeURIComponent(tripId)}&city=${encodeURIComponent(gk)}">
+              ${escHtml(label)} Dining →
+            </a>
+            <a class="quick-link" href="activities.html?trip=${encodeURIComponent(tripId)}&city=${encodeURIComponent(gk)}">
+              ${escHtml(label)} Activities →
+            </a>
+          `;
+        }).join('');
+      } else {
+        cityLinksHtml = cities.map(city => `
+          <a class="quick-link" href="restaurants.html?trip=${encodeURIComponent(tripId)}&city=${city.id}">
+            ${escHtml(city.name)} Dining →
+          </a>
+          <a class="quick-link" href="activities.html?trip=${encodeURIComponent(tripId)}&city=${city.id}">
+            ${escHtml(city.name)} Activities →
+          </a>
+        `).join('');
+      }
 
       return `
         <div class="trip-hero">
