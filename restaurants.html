@@ -114,7 +114,7 @@
         const url = typeof v === 'string' ? v : v?.url;
         const label = { website: 'Website', menu: 'Menu', reserve: 'Reserve',
                         michelin: 'Michelin', infatuation: 'Infatuation',
-                        instagram: 'Instagram' }[k] || k;
+                        instagram: 'Instagram', maps: 'Map' }[k] || k;
         return url
           ? `<a class="rest-link" href="${escHtml(url)}" target="_blank" rel="noopener">${label} →</a>`
           : '';
