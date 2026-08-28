@@ -65,11 +65,13 @@
           return;
         }
 
-        // Pin any active trip to the top
+        // Active trip pinned first, then reverse chronological by start date
         trips.sort((a, b) => {
           if (a.status === 'active') return -1;
           if (b.status === 'active') return 1;
-          return 0;
+          const aDate = a.dates?.start || '';
+          const bDate = b.dates?.start || '';
+          return bDate.localeCompare(aDate);
         });
 
         root.innerHTML = `<div class="trip-grid">${trips.map(renderTripCard).join('')}</div>`;
