@@ -86,6 +86,28 @@
   --bayonne:            #B05820;
   --bayonne-soft:       #F5E0C8;
 
+  /* Japan 2023 */
+  --kyoto:          #6B3A6B;
+  --kyoto-soft:     #F0E0F0;
+  --nagano:         #4A7830;
+  --nagano-soft:    #DAEFD0;
+
+  /* Thailand 2023 */
+  --bangkok:        #A0522D;
+  --bangkok-soft:   #FAE8D5;
+  --pattaya:        #0E7C7B;
+  --pattaya-soft:   #C8EDEC;
+  --udonthani:      #7A5C38;
+  --udonthani-soft: #F0E8D8;
+
+  /* Italy 2024 */
+  --florence:       #A06820;
+  --florence-soft:  #FAF0D8;
+  --siena:          #9B4820;
+  --siena-soft:     #F5E0D0;
+  --bologna:        #8B3030;
+  --bologna-soft:   #F5D8D8;
+
   /* Typography */
   --display: 'Big Shoulders Display', system-ui, sans-serif;
   --body:    'Inter', system-ui, sans-serif;
@@ -360,6 +382,14 @@ a:hover { text-decoration: underline; }
 .city-pill.bilbao          { background: var(--bilbao-soft);           color: var(--bilbao); }
 .city-pill.mutriku         { background: var(--mutriku-soft);          color: var(--mutriku); }
 .city-pill.bayonne         { background: var(--bayonne-soft);          color: var(--bayonne); }
+.city-pill.kyoto           { background: var(--kyoto-soft);            color: var(--kyoto); }
+.city-pill.nagano          { background: var(--nagano-soft);           color: var(--nagano); }
+.city-pill.bangkok         { background: var(--bangkok-soft);          color: var(--bangkok); }
+.city-pill.pattaya         { background: var(--pattaya-soft);          color: var(--pattaya); }
+.city-pill.udonthani       { background: var(--udonthani-soft);        color: var(--udonthani); }
+.city-pill.florence        { background: var(--florence-soft);         color: var(--florence); }
+.city-pill.siena           { background: var(--siena-soft);            color: var(--siena); }
+.city-pill.bologna         { background: var(--bologna-soft);          color: var(--bologna); }
 
 .trip-card__travelers {
   font-size: 0.78rem;
@@ -425,6 +455,14 @@ a:hover { text-decoration: underline; }
 .day-card.bilbao          { border-left: 3px solid var(--bilbao); }
 .day-card.mutriku         { border-left: 3px solid var(--mutriku); }
 .day-card.bayonne         { border-left: 3px solid var(--bayonne); }
+.day-card.kyoto           { border-left: 3px solid var(--kyoto); }
+.day-card.nagano          { border-left: 3px solid var(--nagano); }
+.day-card.bangkok         { border-left: 3px solid var(--bangkok); }
+.day-card.pattaya         { border-left: 3px solid var(--pattaya); }
+.day-card.udonthani       { border-left: 3px solid var(--udonthani); }
+.day-card.florence        { border-left: 3px solid var(--florence); }
+.day-card.siena           { border-left: 3px solid var(--siena); }
+.day-card.bologna         { border-left: 3px solid var(--bologna); }
 
 .day-card__weekday {
   font-family: var(--mono);
