@@ -86,6 +86,12 @@
   --bayonne:            #B05820;
   --bayonne-soft:       #F5E0C8;
 
+  /* Japan 2023 */
+  --kyoto:              #6B3A6B;
+  --kyoto-soft:         #F0E0F0;
+  --nagano:             #4A7830;
+  --nagano-soft:        #DAEFD0;
+
   /* Typography */
   --display: 'Big Shoulders Display', system-ui, sans-serif;
   --body:    'Inter', system-ui, sans-serif;
@@ -360,6 +366,8 @@ a:hover { text-decoration: underline; }
 .city-pill.bilbao          { background: var(--bilbao-soft);           color: var(--bilbao); }
 .city-pill.mutriku         { background: var(--mutriku-soft);          color: var(--mutriku); }
 .city-pill.bayonne         { background: var(--bayonne-soft);          color: var(--bayonne); }
+.city-pill.kyoto           { background: var(--kyoto-soft);            color: var(--kyoto); }
+.city-pill.nagano          { background: var(--nagano-soft);           color: var(--nagano); }
 
 .trip-card__travelers {
   font-size: 0.78rem;
@@ -425,6 +433,8 @@ a:hover { text-decoration: underline; }
 .day-card.bilbao          { border-left: 3px solid var(--bilbao); }
 .day-card.mutriku         { border-left: 3px solid var(--mutriku); }
 .day-card.bayonne         { border-left: 3px solid var(--bayonne); }
+.day-card.kyoto           { border-left: 3px solid var(--kyoto); }
+.day-card.nagano          { border-left: 3px solid var(--nagano); }
 
 .day-card__weekday {
   font-family: var(--mono);
