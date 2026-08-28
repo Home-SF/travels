@@ -35,11 +35,18 @@
     const cityParam = getParam('city');
     document.getElementById('footer-root').innerHTML = renderFooter();
 
+    // Display names for country-grouped trips (city id → label)
+    const COUNTRY_LABELS = { italy: 'Italy', greece: 'Greece', turkey: 'Turkey' };
+
     let activeCity = cityParam || 'all';
     let showReservedOnly = false;
     let allRests = [];
     let cities = [];
     let cityInfo = {};
+
+    function cityLabel(c) {
+      return cityInfo[c] || COUNTRY_LABELS[c] || c;
+    }
 
     function filteredRests() {
       let list = allRests;
@@ -56,7 +63,7 @@
           <button class="filter-btn ${activeCity==='all'?'active':''}" data-city="all">All</button>
           ${cities.map(c => `
             <button class="filter-btn ${activeCity===c?'active':''}" data-city="${escHtml(c)}">
-              ${escHtml(cityInfo[c] || c)}
+              ${escHtml(cityLabel(c))}
             </button>
           `).join('')}
           <button class="filter-btn ${showReservedOnly?'active':''}" id="filter-reserved">
@@ -73,8 +80,8 @@
         showReservedOnly = !showReservedOnly; render();
       });
 
-      const cityLabel = activeCity === 'all' ? '' : ` — ${cityInfo[activeCity] || activeCity}`;
-      document.getElementById('page-title').textContent = `Dining${cityLabel}`;
+      const label = activeCity === 'all' ? '' : ` — ${cityLabel(activeCity)}`;
+      document.getElementById('page-title').textContent = `Dining${label}`;
 
       if (!list.length) {
         document.getElementById('rests-root').innerHTML =
