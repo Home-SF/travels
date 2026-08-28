@@ -35,11 +35,18 @@
     const cityParam = getParam('city');
     document.getElementById('footer-root').innerHTML = renderFooter();
 
+    // Display names for country-grouped trips (city id → label)
+    const COUNTRY_LABELS = { italy: 'Italy', greece: 'Greece', turkey: 'Turkey' };
+
     let allActs = [];
     let cities = [];
     let cityInfo = {};
     let activeCity = cityParam || 'all';
     let showPlanned = false;
+
+    function cityLabel(c) {
+      return cityInfo[c] || COUNTRY_LABELS[c] || c;
+    }
 
     function filteredActs() {
       let list = allActs;
@@ -56,7 +63,7 @@
           <button class="filter-btn ${activeCity==='all'?'active':''}" data-city="all">All</button>
           ${cities.map(c => `
             <button class="filter-btn ${activeCity===c?'active':''}" data-city="${escHtml(c)}">
-              ${escHtml(cityInfo[c] || c)}
+              ${escHtml(cityLabel(c))}
             </button>
           `).join('')}
           <button class="filter-btn ${showPlanned?'active':''}" id="filter-planned">Planned only</button>
@@ -71,8 +78,8 @@
         showPlanned = !showPlanned; render();
       });
 
-      const cityLabel = activeCity === 'all' ? '' : ` — ${cityInfo[activeCity] || activeCity}`;
-      document.getElementById('page-title').textContent = `Things to Do${cityLabel}`;
+      const label = activeCity === 'all' ? '' : ` — ${cityLabel(activeCity)}`;
+      document.getElementById('page-title').textContent = `Things to Do${label}`;
 
       if (!list.length) {
         document.getElementById('acts-root').innerHTML =
@@ -89,25 +96,40 @@
       const plannedBadge = a.planned
         ? '<span class="badge badge-planned" style="margin-left:0.4rem">Planned</span>' : '';
 
-      const factsHtml = (a.facts || []).map(f => `
-        <div class="act-fact">
-          ${f.label ? `<span class="act-fact-label">${escHtml(f.label)}</span>` : ''}${escHtml(f.text)}
-        </div>
-      `).join('');
+      // facts may be plain strings or {label?, text} objects
+      const factsHtml = (a.facts || []).map(f => {
+        const text  = typeof f === 'string' ? f : (f.text || '');
+        const label = typeof f === 'object' && f.label ? f.label : '';
+        return `
+          <div class="act-fact">
+            ${label ? `<span class="act-fact-label">${escHtml(label)}</span>` : ''}${escHtml(text)}
+          </div>
+        `;
+      }).join('');
 
-      const websiteLink = a.website
-        ? `<a class="rest-link" href="${escHtml(a.website)}" target="_blank" rel="noopener"
+      // website may be top-level or nested under links
+      const websiteUrl = a.website || (a.links && a.links.website);
+      const websiteLink = websiteUrl
+        ? `<a class="rest-link" href="${escHtml(websiteUrl)}" target="_blank" rel="noopener"
               style="display:inline-block;margin-top:0.75rem">Website →</a>`
+        : '';
+
+      // maps link
+      const mapsUrl = a.links && a.links.maps;
+      const mapsLink = mapsUrl
+        ? `<a class="rest-link" href="${escHtml(mapsUrl)}" target="_blank" rel="noopener"
+              style="display:inline-block;margin-top:0.75rem;margin-left:0.75rem">Map →</a>`
         : '';
 
       return `
         <div class="act-card ${a.planned ? 'planned' : ''}">
           <div class="act-name">${escHtml(a.name)}${plannedBadge}</div>
-          ${a.address ? `<div class="act-addr">${escHtml(a.address)}</div>` : ''}
-          ${a.hours   ? `<div class="act-hours">${escHtml(a.hours)}</div>` : ''}
-          ${a.fee     ? `<div class="act-fee">${escHtml(a.fee)}</div>` : ''}
-          ${factsHtml ? `<div class="act-facts">${factsHtml}</div>` : ''}
-          ${websiteLink}
+          ${a.visitNote ? `<div class="act-visit">${escHtml(a.visitNote)}</div>` : ''}
+          ${a.address   ? `<div class="act-addr">${escHtml(a.address)}</div>` : ''}
+          ${a.hours     ? `<div class="act-hours">${escHtml(a.hours)}</div>` : ''}
+          ${a.fee       ? `<div class="act-fee">${escHtml(a.fee)}</div>` : ''}
+          ${factsHtml   ? `<div class="act-facts">${factsHtml}</div>` : ''}
+          ${(websiteLink || mapsLink) ? `<div class="rest-links">${websiteLink}${mapsLink}</div>` : ''}
         </div>
       `;
     }
