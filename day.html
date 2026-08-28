@@ -458,7 +458,7 @@
         ${dayRests.map(r => `
           <div class="day-restaurant ${r.reserved ? 'reserved' : ''}">
             <div style="font-family:var(--display);font-weight:700;font-size:1rem">${escHtml(r.name)}</div>
-            <div style="font-size:0.8rem;color:var(--ink-soft);margin-top:0.15rem">${escHtml(r.address)}</div>
+            <div style="font-size:0.8rem;color:var(--ink-soft);margin-top:0.15rem">${escHtml(r.address || '')}</div>
             ${r.visitNote ? `<div style="font-size:0.78rem;color:var(--brass-dark);margin-top:0.3rem">${escHtml(r.visitNote)}</div>` : ''}
             ${renderRestLinks(r.links)}
           </div>
@@ -493,7 +493,7 @@
           const url = typeof v === 'string' ? v : v?.url;
           const label = { website: 'Website', menu: 'Menu', reserve: 'Reserve',
                           michelin: 'Michelin', infatuation: 'Infatuation',
-                          instagram: 'Instagram' }[k] || k;
+                          instagram: 'Instagram', maps: 'Map' }[k] || k;
           return url ? `<a class="rest-link" href="${escHtml(url)}" target="_blank" rel="noopener">${label} →</a>` : '';
         }).join('')}
       </div>`;
