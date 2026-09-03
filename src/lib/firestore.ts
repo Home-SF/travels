@@ -173,15 +173,16 @@ export async function fetchDays(tripSlug: string, city?: string): Promise<Day[]>
     : query(colRef, orderBy('date'));
 
   const snap = await getDocs(q);
-  const rawDays = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  type RawDay = DocumentData & { id: string; date?: string };
+  const rawDays: RawDay[] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
   // Compute prevDate / nextDate from the sorted list
   return rawDays.map((raw, idx) =>
     normalizeDay(
       raw,
       idx + 1,
-      idx > 0                  ? rawDays[idx - 1].date as string : undefined,
-      idx < rawDays.length - 1 ? rawDays[idx + 1].date as string : undefined
+      idx > 0                  ? rawDays[idx - 1].date : undefined,
+      idx < rawDays.length - 1 ? rawDays[idx + 1].date : undefined
     )
   );
 }
