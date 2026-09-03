@@ -1,1 +1,187 @@
-[]
+[
+  {
+    "date": "2026-12-19",
+    "label": "December 19",
+    "weekday": "Saturday",
+    "dayNum": 1,
+    "city": "tokyo",
+    "title": "Departure day",
+    "hotel": null,
+    "events": [],
+    "prevDate": null,
+    "nextDate": "2026-12-20"
+  },
+  {
+    "date": "2026-12-20",
+    "label": "December 20",
+    "weekday": "Sunday",
+    "dayNum": 2,
+    "city": "tokyo",
+    "title": "Arrival in Tokyo",
+    "hotel": null,
+    "events": [],
+    "prevDate": "2026-12-19",
+    "nextDate": "2026-12-21"
+  },
+  {
+    "date": "2026-12-21",
+    "label": "December 21",
+    "weekday": "Monday",
+    "dayNum": 3,
+    "city": "tokyo",
+    "title": "Day 2 in Tokyo",
+    "hotel": null,
+    "events": [],
+    "prevDate": "2026-12-20",
+    "nextDate": "2026-12-22"
+  },
+  {
+    "date": "2026-12-22",
+    "label": "December 22",
+    "weekday": "Tuesday",
+    "dayNum": 4,
+    "city": "kualalumpur",
+    "title": "Travel day — Tokyo to Kuala Lumpur",
+    "hotel": null,
+    "events": [],
+    "prevDate": "2026-12-21",
+    "nextDate": "2026-12-23"
+  },
+  {
+    "date": "2026-12-23",
+    "label": "December 23",
+    "weekday": "Wednesday",
+    "dayNum": 5,
+    "city": "kualalumpur",
+    "title": "Day 2 in Kuala Lumpur",
+    "hotel": null,
+    "events": [],
+    "prevDate": "2026-12-22",
+    "nextDate": "2026-12-24"
+  },
+  {
+    "date": "2026-12-24",
+    "label": "December 24",
+    "weekday": "Thursday",
+    "dayNum": 6,
+    "city": "kualalumpur",
+    "title": "Day 3 in Kuala Lumpur",
+    "hotel": null,
+    "events": [],
+    "prevDate": "2026-12-23",
+    "nextDate": "2026-12-25",
+    "holiday": "Christmas Eve"
+  },
+  {
+    "date": "2026-12-25",
+    "label": "December 25",
+    "weekday": "Friday",
+    "dayNum": 7,
+    "city": "kualalumpur",
+    "title": "Day 4 in Kuala Lumpur",
+    "hotel": null,
+    "events": [],
+    "prevDate": "2026-12-24",
+    "nextDate": "2026-12-26",
+    "holiday": "Christmas Day — some shops and services may have reduced hours."
+  },
+  {
+    "date": "2026-12-26",
+    "label": "December 26",
+    "weekday": "Saturday",
+    "dayNum": 8,
+    "city": "kualalumpur",
+    "title": "Day 5 in Kuala Lumpur",
+    "hotel": null,
+    "events": [],
+    "prevDate": "2026-12-25",
+    "nextDate": "2026-12-27"
+  },
+  {
+    "date": "2026-12-27",
+    "label": "December 27",
+    "weekday": "Sunday",
+    "dayNum": 9,
+    "city": "kualalumpur",
+    "title": "Day 6 in Kuala Lumpur",
+    "hotel": null,
+    "events": [],
+    "prevDate": "2026-12-26",
+    "nextDate": "2026-12-28"
+  },
+  {
+    "date": "2026-12-28",
+    "label": "December 28",
+    "weekday": "Monday",
+    "dayNum": 10,
+    "city": "kualalumpur",
+    "title": "Day 7 in Kuala Lumpur",
+    "hotel": null,
+    "events": [],
+    "prevDate": "2026-12-27",
+    "nextDate": "2026-12-29"
+  },
+  {
+    "date": "2026-12-29",
+    "label": "December 29",
+    "weekday": "Tuesday",
+    "dayNum": 11,
+    "city": "singapore",
+    "title": "Travel day — Kuala Lumpur to Singapore",
+    "hotel": "Staying atGrand Mercure Singapore Roxy",
+    "events": [
+      {
+        "time": "—",
+        "title": "Check in — Grand Mercure Singapore Roxy",
+        "note": "3 nights · Check-out 1 Jan 2027",
+        "address": "50 East Coast Road, Roxy Square, Singapore 428769"
+      }
+    ],
+    "prevDate": "2026-12-28",
+    "nextDate": "2026-12-30"
+  },
+  {
+    "date": "2026-12-30",
+    "label": "December 30",
+    "weekday": "Wednesday",
+    "dayNum": 12,
+    "city": "singapore",
+    "title": "Day 2 in Singapore",
+    "hotel": "Staying atGrand Mercure Singapore Roxy",
+    "events": [],
+    "prevDate": "2026-12-29",
+    "nextDate": "2026-12-31"
+  },
+  {
+    "date": "2026-12-31",
+    "label": "December 31",
+    "weekday": "Thursday",
+    "dayNum": 13,
+    "city": "singapore",
+    "title": "New Year's Eve in Singapore",
+    "hotel": "Staying atGrand Mercure Singapore Roxy",
+    "events": [],
+    "prevDate": "2026-12-30",
+    "nextDate": "2027-01-01",
+    "holiday": "New Year's Eve — Singapore's Marina Bay countdown is one of the largest in the world."
+  },
+  {
+    "date": "2027-01-01",
+    "label": "January 1",
+    "weekday": "Friday",
+    "dayNum": 14,
+    "city": "singapore",
+    "title": "Return day",
+    "hotel": null,
+    "events": [
+      {
+        "time": "—",
+        "title": "Check out — Grand Mercure Singapore Roxy",
+        "address": "50 East Coast Road, Roxy Square, Singapore 428769"
+      }
+    ],
+    "prevDate": "2026-12-31",
+    "nextDate": null,
+    "holiday": "New Year's Day"
+  }
+]
