@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "paris-london-2026",
+    "cities": ["paris", "london"]
+  },
+  {
+    "slug": "asia-2026",
+    "cities": ["tokyo", "kualalumpur", "singapore"]
+  },
+  {
+    "slug": "europe-2025",
+    "cities": ["genoa", "montecarlo", "livorno", "rome", "sorrento", "santorini", "rhodes", "antalya", "bodrum", "patmos", "athens"]
+  },
+  {
+    "slug": "italy-2024",
+    "cities": ["rome", "florence", "siena", "bologna"]
+  },
+  {
+    "slug": "japan-2023",
+    "cities": ["tokyo", "kyoto", "nagano"]
+  },
+  {
+    "slug": "thailand-2023",
+    "cities": ["bangkok", "pattaya", "udonthani"]
+  },
+  {
+    "slug": "bordeaux-spain-2022",
+    "cities": ["bordeaux", "bilbao", "sansebastian", "mutriku", "bayonne"]
+  }
+]

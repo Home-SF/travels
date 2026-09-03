@@ -25,6 +25,45 @@
   --travel: #B8842E;
   --travel-soft: #F3E4C4;
 
+  /* Asia 2026 */
+  --tokyo: #C0392B; --tokyo-soft: #FADBD8;
+  --kualalumpur: #1A7A5E; --kualalumpur-soft: #D5EDE7;
+  --singapore: #6C3483; --singapore-soft: #E8DAEF;
+
+  /* Europe 2025 */
+  --genoa: #2471A3; --genoa-soft: #D6EAF8;
+  --montecarlo: #B7950B; --montecarlo-soft: #FCF3CF;
+  --livorno: #1E8449; --livorno-soft: #D5F5E3;
+  --rome: #A04000; --rome-soft: #FAE5D3;
+  --sorrento: #117A65; --sorrento-soft: #D1F2EB;
+  --santorini: #1A5276; --santorini-soft: #D6EAF8;
+  --rhodes: #7B241C; --rhodes-soft: #FADBD8;
+  --antalya: #884EA0; --antalya-soft: #F4ECF7;
+  --bodrum: #1F618D; --bodrum-soft: #D6EAF8;
+  --patmos: #1E8449; --patmos-soft: #D5F5E3;
+  --athens: #9A7D0A; --athens-soft: #FCF3CF;
+
+  /* Italy 2024 */
+  --florence: #6E2F0D; --florence-soft: #FAEAD3;
+  --siena: #7D6608; --siena-soft: #FCF3CF;
+  --bologna: #922B21; --bologna-soft: #FADBD8;
+
+  /* Japan 2023 */
+  --kyoto: #76448A; --kyoto-soft: #F4ECF7;
+  --nagano: #1F618D; --nagano-soft: #D6EAF8;
+
+  /* Thailand 2023 */
+  --bangkok: #1E8449; --bangkok-soft: #D5F5E3;
+  --pattaya: #117A65; --pattaya-soft: #D1F2EB;
+  --udonthani: #784212; --udonthani-soft: #FDEBD0;
+
+  /* Bordeaux-Spain 2022 */
+  --bordeaux: #6E2F0D; --bordeaux-soft: #FAEAD3;
+  --bilbao: #1A5276; --bilbao-soft: #D6EAF8;
+  --sansebastian: #1E8449; --sansebastian-soft: #D5F5E3;
+  --mutriku: #117A65; --mutriku-soft: #D1F2EB;
+  --bayonne: #7D6608; --bayonne-soft: #FCF3CF;
+
   --display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
   --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --mono: 'Space Mono', ui-monospace, monospace;
@@ -379,6 +418,39 @@ a { color: inherit; }
 .tag.london { background: var(--london-soft); color: var(--london); }
 .tag.toronto { background: var(--toronto-soft); color: var(--toronto); }
 .tag.travel { background: var(--travel-soft); color: var(--travel); }
+/* Asia 2026 */
+.tag.tokyo { background: var(--tokyo-soft); color: var(--tokyo); }
+.tag.kualalumpur { background: var(--kualalumpur-soft); color: var(--kualalumpur); }
+.tag.singapore { background: var(--singapore-soft); color: var(--singapore); }
+/* Europe 2025 */
+.tag.genoa { background: var(--genoa-soft); color: var(--genoa); }
+.tag.montecarlo { background: var(--montecarlo-soft); color: var(--montecarlo); }
+.tag.livorno { background: var(--livorno-soft); color: var(--livorno); }
+.tag.rome { background: var(--rome-soft); color: var(--rome); }
+.tag.sorrento { background: var(--sorrento-soft); color: var(--sorrento); }
+.tag.santorini { background: var(--santorini-soft); color: var(--santorini); }
+.tag.rhodes { background: var(--rhodes-soft); color: var(--rhodes); }
+.tag.antalya { background: var(--antalya-soft); color: var(--antalya); }
+.tag.bodrum { background: var(--bodrum-soft); color: var(--bodrum); }
+.tag.patmos { background: var(--patmos-soft); color: var(--patmos); }
+.tag.athens { background: var(--athens-soft); color: var(--athens); }
+/* Italy 2024 */
+.tag.florence { background: var(--florence-soft); color: var(--florence); }
+.tag.siena { background: var(--siena-soft); color: var(--siena); }
+.tag.bologna { background: var(--bologna-soft); color: var(--bologna); }
+/* Japan 2023 */
+.tag.kyoto { background: var(--kyoto-soft); color: var(--kyoto); }
+.tag.nagano { background: var(--nagano-soft); color: var(--nagano); }
+/* Thailand 2023 */
+.tag.bangkok { background: var(--bangkok-soft); color: var(--bangkok); }
+.tag.pattaya { background: var(--pattaya-soft); color: var(--pattaya); }
+.tag.udonthani { background: var(--udonthani-soft); color: var(--udonthani); }
+/* Bordeaux-Spain 2022 */
+.tag.bordeaux { background: var(--bordeaux-soft); color: var(--bordeaux); }
+.tag.bilbao { background: var(--bilbao-soft); color: var(--bilbao); }
+.tag.sansebastian { background: var(--sansebastian-soft); color: var(--sansebastian); }
+.tag.mutriku { background: var(--mutriku-soft); color: var(--mutriku); }
+.tag.bayonne { background: var(--bayonne-soft); color: var(--bayonne); }
 
 .day-hero .num {
   font-family: var(--mono);

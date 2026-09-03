@@ -11,13 +11,14 @@ export interface TripStop {
 export interface TripCity {
   slug: string;
   name: string;
-  color: string;
-  colorSoft: string;
-  hotel: string;
-  hotelAddress: string;
-  dates: string;
-  lat: number;
-  lon: number;
+  color: string;       // resolved via getCityColors() if not stored in Firestore
+  colorSoft: string;   // resolved via getCityColors() if not stored in Firestore
+  hotel?: string;
+  hotelAddress?: string;
+  dates?: string;
+  arrival?: string;
+  lat?: number;
+  lon?: number;
 }
 
 export interface Trip {
