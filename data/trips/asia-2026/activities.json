@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "id": "singapore-001",
+    "city": "singapore",
+    "name": "Grand Mercure Singapore Roxy",
+    "address": "50 East Coast Road, Roxy Square, Singapore 428769",
+    "hours": "Check-in: 29 Dec 2026 · Check-out: 1 Jan 2027",
+    "fee": "",
+    "facts": [
+      {
+        "label": "Stay",
+        "text": "3 nights · 29 Dec 2026 – 1 Jan 2027 · Reservation confirmed"
+      },
+      {
+        "label": "Contact",
+        "text": "+65 6344 8000 · H3610-FO16@accor.com"
+      },
+      {
+        "label": "Location",
+        "text": "Roxy Square, Marine Parade — East Coast beachside neighbourhood, 5 min walk to East Coast Park"
+      }
+    ],
+    "website": "https://all.accor.com/hotel/3610/index.en.shtml",
+    "planned": true,
+    "lat": 1.3021,
+    "lon": 103.9073,
+    "neighborhood": "Marine Parade, Singapore"
+  }
+]
