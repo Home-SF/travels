@@ -76,6 +76,7 @@ export interface Activity {
   planned: boolean;
   lat?: number;
   lon?: number;
+  neighborhood?: string;
 }
 
 export interface DayEvent {
