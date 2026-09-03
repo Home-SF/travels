@@ -30,7 +30,7 @@
     {
       "code": "SIN",
       "city": "Singapore",
-      "date": "Dec 28"
+      "date": "Dec 29"
     },
     {
       "code": "SFO",
@@ -54,8 +54,8 @@
     {
       "slug": "singapore",
       "name": "Singapore",
-      "arrival": "Dec 28",
-      "hotel": "Hotel TBD"
+      "arrival": "Dec 29",
+      "hotel": "Grand Mercure Singapore Roxy"
     }
   ]
 }
