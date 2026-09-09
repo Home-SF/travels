@@ -114,7 +114,7 @@ function normalizeTrip(raw: DocumentData, slug: string): Trip {
     dates:     datesStr,
     year,
     coverCity: raw.coverCity ?? (cities[0]?.slug ?? ''),
-    startDate: raw.startDate ?? raw.start ?? '',
+    startDate: raw.startDate ?? raw.start ?? (raw.dates && typeof raw.dates === 'object' ? raw.dates.start ?? '' : ''),
     travelers,
     route,
     cities,
