@@ -184,7 +184,7 @@ export async function fetchAllTrips(): Promise<Trip[]> {
       const trips = snap.docs.map(d => normalizeTrip(d.data(), d.id));
       _allTrips = trips.sort((a, b) =>
         (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999')
-      ).reverse();
+      );
       _allTripsFetch = null;
       return _allTrips;
     })();
