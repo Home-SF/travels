@@ -1,6 +1,14 @@
 import { Restaurant } from '@/types';
 
-export default function RestaurantCard({ restaurant: r }: { restaurant: Restaurant }) {
+export default function RestaurantCard({
+  restaurant: r,
+  cityGuide = false,
+  onDelete,
+}: {
+  restaurant: Restaurant;
+  cityGuide?: boolean;
+  onDelete?: (id: string) => void;
+}) {
   return (
     <div
       className={`rest-card ${r.reserved ? 'reserved' : 'not-reserved'}`}
@@ -11,9 +19,20 @@ export default function RestaurantCard({ restaurant: r }: { restaurant: Restaura
           <span className="rest-num">{r.num}</span>
           <h3>{r.name}</h3>
         </div>
-        <span className={`rest-status ${r.reserved ? 'reserved' : 'not-reserved'}`}>
-          {r.reserved ? 'Reservation confirmed' : 'No reservation yet'}
-        </span>
+        {!cityGuide && (
+          <span className={`rest-status ${r.reserved ? 'reserved' : 'not-reserved'}`}>
+            {r.reserved ? 'Reservation confirmed' : 'No reservation yet'}
+          </span>
+        )}
+        {cityGuide && onDelete && (
+          <button
+            className="rest-delete-btn"
+            aria-label={`Delete ${r.name}`}
+            onClick={() => onDelete(r.id)}
+          >
+            ×
+          </button>
+        )}
       </div>
       <div className="rest-addr">
         {r.address}
@@ -24,7 +43,6 @@ export default function RestaurantCard({ restaurant: r }: { restaurant: Restaura
       {r.hours && <div className="rest-hours">{r.hours}</div>}
       {r.visitNote && <div className="rest-visit">{r.visitNote}</div>}
       {r.cancelNote && <div className="rest-cancel">{r.cancelNote}</div>}
-
       <div className="rlinks">
         {r.links.website && (
           <a href={r.links.website} target="_blank" rel="noopener">Website</a>

@@ -1035,3 +1035,104 @@ footer {
 }
 .photo-fab:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(36, 31, 27, 0.3); }
 .photo-fab:active { transform: translateY(0); }
+
+/* ---------- City restaurant grid (Restaurants hub page) ---------- */
+
+.city-rest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.city-rest-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1.5px dashed var(--rule-strong);
+  border-radius: 8px;
+  padding: 22px 24px 20px;
+  background: var(--bg-raised);
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.city-rest-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(36, 31, 27, 0.1);
+}
+
+.city-rest-region {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.city-rest-cta {
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--navy);
+  letter-spacing: 0.02em;
+}
+
+/* city-specific left-border accent on restaurant cards for city guides */
+.rest-list.singapore .rest-card { border-left: 4px solid var(--singapore); }
+.rest-list.tokyo     .rest-card { border-left: 4px solid var(--tokyo); }
+.rest-list.kualalumpur .rest-card { border-left: 4px solid var(--kualalumpur); }
+
+@media (max-width: 640px) {
+  .city-rest-grid { grid-template-columns: 1fr; gap: 14px; }
+}
+
+
+/* ---------- Asia 2026 city accent colours ---------- */
+:root {
+  --tokyo:             #E8442A;
+  --tokyo-soft:        #FCEAE7;
+  --kualalumpur:       #1B7A5C;
+  --kualalumpur-soft:  #DCEDE3;
+  --singapore:         #C0392B;
+  --singapore-soft:    #FAEAEA;
+}
+
+.tag.tokyo        { background: var(--tokyo-soft);       color: var(--tokyo); }
+.tag.kualalumpur  { background: var(--kualalumpur-soft); color: var(--kualalumpur); }
+.tag.singapore    { background: var(--singapore-soft);   color: var(--singapore); }
+
+
+/* ---------- Restaurant hub trip sections ---------- */
+.rest-hub-trip { margin-bottom: 52px; }
+.rest-hub-trip-title {
+  font-size: 1rem;
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 0 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.rest-hub-trip .city-rest-grid { margin-top: 20px; }
+
+
+/* ---------- Restaurant card delete button ---------- */
+.rest-delete-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--ink-faint);
+  padding: 0 4px;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+.rest-delete-btn:hover {
+  color: #c0392b;
+  background: #faeaea;
+}
